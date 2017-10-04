@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Registracija novog zaposlenika</title>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+		<link rel="stylesheet" th:href="@{/css/stilovi.css}"/>
+	</head>
+	<body>
+		<form>
+			<div class="container padding-top">
+				<div class="panel panel-default">
+					<div class="panel-heading heading-prijava">
+						<h3 class="text-center">Prijava</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-10 col-md-offset-2">
+							<div class="col-md-6 col-md-offset-1">
+								<table class="table table-borderless table-responsive">
+									<tr>
+                                        <td class="lblIme">Ime</td>
+                                        <td>
+                                        	<input type="text" class="form-control" name="ime" required="required"  autofocus="autofocus"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="lblPrezime">Prezime</td>
+                                        <td>
+                                        	<input type="text" class="form-control" name="prezime" required="required"/>
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td class="lblKorisnickoIme">Korisničko ime</td>
+                                        <td>
+                                        	<input type="text" class="form-control" name="korisnickoIme" required="required"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="lblLozinka">Lozinka</td>
+                                        <td>
+                                        	<input type="password" class="form-control" name="lozinka" required="required"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="lblMaticniBroj">Matični broj</td>
+                                        <td>
+                                        	<input type="text" class="form-control" name="maticniBroj" required="required"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="lblDatumZaposlenja">Datum zaposlenja</td>
+                                        <td>
+                                        	<input type="text" class="form-control" name="datumZaposlenja" required="required"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="lblRukovoditelj">Rukovoditelj</td>
+                                        <td>
+                                        	<input type="radio" name="rukovoditelj" value="da"/>
+                                        	<label class="lblDa">DA</label>                                      	
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    	<td></td>
+                                    	<td>
+                                    		<input type="radio" name="rukovoditelj" value="ne" checked="checked"/>
+                                    		<label class="lblNe">NE</label>
+                                    	</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="lblTjelesnoOstecenjeInvalidnost">Tjelesno oštećenje/invalidnost</td>
+                                        <td>
+                                        	<input type="radio" name="tjelesnoOstecenjeInvalidnost" value="tjelesnoOstecenje"/>
+                                        	<label class="lblTjelesnoOstecenje">Tjelesno oštećenje</label>                                       	
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    	<td></td>
+                                    	<td>
+                                    		<input type="radio" name="tjelesnoOstecenjeInvalidnost" value="invalidnost"/>
+                                    		<label class="lblInvalidnost">Invalidnost</label>
+                                    	</td>
+                                    </tr>
+                                    <tr>
+                                    	<td></td>
+                                    	<td>
+                                    		<input type="radio" name="tjelesnoOstecenjeInvalidnost" value="ne" checked="checked"/>
+                                    		<label class="lblNe">NE</label>
+                                    	</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="lblGodineStaza">Godine staža</td>
+                                        <td>
+                                        	<input type="number" class="form-control" min="0" name="godineStaza" required="required"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="lblBrojDjece">Broj djece</td>
+                                        <td>
+                                        	<input type="number" class="form-control" min="0" name="brojDjece" required="required"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="lblOrganizacijskaJedinica">Organizacijska jedinica</td>
+                                        <td>
+                                        	<select class="form-control">
+                                        	</select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                        	<button  type="submit" class="btn btn-default btnPrijava">Registrirajte se</button>
+                                        </td>
+                                    </tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>				
+			</div>
+		</form>
+	</body>
+</html>

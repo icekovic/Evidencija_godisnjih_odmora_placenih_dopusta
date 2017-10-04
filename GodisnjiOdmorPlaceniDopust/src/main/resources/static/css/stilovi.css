@@ -1,0 +1,39 @@
+.padding-top
+{
+	padding-top: 150px;
+}
+
+.panel-default
+{
+	border-color: gold !important;
+}
+
+.heading-prijava
+{
+	background-color: gold !important;
+	color: darkblue !important;
+}
+
+.table-borderless th, .table-borderless td
+{
+    border: none !important;
+}
+
+.btnPrijava, .btnRegistracija
+{
+	background-color: gold !important;
+	color: darkblue !important;
+	border-color: darkblue;
+}
+
+.lblKorisnickoIme, .lblLozinka, .lblNoviZaposlenik, .lblIme, .lblPrezime, .lblMaticniBroj, .lblDatumZaposlenja,
+.lblRukovoditelj, .lblTjelesnoOstecenjeInvalidnost, .lblGodineStaza, .lblBrojDjece, .lblDa, .lblNe, .lblTjelesnoOstecenje, .lblInvalidnost,
+.lblOrganizacijskaJedinica
+{
+	color: darkblue;
+}
+
+.form-control, .radio
+{
+	border-color: darkblue;
+}
