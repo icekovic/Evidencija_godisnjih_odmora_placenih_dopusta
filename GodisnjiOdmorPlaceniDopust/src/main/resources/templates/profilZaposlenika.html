@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Profil zaposlenika</title>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+		<link rel="stylesheet" th:href="@{/css/stilovi.css}" />
+		<link rel="stylesheet" th:href="@{/css/jquery-ui.css}" />
+	</head>
+<body>
+	<div class="container-fluid padding-top-20">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="text-center">Profil zaposlenika</h3>
+			</div>
+			<div class="panel-body">
+				<div class="container-fluid profil-zaposlenika-header">
+					<div class="row">
+						<div class="col-md-3 col-sm-3 col-lg-3">
+							<img alt="zaposlenik.png" th:src="@{/images/zaposlenik.png}" class="img-responsive col-md-5" />
+						</div>
+						<div class="col-md-3 col-sm-3 col-lg-3">
+							<table
+								class="table table-borderless table-responsive col-md-offset-9">
+								<tr>
+									<td>Ime:</td>
+									<td th:text="${zaposlenik.ime}"></td>
+								</tr>
+								<tr>
+									<td>Prezime:</td>
+									<td th:text="${zaposlenik.prezime}"></td>
+								</tr>
+								<tr>
+									<td>Matični broj:</td>
+									<td th:text="${zaposlenik.maticni_broj}"></td>
+								</tr>
+								<tr>
+									<td>Tjelesno oštećenje/invalidnost:</td>
+									<td th:text="${zaposlenik.tjelesno_ostecenje_invalidnost}"></td>
+								</tr>
+								<tr>
+									<td>Datum zaposlenja:</td>
+									<td th:text="${zaposlenik.datum_zaposlenja}"></td>
+								</tr>					
+							</table>
+						</div>
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<h4 th:text="'Prijavljeni ste kao: ' + ${zaposlenik.ime} + ' ' + ${zaposlenik.prezime}" class="col-md-offset-6"></h4>
+							<a href="odjava" class="col-md-offset-8 btn btn-default">Odjavite se</a>
+							<div class="padding-top-15">
+								<a href="#" class="col-md-offset-8 btn btn-default">Rezerviraj sobu</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="container-fluid padding-top-15">
+					<div class="col-md-6 col-lg-6 col-sm-6">
+						<a class="btn btn-default col-md-offset-5" id="btnNoviZahtjev">Novi zahtjev</a>
+						<div class="padding-top-15">
+
+							<form id="formaNoviZahtjev" th:action="@{/noviZahtjev}" method="post">
+								<div class="div-novi-zahtjev">
+									<div class="panel panel-default">
+										<div class="panel-heading heading-novi-zahtjev">
+											<h4 class="text-center">Novi zahtjev</h4>
+										</div>
+										<div class="panel-body">
+											<table class="table table-borderless table-responsive">
+												<tr>
+													<td>Od datuma</td>
+													<td><input type="text" id="od_datuma" name="od_datuma" class="form-control" autofocus="autofocus" /></td>
+												</tr>
+												<tr>
+													<td>Do datuma</td>
+													<td><input type="text" id="do_datuma" name="do_datuma" class="form-control" /></td>
+												</tr>
+												<tr>
+													<td>Broj radnih dana</td>
+													<td><input type="text" class="form-control" id="broj_dana" readonly="readonly"/></td>
+												</tr>
+												<tr>
+													<td>Tip zahtjeva</td>
+													<td>
+														<select id="tipZahtjeva">
+															<option>Godišnji odmor</option>
+															<option>Plaćeni dopust</option>
+														</select>
+													</td>
+												</tr>
+												<tr id="tipPlacenogDopusta" class="tip-placenog-dopusta">
+													<td>Tip plaćenog dopusta</td>
+													<td>
+														<select id="tipPlacenogDopusta">
+															<th:block th:each="tipPlacenogDopusta : ${tipoviPlacenogDopusta}">
+																<option th:text="${tipPlacenogDopusta.tip + ' - ' +  tipPlacenogDopusta.trajanje_u_danima + ' ' + 'dana'}"></option>
+															</th:block>
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td>Odobrenje od</td>
+													<td id="odobrenjeOd" th:text="'Dory' + ' ' + 'Wetherburn'"></td>
+												</tr>
+												<tr>
+													<td>Napomena</td>
+													<td><textarea id="napomena" name="napomena" rows="5" cols="55"></textarea>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<input type="submit" name="btnKreirajZahtjev" id="btnKreirajZahtjev" class="btn btn-default" value="Kreiraj zahtjev"/>
+													</td>
+													<td>
+														<a id="btnOdustani" class="btn btn-default">Odustani</a>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					
+					<div class="col-md-6 col-lg-6 col-sm-6">
+						<a class="btn btn-default col-md-offset-5" id="btnPregledZahtjeva">Pregledaj zahtjeve</a>
+						<div class="padding-top-15">
+							<div class="div-pregled-zahtjeva">
+								<div class="panel panel-default">
+									<div class="panel-heading heading-kreirani-zahtjevi">
+										<h4 class="text-center">Kreirani zahtjevi</h4>
+									</div>
+									<div class="panel-body">
+										<table class="table table-borderless table-responsive">
+											<tr>
+												<th>Tip</th>
+												<th>Od datuma</th>
+												<th>Do datuma</th>
+												<th>Broj dana</th>
+												<th>Status</th>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>																
+					</div>
+					<div class="col-md-6 col-lg-6 col-sm-6 col-md-offset-3 div-kalendar">
+						<div class="container-fluid padding-top-15">
+							<div id="godisnjiKalendar"></div>
+						</div>
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script type="application/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" th:src="@{https://code.jquery.com/jquery-3.2.1.min.js}"></script>
+	<script type="application/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" th:src="@{http://code.jquery.com/ui/1.12.1/jquery-ui.js}"></script>
+	<script type="application/javascript" src="js/skripte.js" th:src="@{/js/skripte.js}"></script>
+	<script type="application/javascript">
+
+	$(function() {   
+
+		$("#tipZahtjeva").change(function(){
+			if($("#tipZahtjeva").val() == 'Plaćeni dopust'){
+				$("#tipPlacenogDopusta").show();
+				}
+			else {
+				$("#tipPlacenogDopusta").hide();
+			}
+	});
+
+		/* $(function(){
+    		var a = $(".od_datuma").datepicker('getDate').getTime(),
+    	    b = $(".do_datuma").datepicker('getDate').getTime(),
+    	    c = 24*60*60*1000,
+    	    diffDays = Math.round(Math.abs((a - b)/(c)));
+    		$('.brojDana').val(diffDays);
+    	}); */
+
+});
+	
+	$("#btnKreirajZahtjev").click(function(){
+		if ($('#od_datuma').val() == '') {
+		      alert("Polje 'Od datuma' je obavezno!");   
+		      return false; 
+		    }
+		    else {
+		      $(this).submit();
+		    };
+		    if ($('#do_datuma').val() == '') {
+			      alert("Polje 'Do datuma' je obavezno!");   
+			      return false; 
+			    }
+			    else {
+			      $(this).submit();
+			    };
+		});
+
+	</script>
+</body>
+</html>

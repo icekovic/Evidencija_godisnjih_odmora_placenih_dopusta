@@ -5,112 +5,99 @@
 		<title>Registracija novog zaposlenika</title>
 		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
 		<link rel="stylesheet" th:href="@{/css/stilovi.css}"/>
+		<link rel="stylesheet" th:href="@{/css/jquery-ui.css}"/>
 	</head>
 	<body>
-		<form>
-			<div class="container padding-top">
+		<form id="registracija" th:action="@{/profilZaposlenika}" th:object="${zaposlenik}"  method="post">
+			<div class="container padding-top-20">
 				<div class="panel panel-default">
-					<div class="panel-heading heading-prijava">
-						<h3 class="text-center">Prijava</h3>
+					<div class="panel-heading">
+						<h3 class="text-center">Registracija</h3>
 					</div>
 					<div class="panel-body">
 						<div class="col-md-10 col-md-offset-2">
 							<div class="col-md-6 col-md-offset-1">
 								<table class="table table-borderless table-responsive">
 									<tr>
-                                        <td class="lblIme">Ime</td>
+                                        <td>Ime</td>
                                         <td>
-                                        	<input type="text" class="form-control" name="ime" required="required"  autofocus="autofocus"/>
+                                        	<input type="text" class="form-control" id="ime" name="ime" autofocus="autofocus"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="lblPrezime">Prezime</td>
+                                        <td>Prezime</td>
                                         <td>
-                                        	<input type="text" class="form-control" name="prezime" required="required"/>
+                                        	<input type="text" class="form-control" id="prezime" name="prezime"/>
                                         </td>
                                     </tr>
 									<tr>
-                                        <td class="lblKorisnickoIme">Korisničko ime</td>
+                                        <td>Korisničko ime</td>
                                         <td>
-                                        	<input type="text" class="form-control" name="korisnickoIme" required="required"/>
+                                        	<input type="text" class="form-control" id="korisnicko_ime" name="korisnicko_ime"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="lblLozinka">Lozinka</td>
+                                        <td>Lozinka</td>
                                         <td>
-                                        	<input type="password" class="form-control" name="lozinka" required="required"/>
+                                        	<input type="password" class="form-control" id="lozinka" name="lozinka"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="lblMaticniBroj">Matični broj</td>
+                                        <td>Ponovite lozinku</td>
                                         <td>
-                                        	<input type="text" class="form-control" name="maticniBroj" required="required"/>
+                                        	<input type="password" class="form-control" id="ponovljena_lozinka" name="ponovljena_lozinka"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="lblDatumZaposlenja">Datum zaposlenja</td>
+                                        <td>Matični broj</td>
                                         <td>
-                                        	<input type="text" class="form-control" name="datumZaposlenja" required="required"/>
+                                        	<input type="text" class="form-control" id="maticni_broj" name="maticni_broj"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="lblRukovoditelj">Rukovoditelj</td>
+                                        <td>Datum zaposlenja</td>
                                         <td>
-                                        	<input type="radio" name="rukovoditelj" value="da"/>
-                                        	<label class="lblDa">DA</label>                                      	
+                                        	<input type="text" class="form-control" id="datum_zaposlenja" name="datum_zaposlenja"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                    	<td></td>
-                                    	<td>
-                                    		<input type="radio" name="rukovoditelj" value="ne" checked="checked"/>
-                                    		<label class="lblNe">NE</label>
-                                    	</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="lblTjelesnoOstecenjeInvalidnost">Tjelesno oštećenje/invalidnost</td>
+                                        <td>Tjelesno oštećenje/invalidnost</td>
                                         <td>
-                                        	<input type="radio" name="tjelesnoOstecenjeInvalidnost" value="tjelesnoOstecenje"/>
-                                        	<label class="lblTjelesnoOstecenje">Tjelesno oštećenje</label>                                       	
+                                        	<select name="tjelesno_ostecenje_invalidnost">
+                                        		<option>NE</option>
+                                        		<option>Tjelesno oštećenje</option>
+                                        		<option>Invalidnost</option>
+                                        	</select>                                       	
                                         </td>
                                     </tr>
                                     <tr>
-                                    	<td></td>
-                                    	<td>
-                                    		<input type="radio" name="tjelesnoOstecenjeInvalidnost" value="invalidnost"/>
-                                    		<label class="lblInvalidnost">Invalidnost</label>
-                                    	</td>
-                                    </tr>
-                                    <tr>
-                                    	<td></td>
-                                    	<td>
-                                    		<input type="radio" name="tjelesnoOstecenjeInvalidnost" value="ne" checked="checked"/>
-                                    		<label class="lblNe">NE</label>
-                                    	</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="lblGodineStaza">Godine staža</td>
+                                        <td>Godine staža</td>
                                         <td>
-                                        	<input type="number" class="form-control" min="0" name="godineStaza" required="required"/>
+                                        	<input type="number" class="form-control" min="0" name="godine_staza"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="lblBrojDjece">Broj djece</td>
+                                        <td>Broj djece</td>
                                         <td>
-                                        	<input type="number" class="form-control" min="0" name="brojDjece" required="required"/>
+                                        	<input type="number" class="form-control" min="0" name="broj_djece"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="lblOrganizacijskaJedinica">Organizacijska jedinica</td>
+                                        <td>Organizacijska jedinica</td>     
                                         <td>
-                                        	<select class="form-control">
-                                        	</select>
-                                        </td>
+                                        	<div class="divOrganizacijskeJedinice">
+                                        		<select name="organizacijskaJedinica">
+                                        			<th:block th:each="organizacijskaJedinica : ${organizacijskeJedinice}">
+                                        				<option th:text="${organizacijskaJedinica.naziv}"></option>                   				
+                                        			</th:block>                                       		
+                                        		</select>
+                                        	</div>                                       	
+                                        </td>                                                                                                            
                                     </tr>
                                     <tr>
                                         <td></td>
                                         <td>
-                                        	<button  type="submit" class="btn btn-default btnPrijava">Registrirajte se</button>
+                                        	<button type="submit" name="btnRegistracija" id="btnRegistracija" class="btn btn-default btnPrijava">Registrirajte se</button>
                                         </td>
                                     </tr>
 								</table>
@@ -120,5 +107,9 @@
 				</div>				
 			</div>
 		</form>
+		<script type="application/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" th:src="@{https://code.jquery.com/jquery-3.2.1.min.js}"></script>
+		<script type="application/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" th:src="@{http://code.jquery.com/ui/1.12.1/jquery-ui.js}"></script>
+		<script type="application/javascript" th:src="@{/js/jquery.validate.min.js}"></script>
+		<script type="application/javascript" src="js/skripte.js" th:src="@{/js/skripte.js}"></script>
 	</body>
 </html>

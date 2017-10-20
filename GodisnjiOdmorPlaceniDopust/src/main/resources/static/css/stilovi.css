@@ -1,6 +1,39 @@
+body
+{
+	color: darkblue;
+}
+
 .padding-top
 {
 	padding-top: 150px;
+}
+
+.padding-top-15
+{
+	padding-top: 15px;
+}
+
+.padding-top-20
+{
+	padding-top: 20px;
+}
+
+select
+{
+	border-color: darkblue;
+	color: darkblue;
+	padding: .8rem 3rem .5rem .5rem;
+	border-radius: 3px;
+}
+
+.div-kalendar
+{
+	border-radius: 3px;
+}
+
+.div-novi-zahtjev, .div-pregled-zahtjeva, .tip-placenog-dopusta
+{
+	display: none;
 }
 
 .panel-default
@@ -8,10 +41,15 @@
 	border-color: gold !important;
 }
 
-.heading-prijava
+.panel-heading
 {
 	background-color: gold !important;
 	color: darkblue !important;
+}
+
+.profil-zaposlenika-header
+{
+	border-bottom: 1px solid gold !important;
 }
 
 .table-borderless th, .table-borderless td
@@ -19,16 +57,14 @@
     border: none !important;
 }
 
-.btnPrijava, .btnRegistracija
+.btn-default
 {
 	background-color: gold !important;
 	color: darkblue !important;
 	border-color: darkblue;
 }
 
-.lblKorisnickoIme, .lblLozinka, .lblNoviZaposlenik, .lblIme, .lblPrezime, .lblMaticniBroj, .lblDatumZaposlenja,
-.lblRukovoditelj, .lblTjelesnoOstecenjeInvalidnost, .lblGodineStaza, .lblBrojDjece, .lblDa, .lblNe, .lblTjelesnoOstecenje, .lblInvalidnost,
-.lblOrganizacijskaJedinica
+.label
 {
 	color: darkblue;
 }
@@ -36,4 +72,61 @@
 .form-control, .radio
 {
 	border-color: darkblue;
+}
+
+/* datepicker */
+
+.ui-datepicker, .ui-datepicker-header
+{
+	color: darkblue !important;
+}
+
+.ui-datepicker-header
+{
+	background-color: gold !important;
+}
+
+.ui-widget-content
+{
+	border: 1px solid green !important;
+	background: white !important;
+	color: darblueS !important;
+}
+
+.ui-widget.ui-widget-content, .ui-widget-content a
+{
+	border: 1px solid darkblue !important;
+}
+
+.ui-icon
+{
+	color: darkblue !important;
+}
+
+.ui-state-default
+{
+	text-align: center;
+	background-color: gold !important;
+	color: darkblue !important;
+}
+
+div.zabuto_calendar .table
+{
+	border: 1px solid gold !important;
+	border-radius: 3px !important;
+}
+
+div.zabuto_calendar .table tr:last-child
+{
+    border-bottom: 1px solid gold !important;
+}
+
+div.zabuto_calendar .table tr.calendar-month-header th
+{
+    background-color: gold !important;
+}
+
+div.zabuto_calendar .table tr.calendar-dow-header th
+{
+    background-color: gold !important;
 }
