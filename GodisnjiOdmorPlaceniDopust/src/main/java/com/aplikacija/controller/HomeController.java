@@ -1,6 +1,7 @@
 package com.aplikacija.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,13 +40,12 @@ public class HomeController
 	{
 		model.addAttribute("zaposlenik", new Zaposlenik());
 		model.addAttribute("tipoviPlacenogDopusta", new PlaceniDopust());
-		model.addAttribute("zahtjev", new Zahtjev());
 		return "profilZaposlenika";
 	}
 	
 	//profil zaposlenika - na nju se redirecta sa stranice za prijavu nakon unosa podataka
 	@RequestMapping(value = "/profilZaposlenika", method = RequestMethod.POST)
-	public String profilZaposlenika(@ModelAttribute Zaposlenik zaposlenik, @ModelAttribute Zahtjev zahtjev, Model model)
+	public String profilZaposlenika(@ModelAttribute Zaposlenik zaposlenik, Model model)
 	{		
 		//varijabla zaposlenik se dohvaca iz get metode
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);	//12 oznacava snagu lozinke		
@@ -55,7 +55,6 @@ public class HomeController
 		List<Zahtjev> zahtjevi = repozitorij.dohvatiZahtjeve(zaposlenikBaza);
 		model.addAttribute("zaposlenik", zaposlenikBaza);
 		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
-		model.addAttribute("zahtjev", zahtjev);
 		model.addAttribute("zahtjevi", zahtjevi);
 		if(zaposlenik.getKorisnicko_ime().equals(zaposlenikBaza.getKorisnicko_ime()) 
 				&& encoder.matches(zaposlenik.getLozinka(), zaposlenikBaza.getLozinka()))
@@ -70,18 +69,15 @@ public class HomeController
 	@RequestMapping(value = "/noviZahtjev", method = RequestMethod.GET)
 	public String kreirajZahtjev(Model model, @ModelAttribute Zaposlenik zaposlenik)
 	{
+		List<Zahtjev> zahtjevi = repozitorij.dohvatiZahtjeve(zaposlenik);
 		model.addAttribute("tipoviPlacenogDopusta", new PlaceniDopust());
-		model.addAttribute("zahtjev", new Zahtjev());
+		model.addAttribute("zahtjevi", zahtjevi);
 		return "profilZaposlenika";
 	}
 	
 	@RequestMapping(value = "/noviZahtjev", method = RequestMethod.POST)
 	public String kreirajZahtjev(Model model, @ModelAttribute Zaposlenik zaposlenik, HttpServletRequest request)
-	{
-		//dohvati tip placenog dopusta iz selecta (ako nije odabran, dohvaca se null)
-		//umetni zahtjev sa pripadajucim placeni_dopust_id (dohvacen iz selecta) i zaposlenik_id(iz sessiona)
-		//umetni status zahtjeva (hardkodira se ZAPRIMLJEN) i zahtjev_id
-				
+	{	
 		String od_datuma = request.getParameter("od_datuma");
 		String do_datuma = request.getParameter("do_datuma");
 		int broj_radnih_dana = Integer.parseInt(request.getParameter("broj_radnih_dana"));
@@ -100,8 +96,17 @@ public class HomeController
 		
 		repozitorij.dodajZahtjev(noviZahtjev, zaposlenik);
 		
-		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorij.dohvatiTipovePlacenogDopusta();	
-		List<Zahtjev> zahtjevi = repozitorij.dohvatiZahtjeve(zaposlenik);		
+		try
+		{
+			repozitorij.posaljiMailRukovoditelju(noviZahtjev, zaposlenik);
+		}
+		catch (MailException ex)
+		{
+			ex.printStackTrace();
+		}
+		
+		List<Zahtjev> zahtjevi = repozitorij.dohvatiZahtjeve(zaposlenik);
+		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorij.dohvatiTipovePlacenogDopusta();		
 		
 		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
 		model.addAttribute("zahtjevi", zahtjevi);

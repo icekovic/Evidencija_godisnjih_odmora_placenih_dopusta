@@ -3,6 +3,11 @@ package com.aplikacija.repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.aplikacija.entities.OrganizacijskaJedinica;
@@ -18,6 +23,15 @@ public class Repozitorij
 {
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	@Autowired
+	private JavaMailSender mailSender;
+	
+	@Autowired
+	public Repozitorij(JavaMailSender mailSender)
+	{
+		this.mailSender = mailSender;
+	}
 	
 	@SuppressWarnings("unchecked")
 	public List<OrganizacijskaJedinica> dohvatiOrganizacijskeJedinice()
@@ -59,5 +73,16 @@ public class Repozitorij
 		zahtjev.setZaposlenik(zaposlenik);
 		zahtjev.setStatus_zahtjeva(statusZahtjeva);
 		entityManager.persist(zahtjev);
+	}
+
+	public void posaljiMailRukovoditelju(Zahtjev zahtjev, Zaposlenik zaposlenik) throws MailException
+	{
+		SimpleMailMessage message = new SimpleMailMessage();
+	    message.setTo("dwetherburn@gmail.com");
+	    message.setFrom("pero@gmail.com");
+	    message.setSubject(zahtjev.getTip());
+	    message.setText("Zaposlenik: " + zaposlenik.getIme() + " " + zaposlenik.getPrezime() + "\nTip zahtjeva: " + zahtjev.getTip() + "\nOd datuma: " + 
+	    zahtjev.getOd_datuma() + "\nDo datuma: " + zahtjev.getDo_datuma());
+	    mailSender.send(message);
 	}
 }

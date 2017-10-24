@@ -20,6 +20,7 @@ public class Zaposlenik
 	
 	private String ime;
 	private String prezime;
+	private String email;
 	private String korisnicko_ime;
 	private String lozinka;
 	private String maticni_broj;	
@@ -75,6 +76,17 @@ public class Zaposlenik
 	public void setPrezime(String prezime)
 	{
 		this.prezime = prezime;
+	}
+	
+
+	public String getEmail()
+	{
+		return email;
+	}
+
+	public void setEmail(String email)
+	{
+		this.email = email;
 	}
 
 	public String getKorisnicko_ime()
