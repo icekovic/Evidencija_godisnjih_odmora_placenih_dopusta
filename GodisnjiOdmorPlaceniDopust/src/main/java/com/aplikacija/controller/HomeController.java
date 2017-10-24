@@ -69,10 +69,11 @@ public class HomeController
 	@RequestMapping(value = "/noviZahtjev", method = RequestMethod.GET)
 	public String kreirajZahtjev(Model model, @ModelAttribute Zaposlenik zaposlenik)
 	{
-		List<Zahtjev> zahtjevi = repozitorij.dohvatiZahtjeve(zaposlenik);
+		//List<Zahtjev> zahtjevi = repozitorij.dohvatiZahtjeve(zaposlenik);
+		model.addAttribute("zaposlenik", new Zaposlenik());
 		model.addAttribute("tipoviPlacenogDopusta", new PlaceniDopust());
-		model.addAttribute("zahtjevi", zahtjevi);
-		return "profilZaposlenika";
+		//model.addAttribute("zahtjevi", zahtjevi);
+		return "noviZahtjev";
 	}
 	
 	@RequestMapping(value = "/noviZahtjev", method = RequestMethod.POST)
@@ -94,23 +95,25 @@ public class HomeController
 		noviZahtjev.setOdobrenje_od(odobrenje_od);
 		noviZahtjev.setNapomena(napomena);
 		
-		repozitorij.dodajZahtjev(noviZahtjev, zaposlenik);
+		//repozitorij.dodajZahtjev(noviZahtjev, zaposlenik);
 		
-		try
-		{
-			repozitorij.posaljiMailRukovoditelju(noviZahtjev, zaposlenik);
-		}
-		catch (MailException ex)
-		{
-			ex.printStackTrace();
-		}
+		//try
+		//{
+			//repozitorij.posaljiMailRukovoditelju(noviZahtjev, zaposlenik);
+		//}
+		//catch (MailException ex)
+		//{
+			//ex.printStackTrace();
+		//}
 		
-		List<Zahtjev> zahtjevi = repozitorij.dohvatiZahtjeve(zaposlenik);
-		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorij.dohvatiTipovePlacenogDopusta();		
+		//List<Zahtjev> zahtjevi = repozitorij.dohvatiZahtjeve(zaposlenik);
+		//List<PlaceniDopust> tipoviPlacenogDopusta = repozitorij.dohvatiTipovePlacenogDopusta();		
 		
-		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
-		model.addAttribute("zahtjevi", zahtjevi);
-		return "profilZaposlenika";
+		//model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
+		//model.addAttribute("zahtjevi", zahtjevi);
+		model.addAttribute("zahtjev", noviZahtjev);
+		model.addAttribute("zaposlenik", zaposlenik);
+		return "noviZahtjev";
 	}
 	
 	@RequestMapping(value = "/odjava",method = RequestMethod.GET)

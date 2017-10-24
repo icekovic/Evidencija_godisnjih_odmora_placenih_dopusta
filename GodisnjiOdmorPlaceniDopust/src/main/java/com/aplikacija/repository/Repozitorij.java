@@ -79,7 +79,7 @@ public class Repozitorij
 	{
 		SimpleMailMessage message = new SimpleMailMessage();
 	    message.setTo("dwetherburn@gmail.com");
-	    message.setFrom("pero@gmail.com");
+	    message.setFrom(zaposlenik.getEmail());
 	    message.setSubject(zahtjev.getTip());
 	    message.setText("Zaposlenik: " + zaposlenik.getIme() + " " + zaposlenik.getPrezime() + "\nTip zahtjeva: " + zahtjev.getTip() + "\nOd datuma: " + 
 	    zahtjev.getOd_datuma() + "\nDo datuma: " + zahtjev.getDo_datuma());

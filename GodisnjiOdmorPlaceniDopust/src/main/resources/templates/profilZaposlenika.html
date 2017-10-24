@@ -20,8 +20,7 @@
 							<img alt="zaposlenik.png" th:src="@{/images/zaposlenik.png}" class="img-responsive col-md-5" />
 						</div>
 						<div class="col-md-3 col-sm-3 col-lg-3">
-							<table
-								class="table table-borderless table-responsive col-md-offset-9">
+							<table class="table table-borderless table-responsive col-md-offset-9">
 								<tr>
 									<td>Ime:</td>
 									<td th:text="${zaposlenik.ime}"></td>
@@ -62,7 +61,6 @@
 					<div class="col-md-6 col-lg-6 col-sm-6">
 						<a class="btn btn-default col-md-offset-5" id="btnNoviZahtjev">Novi zahtjev</a>
 						<div class="padding-top-15">
-
 							<form id="formaNoviZahtjev" th:action="@{/noviZahtjev}" th:object="${zahtjev}" method="post">
 								<div class="div-novi-zahtjev">
 									<div class="panel panel-default">
