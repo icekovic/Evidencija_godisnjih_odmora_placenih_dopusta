@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.aplikacija.entities.OrganizacijskaJedinica;
 import com.aplikacija.entities.PlaceniDopust;
+import com.aplikacija.entities.StatusZahtjeva;
+import com.aplikacija.entities.Zahtjev;
 import com.aplikacija.entities.Zaposlenik;
 import java.util.List;
 
@@ -40,5 +42,22 @@ public class Repozitorij
 		Query query = entityManager.createQuery("from PlaceniDopust");
 		List<PlaceniDopust> tipoviPlacenogDopusta = query.getResultList();
 		return tipoviPlacenogDopusta;
+	}
+	
+	public List<Zahtjev> dohvatiZahtjeve(Zaposlenik zaposlenik)
+	{	
+		List<Zahtjev> zahtjevi = zaposlenik.getZahtjevi();
+		return zahtjevi;
+	}
+	
+	public void dodajZahtjev(Zahtjev zahtjev, Zaposlenik zaposlenik)
+	{
+		StatusZahtjeva statusZahtjeva = new StatusZahtjeva();
+		statusZahtjeva.setId_status_zahtjeva(1);
+		statusZahtjeva.setStatus("Zaprimljen");
+		
+		zahtjev.setZaposlenik(zaposlenik);
+		zahtjev.setStatus_zahtjeva(statusZahtjeva);
+		entityManager.persist(zahtjev);
 	}
 }

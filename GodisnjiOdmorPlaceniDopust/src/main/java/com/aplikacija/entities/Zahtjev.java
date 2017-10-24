@@ -1,6 +1,7 @@
 package com.aplikacija.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,14 +21,19 @@ public class Zahtjev
 	private String odobrenje_od;
 	private String napomena;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "zaposlenik_id")
 	private Zaposlenik zaposlenik;
 	
 	@ManyToOne
 	@JoinColumn(name = "placeni_dopust_id")
 	private PlaceniDopust placeni_dopust;
-
+	
+	@ManyToOne
+	@JoinColumn(name = "status_zahtjeva_id")
+	private StatusZahtjeva status_zahtjeva;
+	
+	
 	public Zahtjev()
 	{
 		
@@ -121,5 +127,15 @@ public class Zahtjev
 	public void setPlaceni_dopust(PlaceniDopust placeni_dopust)
 	{
 		this.placeni_dopust = placeni_dopust;
+	}
+
+	public StatusZahtjeva getStatus_zahtjeva()
+	{
+		return status_zahtjeva;
+	}
+
+	public void setStatus_zahtjeva(StatusZahtjeva status_zahtjeva)
+	{
+		this.status_zahtjeva = status_zahtjeva;
 	}
 }

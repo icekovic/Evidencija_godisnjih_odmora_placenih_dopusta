@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.ui.Model;
 import java.util.List;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import com.aplikacija.entities.*;
 import com.aplikacija.repository.Repozitorij;
 
@@ -40,49 +39,77 @@ public class HomeController
 	{
 		model.addAttribute("zaposlenik", new Zaposlenik());
 		model.addAttribute("tipoviPlacenogDopusta", new PlaceniDopust());
+		model.addAttribute("zahtjev", new Zahtjev());
 		return "profilZaposlenika";
 	}
 	
 	//profil zaposlenika - na nju se redirecta sa stranice za prijavu nakon unosa podataka
 	@RequestMapping(value = "/profilZaposlenika", method = RequestMethod.POST)
-	public String profilZaposlenika(@ModelAttribute Zaposlenik zaposlenik, Model model)
+	public String profilZaposlenika(@ModelAttribute Zaposlenik zaposlenik, @ModelAttribute Zahtjev zahtjev, Model model)
 	{		
-		//varijabla zaposlenik se dohvaća iz get metode
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);	//12 označava snagu lozinke		
+		//varijabla zaposlenik se dohvaca iz get metode
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);	//12 oznacava snagu lozinke		
 		
 		Zaposlenik zaposlenikBaza = repozitorij.dohvatiZaposlenika(zaposlenik.getKorisnicko_ime()).get(0);
 		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorij.dohvatiTipovePlacenogDopusta();
-		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
+		List<Zahtjev> zahtjevi = repozitorij.dohvatiZahtjeve(zaposlenikBaza);
 		model.addAttribute("zaposlenik", zaposlenikBaza);
-		
-		if(zaposlenik.getKorisnicko_ime().equals(zaposlenikBaza.getKorisnicko_ime()) && encoder.matches(zaposlenik.getLozinka(), zaposlenikBaza.getLozinka()))
+		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
+		model.addAttribute("zahtjev", zahtjev);
+		model.addAttribute("zahtjevi", zahtjevi);
+		if(zaposlenik.getKorisnicko_ime().equals(zaposlenikBaza.getKorisnicko_ime()) 
+				&& encoder.matches(zaposlenik.getLozinka(), zaposlenikBaza.getLozinka()))
 		{
 			return "profilZaposlenika";
 		}
+		
+		model.addAttribute("kriviPodaci","Korisničko ime ili lozinka nisu ispravni");
 		return "home";
 	}
 		
 	@RequestMapping(value = "/noviZahtjev", method = RequestMethod.GET)
-	public String kreirajZahtjev(Model model)
+	public String kreirajZahtjev(Model model, @ModelAttribute Zaposlenik zaposlenik)
 	{
-		model.addAttribute("zahtjev", new Zahtjev());
 		model.addAttribute("tipoviPlacenogDopusta", new PlaceniDopust());
+		model.addAttribute("zahtjev", new Zahtjev());
 		return "profilZaposlenika";
 	}
 	
 	@RequestMapping(value = "/noviZahtjev", method = RequestMethod.POST)
-	public String kreirajZahtjev(Model model, @ModelAttribute PlaceniDopust tipoviPlacenogDopusta)
+	public String kreirajZahtjev(Model model, @ModelAttribute Zaposlenik zaposlenik, HttpServletRequest request)
 	{
-		//dohvati tip plaćenog dopusta iz selecta (ako nije odabran, dohvaća se null)
-		//umetni zahtjev sa pripadajućim placeni_dopust_id (dohvaćen iz selecta) i zaposlenik_id(iz sessiona)
-		//umetni status zahtjeva (hadkodira se ZAPRIMLJEN) i zahtjev_id
-		List<PlaceniDopust> placeniDopust = repozitorij.dohvatiTipovePlacenogDopusta();
-		model.addAttribute("tipoviPlacenogDopusta", placeniDopust);
+		//dohvati tip placenog dopusta iz selecta (ako nije odabran, dohvaca se null)
+		//umetni zahtjev sa pripadajucim placeni_dopust_id (dohvacen iz selecta) i zaposlenik_id(iz sessiona)
+		//umetni status zahtjeva (hardkodira se ZAPRIMLJEN) i zahtjev_id
+				
+		String od_datuma = request.getParameter("od_datuma");
+		String do_datuma = request.getParameter("do_datuma");
+		int broj_radnih_dana = Integer.parseInt(request.getParameter("broj_radnih_dana"));
+		String tip_zahtjeva = request.getParameter("tip_zahtjeva");
+		String tip_placenog_dopusta = request.getParameter("tip_placenog_dopusta");
+		String odobrenje_od = request.getParameter("odobrenje_od");
+		String napomena = request.getParameter("napomena");
+		
+		Zahtjev noviZahtjev = new Zahtjev();
+		noviZahtjev.setOd_datuma(od_datuma);
+		noviZahtjev.setDo_datuma(do_datuma);
+		noviZahtjev.setBroj_radnih_dana(broj_radnih_dana);
+		noviZahtjev.setTip(tip_zahtjeva);
+		noviZahtjev.setOdobrenje_od(odobrenje_od);
+		noviZahtjev.setNapomena(napomena);
+		
+		repozitorij.dodajZahtjev(noviZahtjev, zaposlenik);
+		
+		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorij.dohvatiTipovePlacenogDopusta();	
+		List<Zahtjev> zahtjevi = repozitorij.dohvatiZahtjeve(zaposlenik);		
+		
+		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
+		model.addAttribute("zahtjevi", zahtjevi);
 		return "profilZaposlenika";
 	}
 	
 	@RequestMapping(value = "/odjava",method = RequestMethod.GET)
-	public String odjava(@ModelAttribute("zaposlenik") Zaposlenik zaposlenik, HttpSession session)
+	public String odjava(HttpSession session)
 	{
 		session.invalidate();
 		return "redirect:/";

@@ -150,7 +150,7 @@ $(document).ready(function(){
 	    	    if (d1 && d2) {
 	    	        diff = diff + Math.floor((d2.getTime() - d1.getTime()) / 86400000); // ms per day
 	    	    }
-	    	    $("#broj_dana").val(diff);
+	    	    $("#broj_radnih_dana").val(diff);
 	    	}	    	
 	    	
 		});

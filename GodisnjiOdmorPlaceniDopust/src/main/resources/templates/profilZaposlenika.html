@@ -41,7 +41,11 @@
 								<tr>
 									<td>Datum zaposlenja:</td>
 									<td th:text="${zaposlenik.datum_zaposlenja}"></td>
-								</tr>					
+								</tr>
+								<tr>
+									<td>Rola</td>
+									<td th:text="${zaposlenik.rola.naziv}"></td>
+								</tr>				
 							</table>
 						</div>
 						<div class="col-md-6 col-sm-6 col-lg-6">
@@ -59,7 +63,7 @@
 						<a class="btn btn-default col-md-offset-5" id="btnNoviZahtjev">Novi zahtjev</a>
 						<div class="padding-top-15">
 
-							<form id="formaNoviZahtjev" th:action="@{/noviZahtjev}" method="post">
+							<form id="formaNoviZahtjev" th:action="@{/noviZahtjev}" th:object="${zahtjev}" method="post">
 								<div class="div-novi-zahtjev">
 									<div class="panel panel-default">
 										<div class="panel-heading heading-novi-zahtjev">
@@ -77,12 +81,12 @@
 												</tr>
 												<tr>
 													<td>Broj radnih dana</td>
-													<td><input type="text" class="form-control" id="broj_dana" readonly="readonly"/></td>
+													<td><input type="text" class="form-control" id="broj_radnih_dana" name="broj_radnih_dana" readonly="readonly"/></td>
 												</tr>
 												<tr>
 													<td>Tip zahtjeva</td>
 													<td>
-														<select id="tipZahtjeva">
+														<select id="tipZahtjeva" name="tip_zahtjeva">
 															<option>Godišnji odmor</option>
 															<option>Plaćeni dopust</option>
 														</select>
@@ -91,7 +95,7 @@
 												<tr id="tipPlacenogDopusta" class="tip-placenog-dopusta">
 													<td>Tip plaćenog dopusta</td>
 													<td>
-														<select id="tipPlacenogDopusta">
+														<select id="tipPlacenogDopusta" name="tip_placenog_dopusta">
 															<th:block th:each="tipPlacenogDopusta : ${tipoviPlacenogDopusta}">
 																<option th:text="${tipPlacenogDopusta.tip + ' - ' +  tipPlacenogDopusta.trajanje_u_danima + ' ' + 'dana'}"></option>
 															</th:block>
@@ -100,7 +104,7 @@
 												</tr>
 												<tr>
 													<td>Odobrenje od</td>
-													<td id="odobrenjeOd" th:text="'Dory' + ' ' + 'Wetherburn'"></td>
+													<td><input id="odobrenjeOd" th:value="'Dory' + ' ' + 'Wetherburn'" name="odobrenje_od" readonly="readonly" class="form-control"/></td>
 												</tr>
 												<tr>
 													<td>Napomena</td>
@@ -124,7 +128,7 @@
 					</div>
 					
 					<div class="col-md-6 col-lg-6 col-sm-6">
-						<a class="btn btn-default col-md-offset-5" id="btnPregledZahtjeva">Pregledaj zahtjeve</a>
+						<a class="btn btn-default col-md-offset-4 col-lg-offset-4 col-sm-offset-4" id="btnPregledZahtjeva">Pregledaj zahtjeve</a>
 						<div class="padding-top-15">
 							<div class="div-pregled-zahtjeva">
 								<div class="panel panel-default">
@@ -140,17 +144,21 @@
 												<th>Broj dana</th>
 												<th>Status</th>
 											</tr>
+											<th:block th:each="zahtjev : ${zahtjevi}">
+												<tr>
+													<td th:text="${zahtjev.tip}"></td>
+													<td th:text="${zahtjev.od_datuma}"></td>
+													<td th:text="${zahtjev.do_datuma}"></td>
+													<td th:text="${zahtjev.broj_radnih_dana}"></td>
+													<td th:text="${zahtjev.status_zahtjeva.status}"></td>
+												</tr>													
+											</th:block>
 										</table>
 									</div>
 								</div>
 							</div>
 						</div>																
-					</div>
-					<div class="col-md-6 col-lg-6 col-sm-6 col-md-offset-3 div-kalendar">
-						<div class="container-fluid padding-top-15">
-							<div id="godisnjiKalendar"></div>
-						</div>
-					</div>					
+					</div>			
 				</div>
 			</div>
 		</div>
@@ -160,7 +168,7 @@
 	<script type="application/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" th:src="@{http://code.jquery.com/ui/1.12.1/jquery-ui.js}"></script>
 	<script type="application/javascript" src="js/skripte.js" th:src="@{/js/skripte.js}"></script>
 	<script type="application/javascript">
-
+	
 	$(function() {   
 
 		$("#tipZahtjeva").change(function(){
@@ -171,14 +179,6 @@
 				$("#tipPlacenogDopusta").hide();
 			}
 	});
-
-		/* $(function(){
-    		var a = $(".od_datuma").datepicker('getDate').getTime(),
-    	    b = $(".do_datuma").datepicker('getDate').getTime(),
-    	    c = 24*60*60*1000,
-    	    diffDays = Math.round(Math.abs((a - b)/(c)));
-    		$('.brojDana').val(diffDays);
-    	}); */
 
 });
 	
@@ -199,6 +199,9 @@
 			    };
 		});
 
+	function prikaziZahtjeve() {
+		var url = '/'
+	}
 	</script>
 </body>
 </html>
