@@ -136,24 +136,26 @@
 										<h4 class="text-center">Kreirani zahtjevi</h4>
 									</div>
 									<div class="panel-body">
-										<table class="table table-borderless table-responsive">
-											<tr>
-												<th>Tip</th>
-												<th>Od datuma</th>
-												<th>Do datuma</th>
-												<th>Broj dana</th>
-												<th>Status</th>
-											</tr>
-											<th:block th:each="zahtjev : ${zahtjevi}">
+										<div id="zahtjevi" th:fragment="zahtjevi" th:unless="${#lists.isEmpty(zahtjevi)}" class="result-block">
+											<table class="table table-borderless table-responsive">
 												<tr>
-													<td th:text="${zahtjev.tip}"></td>
-													<td th:text="${zahtjev.od_datuma}"></td>
-													<td th:text="${zahtjev.do_datuma}"></td>
-													<td th:text="${zahtjev.broj_radnih_dana}"></td>
-													<td th:text="${zahtjev.status_zahtjeva.status}"></td>
-												</tr>													
-											</th:block>
-										</table>
+													<th>Tip</th>
+													<th>Od datuma</th>
+													<th>Do datuma</th>
+													<th>Broj dana</th>
+													<th>Status</th>
+												</tr>
+												<th:block th:each="zahtjev : ${zahtjevi}">
+													<tr>
+														<td th:text="${zahtjev.tip}"></td>
+														<td th:text="${zahtjev.od_datuma}"></td>
+														<td th:text="${zahtjev.do_datuma}"></td>
+														<td th:text="${zahtjev.broj_radnih_dana}"></td>
+														<td th:text="${zahtjev.status_zahtjeva.status}"></td>
+													</tr>													
+												</th:block>
+											</table>
+										</div>										
 									</div>
 								</div>
 							</div>
