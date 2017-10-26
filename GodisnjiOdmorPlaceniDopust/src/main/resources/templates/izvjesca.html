@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Izvješća</title>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+		<link rel="stylesheet" th:href="@{/css/stilovi.css}" />
+		<link rel="stylesheet" th:href="@{/css/jquery-ui.css}" />
+	</head>
+	<body>
+		<div class="container padding-top-20">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="text-center">Pregled i izrada izvješća</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-mod-4 col-lg-4 col-sm-4">
+							<table class="table table-borderless table-responsive">
+								<tr>
+									<td><a class="btn btn-default">Kreiraj izvješće godišnjih odmora</a></td>
+								</tr>
+								<tr>
+									<td><a class="btn btn-default">Prikaži izvješća godišnjih odmora</a></td>
+								</tr>
+							</table>
+						</div>
+						<div class="col-mod-4 col-lg-4 col-sm-4">
+							<table class="table table-borderless table-responsive">
+								<tr>
+									<td><a class="btn btn-default">Kreiraj izvješće plaćenih dopusta</a></td>
+								</tr>
+								<tr>
+									<td><a class="btn btn-default">Prikaži izvješća plaćenih dopusta</a></td>
+								</tr>
+							</table>
+						</div>
+						<div class="col-mod-4 col-lg-4 col-sm-4">
+							<table class="table table-borderless table-responsive">
+								<tr>
+									<td><a class="btn btn-default">Kreiraj izvješće iznosa regresa za godišnji odmor</a></td>
+								</tr>
+								<tr>
+									<td><a class="btn btn-default">Prikaži izvješća iznosa regresa za godišnji odmor</a></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+										
+					<div class="padding-top-15">
+						popis linkova zahtjeva - mijenja se ovisno kliku gumba
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

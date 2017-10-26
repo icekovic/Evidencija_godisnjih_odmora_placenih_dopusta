@@ -116,13 +116,18 @@ public class HomeController
 		return "profilZaposlenika";
 	}
 	
+	@RequestMapping(value = "/izvjesca", method = RequestMethod.GET)
+	public String izvjesca()
+	{
+		return "izvjesca";
+	}
+	
 	@RequestMapping(value = "/odjava",method = RequestMethod.GET)
 	public String odjava(HttpSession session)
 	{
 		session.invalidate();
 		return "redirect:/";
 	}
-	
 	
 //		REGISTRACIJA SE TREBA REFAKTORIRATI 
 //		@RequestMapping(value = "/registracija", method = RequestMethod.GET)
