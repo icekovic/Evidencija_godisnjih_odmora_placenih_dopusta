@@ -30,7 +30,7 @@ public class HomeController
 	//stranica za prijavu(home) - po defaultu
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model)
-	{
+	{		
 		model.addAttribute("zaposlenik", new Zaposlenik());
 		return "home";
 	}
@@ -119,6 +119,22 @@ public class HomeController
 	@RequestMapping(value = "/izvjesca", method = RequestMethod.GET)
 	public String izvjesca()
 	{
+		return "izvjesca";
+	}
+	
+	//post metoda za izvješća
+	
+	@RequestMapping(value = "/prikaziIzvjescaGodisnjihOdmora", method = RequestMethod.GET)
+	public String prikaziIzvjescaGodisnjihOdmora()
+	{
+		return "izvjesca";
+	}
+	
+	@RequestMapping(value = "/prikaziIzvjescaGodisnjihOdmora", method = RequestMethod.POST)
+	public String prikaziIzvjescaGodisnjihOdmora(Model model)
+	{
+		List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora = repozitorij.dohvatiPodatkeZaGodisnjeOdmore();
+		model.addAttribute("podaciGodisnjihOdmora", podaciGodisnjihOdmora);
 		return "izvjesca";
 	}
 	

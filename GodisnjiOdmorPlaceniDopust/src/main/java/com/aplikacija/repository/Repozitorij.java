@@ -3,6 +3,7 @@ package com.aplikacija.repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.aplikacija.entities.OrganizacijskaJedinica;
 import com.aplikacija.entities.PlaceniDopust;
+import com.aplikacija.entities.PodaciGodisnjiOdmor;
 import com.aplikacija.entities.StatusZahtjeva;
 import com.aplikacija.entities.Zahtjev;
 import com.aplikacija.entities.Zaposlenik;
@@ -84,5 +86,13 @@ public class Repozitorij
 	    message.setText("Zaposlenik: " + zaposlenik.getIme() + " " + zaposlenik.getPrezime() + "\nTip zahtjeva: " + zahtjev.getTip() + "\nOd datuma: " + 
 	    zahtjev.getOd_datuma() + "\nDo datuma: " + zahtjev.getDo_datuma());
 	    mailSender.send(message);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PodaciGodisnjiOdmor> dohvatiPodatkeZaGodisnjeOdmore()
+	{
+		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("DohvatiPodatkeZaGodisnjeOdmore");
+		query.execute();
+		return query.getResultList();
 	}
 }

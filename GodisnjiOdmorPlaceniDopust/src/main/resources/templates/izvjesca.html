@@ -21,7 +21,7 @@
 									<td><a class="btn btn-default">Kreiraj izvješće godišnjih odmora</a></td>
 								</tr>
 								<tr>
-									<td><a class="btn btn-default">Prikaži izvješća godišnjih odmora</a></td>
+									<td><a href="#" class="btn btn-default">Prikaži izvješća godišnjih odmora</a></td>
 								</tr>
 							</table>
 						</div>
@@ -48,7 +48,21 @@
 					</div>
 										
 					<div class="padding-top-15">
-						popis linkova zahtjeva - mijenja se ovisno kliku gumba
+						<table class="table table-borderless table-responsive">
+							<th:block th:each="podatakGodisnjegOdmora : ${podaciGodisnjihOdmora}">
+								<tr>
+									<td th:text="${podatakGodisnjegOdmora.organizacijska_jedinica}"></td>
+									<td th:text="${podatakGodisnjegOdmora.zaposlenik}"></td>
+									<td th:text="${podatakGodisnjegOdmora.maticni_broj}"></td>
+									<td th:text="${podatakGodisnjegOdmora.broj_dana_po_organizacijskim_jedinicama}"></td>
+									<td th:text="${podatakGodisnjegOdmora.godine_staza}"></td>
+									<td th:text="${podatakGodisnjegOdmora.rola}"></td>
+									<td th:text="${podatakGodisnjegOdmora.tjelesno_ostecenje_invalidnost}"></td>
+									<td th:text="${podatakGodisnjegOdmora.broj_djece}"></td>
+									<td th:text="${podatakGodisnjegOdmora.starost_djece}"></td>
+								</tr>
+							</th:block>
+						</table>
 					</div>
 				</div>
 			</div>
