@@ -26,7 +26,7 @@ $(document).ready(function(){
 	    		$("#od_datuma").datepicker({dateFormat: 'yy-mm-dd', minDate: 0});
 	    	});
 	    	$(function(){
-	    		$("#do_datuma").datepicker({dateFormat: 'yy-mm-dd', minDate: 2});
+	    		$("#do_datuma").datepicker({dateFormat: 'yy-mm-dd', minDate: 1});
 	    	});
 	    
 	    //validacije
@@ -128,7 +128,7 @@ $(document).ready(function(){
 	    	});
 	    	$("#do_datuma").datepicker({
 	    	    dateFormat: 'yy-mm-dd',
-	    	    minDate: 2
+	    	    minDate: 1
 	    	});
 	    	$("#od_datuma").datepicker().bind("change", function () {
 	    	    var minValue = $(this).val();

@@ -44,6 +44,7 @@
 								<tr>
 									<td>Rola</td>
 									<td th:text="${zaposlenik.rola.naziv}"></td>
+									<td><input type="hidden" id="rola" name="rola" th:field="*{zaposlenik.rola.naziv}" th:value="${zaposlenik.rola.naziv}"/></td>
 								</tr>				
 							</table>
 						</div>
@@ -125,7 +126,7 @@
 						</div>
 					</div>
 					
-					<div class="col-md-6 col-lg-6 col-sm-6">
+					<div class="col-md-5 col-lg-5 col-sm-5">
 						<a class="btn btn-default col-md-offset-4 col-lg-offset-4 col-sm-offset-4" id="btnPregledZahtjeva">Pregledaj zahtjeve</a>
 						<div class="padding-top-15">
 							<div class="div-pregled-zahtjeva">
@@ -156,7 +157,12 @@
 								</div>
 							</div>
 						</div>																
-					</div>			
+					</div>
+					<div class="col-md-1 col-lg-1 col-sm-1">
+						<div id="div-izvjesca" class="div-izvjesca">
+							<a class="btn btn-default" id="btnKreirajIzvjesca">Kreiraj izvješća</a>
+						</div>			
+					</div>		
 				</div>
 			</div>
 		</div>
@@ -179,6 +185,16 @@
 	});
 
 });
+
+	$(document).ready(function() {
+	    //alert(document.getElementById('rola').value);
+	    if(document.getElementById('rola').value == 'Rukovoditelj'){
+		    $("#div-izvjesca").show();
+		    }
+	    else{
+	    	$("#div-izvjesca").hide();
+		    }
+	});
 	
 	$("#btnKreirajZahtjev").click(function(){
 		if ($('#od_datuma').val() == '') {
@@ -196,10 +212,6 @@
 			      $(this).submit();
 			    };
 		});
-
-	function prikaziZahtjeve() {
-		var url = '/'
-	}
 	</script>
 </body>
 </html>
