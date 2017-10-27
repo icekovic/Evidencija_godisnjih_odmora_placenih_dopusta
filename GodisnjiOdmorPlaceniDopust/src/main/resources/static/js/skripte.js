@@ -1,7 +1,10 @@
 $(document).ready(function(){
 		
 		//hidden elementi
-	
+			$("#btnPrikazIzvjescaGodisnjihOdmora").click(function({
+				$("#div-izvjesca").show();
+			}));
+			
 	    	$("#btnNoviZahtjev").click(function(){
 	        	$(".div-novi-zahtjev").show();
 	    	});

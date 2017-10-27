@@ -15,6 +15,13 @@ import com.aplikacija.entities.PodaciGodisnjiOdmor;
 import com.aplikacija.entities.StatusZahtjeva;
 import com.aplikacija.entities.Zahtjev;
 import com.aplikacija.entities.Zaposlenik;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfPage;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import java.io.FileOutputStream;
 import java.util.List;
 
 @Repository
@@ -87,5 +94,24 @@ public class Repozitorij
 	{
 		Query query = entityManager.createQuery("from PodaciGodisnjiOdmor");
 		return query.getResultList();
+	}
+
+	public void kreirajIzvjesceGodisnjihOdmoraPdf(List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora)
+	{
+		try
+		{
+			Document document = new Document();
+			//PdfWriter.getInstance(document, new FileOutputStream("D:/Izvjesca/GodisnjiOdmori.pdf"));
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("D:/Izvjesca/GodisnjiOdmori.pdf"));
+			writer.addPageDictEntry(PdfName.ROTATE, PdfPage.LANDSCAPE);
+			document.open();
+			document.add(new Paragraph("Godisnji odmori"));
+			document.close();
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		
 	}
 }
