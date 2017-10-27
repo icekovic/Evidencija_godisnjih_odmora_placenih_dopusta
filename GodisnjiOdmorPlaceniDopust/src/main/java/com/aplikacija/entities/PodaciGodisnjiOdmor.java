@@ -10,7 +10,7 @@ public class PodaciGodisnjiOdmor
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id_podaci_godisnjeg_odmora;
+	private int id_podaci_godisnji_odmor;
 	private String organizacijska_jedinica;
 	private String zaposlenik;
 	private String maticni_broj_zaposlenika;
@@ -25,15 +25,18 @@ public class PodaciGodisnjiOdmor
 	{
 		
 	}
+	
 
-	public int getId_podaci_godisnjeg_odmora()
+	public int getId_podaci_godisnji_odmor()
 	{
-		return id_podaci_godisnjeg_odmora;
+		return id_podaci_godisnji_odmor;
 	}
 
-	public void setId_podaci_godisnjeg_odmora(int id_podaci_godisnjeg_odmora)
+
+
+	public void setId_podaci_godisnji_odmor(int id_podaci_godisnji_odmor)	
 	{
-		this.id_podaci_godisnjeg_odmora = id_podaci_godisnjeg_odmora;
+		this.id_podaci_godisnji_odmor = id_podaci_godisnji_odmor;
 	}
 
 	public String getOrganizacijska_jedinica()

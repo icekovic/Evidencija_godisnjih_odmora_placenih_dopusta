@@ -125,12 +125,6 @@ public class HomeController
 	//post metoda za izvješća
 	
 	@RequestMapping(value = "/prikaziIzvjescaGodisnjihOdmora", method = RequestMethod.GET)
-	public String prikaziIzvjescaGodisnjihOdmora()
-	{
-		return "izvjesca";
-	}
-	
-	@RequestMapping(value = "/prikaziIzvjescaGodisnjihOdmora", method = RequestMethod.POST)
 	public String prikaziIzvjescaGodisnjihOdmora(Model model)
 	{
 		List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora = repozitorij.dohvatiPodatkeZaGodisnjeOdmore();

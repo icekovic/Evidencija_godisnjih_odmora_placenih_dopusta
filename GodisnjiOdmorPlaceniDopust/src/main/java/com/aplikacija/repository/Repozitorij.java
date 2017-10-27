@@ -3,8 +3,6 @@ package com.aplikacija.repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.StoredProcedureQuery;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -39,8 +37,7 @@ public class Repozitorij
 	public List<OrganizacijskaJedinica> dohvatiOrganizacijskeJedinice()
 	{
 		Query query = entityManager.createQuery("from OrganizacijskaJedinica");
-		List<OrganizacijskaJedinica> organizacijskeJedinice = query.getResultList();
-		return organizacijskeJedinice;
+		return query.getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -48,22 +45,19 @@ public class Repozitorij
 	{
 		Query query = entityManager.createQuery("from Zaposlenik where korisnicko_ime = :korisnicko_ime");
 		query.setParameter("korisnicko_ime", korisnicko_ime);
-		List<Zaposlenik> zaposlenici = query.getResultList();
-		return zaposlenici;
+		return query.getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<PlaceniDopust> dohvatiTipovePlacenogDopusta()
 	{
 		Query query = entityManager.createQuery("from PlaceniDopust");
-		List<PlaceniDopust> tipoviPlacenogDopusta = query.getResultList();
-		return tipoviPlacenogDopusta;
+		return query.getResultList();
 	}
 	
 	public List<Zahtjev> dohvatiZahtjeve(Zaposlenik zaposlenik)
-	{	
-		List<Zahtjev> zahtjevi = zaposlenik.getZahtjevi();
-		return zahtjevi;
+	{
+		return zaposlenik.getZahtjevi();
 	}
 	
 	public void dodajZahtjev(Zahtjev zahtjev, Zaposlenik zaposlenik)
@@ -91,8 +85,7 @@ public class Repozitorij
 	@SuppressWarnings("unchecked")
 	public List<PodaciGodisnjiOdmor> dohvatiPodatkeZaGodisnjeOdmore()
 	{
-		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("DohvatiPodatkeZaGodisnjeOdmore");
-		query.execute();
+		Query query = entityManager.createQuery("from PodaciGodisnjiOdmor");
 		return query.getResultList();
 	}
 }
