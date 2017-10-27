@@ -1,81 +1,109 @@
-﻿create database GodišnjiOdmorPlaćeniDopust
+﻿create database GodisnjiOdmorPlaceniDopust
 go
 
-use GodišnjiOdmorPlaćeniDopust
+use GodisnjiOdmorPlaceniDopust
 go
 
-create table OrganizacijskaJedinica
+create table organizacijska_jedinica
 (
-	IDOrganizacijskaJedinica int primary key identity not null,
-	Naziv nvarchar(30)
+	id_organizacijska_jedinica int primary key identity not null,
+	naziv nvarchar(30) not null
 )
 
-create table Zaposlenik
+insert into organizacijska_jedinica values('Istraživanje i razvoj')
+insert into organizacijska_jedinica values('Projektni ured')
+insert into organizacijska_jedinica values('Nabava')
+insert into organizacijska_jedinica values('Financije')
+insert into organizacijska_jedinica values('Kadrovska služba')
+insert into organizacijska_jedinica values('Održavanje')
+insert into organizacijska_jedinica values('Prodaja')
+
+create table rola
 (
-	IDZaposlenik int primary key identity not null,
-	Ime nvarchar(20) not null,
-	Prezime nvarchar(30) not null,
-	KorisničkoIme nvarchar(20),
-	Lozinka nvarchar(130),
-	MatičniBroj nvarchar(11) not null,
-	DatumZaposlenja date not null,
-	Rukovoditelj nvarchar(2) not null,
-	TjelesnoOštećenjeInvalidnost nvarchar(20) not null,
-	GodineStaža tinyint not null,
-	BrojDjece tinyint,
-	OrganizacijskaJedinicaID int foreign key references OrganizacijskaJedinica(IDOrganizacijskaJedinica)
+	id_rola int primary key identity not null,
+	naziv nvarchar(20) not null
 )
 
-create table Dijete
+insert into rola values('Obični zaposlenik')
+insert into rola values('Rukovoditelj')
+
+create table zaposlenik
 (
-	IDDijete int primary key identity not null,
-	DatumRodjenja date not null,
-	Starost tinyint not null, 
-	ZaposlenikID int foreign key references Zaposlenik(IDZaposlenik)
+	id_zaposlenik int primary key identity not null,
+	ime nvarchar(20) not null,
+	prezime nvarchar(30) not null,
+	email nvarchar(80) not null,
+	korisnicko_ime nvarchar(20) not null,
+	lozinka nvarchar(130) not null,
+	maticni_broj nvarchar(11) not null,
+	datum_zaposlenja date not null,
+	tjelesno_ostecenje_invalidnost nvarchar(20) not null,
+	godine_staza tinyint not null,
+	broj_djece tinyint not null,
+	organizacijska_jedinica_id int not null foreign key references organizacijska_jedinica(id_organizacijska_jedinica),
+	rola_id int not null foreign key references rola (id_rola)
 )
 
-create table Zahtjev
+create table placeni_dopust
 (
-	IDZahtjev int primary key identity not null,
-	OdDatuma date not null,
-	DoDatuma date not null,
-	BrojRadnihDana tinyint not null,
-	OdobrenjeOd nvarchar(50) not null,
-	Napomena nvarchar(500),
-	ZaposlenikID int foreign key references Zaposlenik(IDZaposlenik)
+	id_placeni_dopust int primary key identity not null,
+	tip varchar(80),
+	trajanje_u_danima tinyint
 )
 
-create table TipZahtjeva
+create table status_zahtjeva
 (
-	IDTip int primary key identity not null,
-	Tip nvarchar(20) not null,
-	ZahtjevID int foreign key references Zahtjev(IDZahtjev)
+	id_status_zahtjeva int primary key identity not null,
+	status nvarchar(25) not null,
 )
 
-create table StatusZahtjeva
+create table zahtjev
 (
-	IDStatus int primary key identity not null,
-	Status nvarchar(20) not null,
-	ZahtjevID int foreign key references Zahtjev(IDZahtjev)
+	id_zahtjev int primary key identity not null,
+	od_datuma date not null,
+	do_datuma date not null,
+	tip nvarchar(20) not null,
+	broj_radnih_dana tinyint not null,
+	odobrenje_od nvarchar(50) not null,
+	napomena nvarchar(200),
+	zaposlenik_id int not null foreign key references zaposlenik(id_zaposlenik),
+	placeni_dopust_id int foreign key references placeni_dopust(id_placeni_dopust), 
+	status_zahtjeva_id int not null foreign key references status_zahtjeva(id_status_zahtjeva)
 )
 
-create table PlaćeniDopust
+insert into placeni_dopust values('Sklapanje braka', 3)
+insert into placeni_dopust values('Porod supruge', 2)
+insert into placeni_dopust values('Smrt člana uže obitelji', 4)
+insert into placeni_dopust values('Smrt roditelja supružnika', 2)
+insert into placeni_dopust values('Selidba u drugo mjesto', 3)
+insert into placeni_dopust values('Selidba u istom mjestu', 2)
+insert into placeni_dopust values('Elementarna nepogoda u domaćinstvu radnika', 3)
+insert into placeni_dopust values('Teža bolest člana uže obitelji izvan mjesta stanovanja', 2)
+insert into placeni_dopust values('Dobrovoljno davanje krvi', 1)
+insert into placeni_dopust values('Za stipendiste za pripremu doktorske disertacije', 7)
+
+create table dijete
 (
-	IDPlaćeniDopust int primary key identity not null,
-	Tip nvarchar(70) not null, 
-	TipID int foreign key references TipZahtjeva(IDTip)
+	id_dijete int primary key identity not null,
+	starost tinyint not null, 
+	zaposlenik_id int  not null foreign key references zaposlenik(id_zaposlenik)
 )
 
-create table Stavka
-(
-	IDStavka int primary key identity not null,
-	ZahtjevID int foreign key references Zahtjev(IDZahtjev),
-)
-
-insert into OrganizacijskaJedinica values('Istraživanje i razvoj')
-insert into OrganizacijskaJedinica values('Projektni ured')
-insert into OrganizacijskaJedinica values('Nabava')
-insert into OrganizacijskaJedinica values('Financije')
-insert into OrganizacijskaJedinica values('Kadrovska služba')
-insert into OrganizacijskaJedinica values('Održavanje')
-insert into OrganizacijskaJedinica values('Prodaja')
+--broj dana godisnjeg odmora
+select
+	organizacijska_jedinica.naziv as organizacijska_jedinica,
+	zaposlenik.ime + ' ' + zaposlenik.prezime as zaposlenik,
+	zaposlenik.maticni_broj,
+	sum(zahtjev.zaposlenik_id) as broj_dana_godisnjeg_odmora,
+	zaposlenik.godine_staza,
+	rola.naziv as rola,
+	zaposlenik.tjelesno_ostecenje_invalidnost,
+	zaposlenik.broj_djece,
+	dijete.starost as starost_djece
+from zahtjev
+inner join zaposlenik on zahtjev.zaposlenik_id = zaposlenik.id_zaposlenik
+inner join organizacijska_jedinica on organizacijska_jedinica.id_organizacijska_jedinica = zaposlenik.organizacijska_jedinica_id
+inner join rola on rola.id_rola=zaposlenik.rola_id
+inner join dijete on dijete.zaposlenik_id = zaposlenik.id_zaposlenik
+group by organizacijska_jedinica.naziv, zaposlenik.ime, zaposlenik.prezime, zaposlenik.maticni_broj, zahtjev.zaposlenik_id, zaposlenik.godine_staza,
+rola.naziv, zaposlenik.tjelesno_ostecenje_invalidnost, zaposlenik.broj_djece, dijete.starost
