@@ -122,7 +122,16 @@ public class HomeController
 		return "izvjesca";
 	}
 	
-	@RequestMapping(value = "/kreirajIzvjesceGodisnjihOdmora", method = RequestMethod.GET)
+	@RequestMapping(value = "/svaIzvjesca", method = RequestMethod.GET)
+	public String prikaziSvaIzvjesca(Model model)
+	{
+		//preurediti tako¸da prikazuje linkove na izvješća
+//		List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora = repozitorij.dohvatiPodatkeZaGodisnjeOdmore();
+//		model.addAttribute("podaciGodisnjihOdmora", podaciGodisnjihOdmora);
+		return "izvjesca";
+	}
+	
+	@RequestMapping(value = "/godisnjiOdmori", method = RequestMethod.GET)
 	public String kreirajIzvjesceGodisnjihOdmora(Model model)
 	{
 		List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora = repozitorij.dohvatiPodatkeZaGodisnjeOdmore();
@@ -130,11 +139,11 @@ public class HomeController
 		return "izvjesca";
 	}
 	
-	@RequestMapping(value = "/prikaziIzvjescaGodisnjihOdmora", method = RequestMethod.GET)
-	public String prikaziIzvjescaGodisnjihOdmora(Model model)
+	@RequestMapping(value = "/placeniDopusti", method = RequestMethod.GET)
+	public String kreirajIzvjescaPlacenihDopusta(Model model)
 	{
-		List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora = repozitorij.dohvatiPodatkeZaGodisnjeOdmore();
-		model.addAttribute("podaciGodisnjihOdmora", podaciGodisnjihOdmora);
+		List<PodaciPlaceniDopust> podaciPlacenihDopusta = repozitorij.dohvatiPodatkeZaPlaceneDopuste();
+		repozitorij.kreirajIzvjescePlacenihDopusta(podaciPlacenihDopusta);
 		return "izvjesca";
 	}
 	

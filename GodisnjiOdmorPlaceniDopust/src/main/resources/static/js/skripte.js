@@ -1,7 +1,7 @@
 $(document).ready(function(){
 		
 		//hidden elementi
-			$("#btnPrikazIzvjescaGodisnjihOdmora").click(function({
+			$("#btnPrikaziSvaIzvjesca").click(function({
 				$("#div-izvjesca").show();
 			}));
 			

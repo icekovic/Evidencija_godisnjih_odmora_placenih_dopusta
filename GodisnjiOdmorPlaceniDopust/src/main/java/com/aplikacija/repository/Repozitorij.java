@@ -3,9 +3,6 @@ package com.aplikacija.repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -18,24 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aplikacija.entities.OrganizacijskaJedinica;
 import com.aplikacija.entities.PlaceniDopust;
 import com.aplikacija.entities.PodaciGodisnjiOdmor;
+import com.aplikacija.entities.PodaciPlaceniDopust;
 import com.aplikacija.entities.StatusZahtjeva;
 import com.aplikacija.entities.Zahtjev;
 import com.aplikacija.entities.Zaposlenik;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfName;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfPage;
-import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Iterator;
 import java.util.List;
 
 @Repository
@@ -109,6 +94,13 @@ public class Repozitorij
 		Query query = entityManager.createQuery("from PodaciGodisnjiOdmor");
 		return query.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PodaciPlaceniDopust> dohvatiPodatkeZaPlaceneDopuste()
+	{
+		Query query = entityManager.createQuery("from PodaciPlaceniDopust");
+		return query.getResultList();
+	}
 
 	public void kreirajIzvjesceGodisnjihOdmora(List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora)
 	{
@@ -142,7 +134,7 @@ public class Repozitorij
 //		}
 		
 		HSSFWorkbook workbook = new HSSFWorkbook();
-		HSSFSheet sheet = workbook.createSheet("Broj dana godišnjih odmora");
+		HSSFSheet sheet = workbook.createSheet("Korištenje godišnjeg odmora");
 		
 		Row redakNasloviStupaca = sheet.createRow(0);
 		redakNasloviStupaca.createCell(0).setCellValue("Organizacijska jedinica");
@@ -172,6 +164,39 @@ public class Repozitorij
 		try
 		{
 			workbook.write(new FileOutputStream("D:/Izvjesca/GodisnjiOdmori.xls"));
+			workbook.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}		
+	}
+	
+	public void kreirajIzvjescePlacenihDopusta(List<PodaciPlaceniDopust> podaciPlacenihDopusta)
+	{
+		HSSFWorkbook workbook = new HSSFWorkbook();
+		HSSFSheet sheet = workbook.createSheet("Korištenje plaćenog dopusta");
+		
+		Row redakNasloviStupaca = sheet.createRow(0);
+		redakNasloviStupaca.createCell(0).setCellValue("Organizacijska jedinica");
+		redakNasloviStupaca.createCell(1).setCellValue("Zaposlenik");
+		redakNasloviStupaca.createCell(2).setCellValue("Maticni broj zaposlenika");
+		redakNasloviStupaca.createCell(3).setCellValue("Tip plaćenog dopusta");
+		redakNasloviStupaca.createCell(4).setCellValue("Broj dana plaćenog dopusta");
+		
+		for(int i = 1; i < podaciPlacenihDopusta.size(); i++)
+		{
+			Row redak = sheet.createRow(i);
+			redak.createCell(0).setCellValue(podaciPlacenihDopusta.get(i).getOrganizacijska_jedinica());
+			redak.createCell(1).setCellValue(podaciPlacenihDopusta.get(i).getZaposlenik());
+			redak.createCell(2).setCellValue(podaciPlacenihDopusta.get(i).getMaticni_broj_zaposlenika());
+			redak.createCell(3).setCellValue(podaciPlacenihDopusta.get(i).getTip_placenog_dopusta());
+			redak.createCell(4).setCellValue(podaciPlacenihDopusta.get(i).getBroj_dana_placenog_dopusta());
+		}
+	
+		try
+		{
+			workbook.write(new FileOutputStream("D:/Izvjesca/PlaceniDopusti.xls"));
 			workbook.close();
 		}
 		catch (IOException e)
