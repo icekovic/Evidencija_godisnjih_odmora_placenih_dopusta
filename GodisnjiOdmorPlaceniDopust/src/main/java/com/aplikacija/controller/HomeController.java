@@ -126,7 +126,7 @@ public class HomeController
 	public String kreirajIzvjesceGodisnjihOdmora(Model model)
 	{
 		List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora = repozitorij.dohvatiPodatkeZaGodisnjeOdmore();
-		repozitorij.kreirajIzvjesceGodisnjihOdmoraPdf(podaciGodisnjihOdmora);
+		repozitorij.kreirajIzvjesceGodisnjihOdmora(podaciGodisnjihOdmora);
 		return "izvjesca";
 	}
 	
