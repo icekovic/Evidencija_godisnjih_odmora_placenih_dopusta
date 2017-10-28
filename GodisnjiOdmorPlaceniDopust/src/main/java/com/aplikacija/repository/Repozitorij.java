@@ -102,37 +102,8 @@ public class Repozitorij
 		return query.getResultList();
 	}
 
-	public void kreirajIzvjesceGodisnjihOdmora(List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora)
-	{
-//		try
-//		{
-//			Document document = new Document(PageSize.A4.rotate());
-//			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("D:/Izvjesca/GodisnjiOdmori.pdf"));
-//			writer.addPageDictEntry(PdfName.ROTATE, PdfPage.LANDSCAPE);
-//			document.open();
-//			document.add(new Paragraph("Broj dana godišnjih odmora po organizacijskim jedinicama", 
-//					FontFactory.getFont(FontFactory.COURIER_BOLD, 18, Font.BOLD, BaseColor.BLACK)));
-//			
-//			PdfPTable table = new PdfPTable(9);
-//			table.addCell("Organizacijska jedinica");
-//			table.addCell("Zaposlenik");
-//			table.addCell("Matični broj zaposlenika");
-//			table.addCell("Broj dana godišnjeg odmora");
-//			table.addCell("Godine staža");
-//			table.addCell("Rola");
-//			table.addCell("Tjelesno oštećenje/invalidnost");
-//			table.addCell("Broj djece");
-//			table.addCell("Starost djece");
-//			
-//			document.add(table);
-//			
-//			document.close();
-//		}
-//		catch (Exception ex)
-//		{
-//			ex.printStackTrace();
-//		}
-		
+	public HSSFWorkbook kreirajIzvjesceGodisnjihOdmora(List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora)
+	{		
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet sheet = workbook.createSheet("Korištenje godišnjeg odmora");
 		
@@ -169,10 +140,12 @@ public class Repozitorij
 		catch (IOException e)
 		{
 			e.printStackTrace();
-		}		
+		}
+		
+		return workbook;
 	}
 	
-	public void kreirajIzvjescePlacenihDopusta(List<PodaciPlaceniDopust> podaciPlacenihDopusta)
+	public HSSFWorkbook kreirajIzvjescePlacenihDopusta(List<PodaciPlaceniDopust> podaciPlacenihDopusta)
 	{
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet sheet = workbook.createSheet("Korištenje plaćenog dopusta");
@@ -202,6 +175,8 @@ public class Repozitorij
 		catch (IOException e)
 		{
 			e.printStackTrace();
-		}		
+		}
+		
+		return workbook;
 	}
 }

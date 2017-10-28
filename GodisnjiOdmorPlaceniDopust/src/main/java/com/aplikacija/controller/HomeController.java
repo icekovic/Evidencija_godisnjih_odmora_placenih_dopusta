@@ -1,16 +1,41 @@
 package com.aplikacija.controller;
 
+import org.apache.http.client.methods.HttpHead;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.SequenceInputStream;
+import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.aplikacija.entities.*;
 import com.aplikacija.repository.Repozitorij;
@@ -116,34 +141,30 @@ public class HomeController
 		return "profilZaposlenika";
 	}
 	
+	//kreiranje i pregled
 	@RequestMapping(value = "/izvjesca", method = RequestMethod.GET)
-	public String izvjesca()
+	public String izvjesca(Model model)
 	{
-		return "izvjesca";
-	}
-	
-	@RequestMapping(value = "/svaIzvjesca", method = RequestMethod.GET)
-	public String prikaziSvaIzvjesca(Model model)
-	{
-		//preurediti tako¸da prikazuje linkove na izvješća
-//		List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora = repozitorij.dohvatiPodatkeZaGodisnjeOdmore();
-//		model.addAttribute("podaciGodisnjihOdmora", podaciGodisnjihOdmora);
+		prikaziIzvjesca(model);	
 		return "izvjesca";
 	}
 	
 	@RequestMapping(value = "/godisnjiOdmori", method = RequestMethod.GET)
 	public String kreirajIzvjesceGodisnjihOdmora(Model model)
-	{
+	{	
 		List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora = repozitorij.dohvatiPodatkeZaGodisnjeOdmore();
-		repozitorij.kreirajIzvjesceGodisnjihOdmora(podaciGodisnjihOdmora);
+		repozitorij.kreirajIzvjesceGodisnjihOdmora(podaciGodisnjihOdmora);		
+		prikaziIzvjesca(model);
 		return "izvjesca";
 	}
 	
 	@RequestMapping(value = "/placeniDopusti", method = RequestMethod.GET)
 	public String kreirajIzvjescaPlacenihDopusta(Model model)
 	{
+		
 		List<PodaciPlaceniDopust> podaciPlacenihDopusta = repozitorij.dohvatiPodatkeZaPlaceneDopuste();
 		repozitorij.kreirajIzvjescePlacenihDopusta(podaciPlacenihDopusta);
+		prikaziIzvjesca(model);
 		return "izvjesca";
 	}
 	
@@ -152,6 +173,21 @@ public class HomeController
 	{
 		session.invalidate();
 		return "redirect:/";
+	}
+	
+	private void prikaziIzvjesca(Model model)
+	{
+		List<String> nazivi = new ArrayList<String>();
+		File[] izvjesca = new File("D:\\Izvjesca").listFiles();
+		
+		for(File izvjesce : izvjesca)
+		{
+			if(izvjesce.isFile())
+			{
+				nazivi.add(izvjesce.getName());
+			}
+		}
+		model.addAttribute("nazivi", nazivi);
 	}
 	
 //		REGISTRACIJA SE TREBA REFAKTORIRATI 

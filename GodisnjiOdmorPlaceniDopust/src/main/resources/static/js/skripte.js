@@ -1,10 +1,6 @@
 $(document).ready(function(){
 		
-		//hidden elementi
-			$("#btnPrikaziSvaIzvjesca").click(function({
-				$("#div-izvjesca").show();
-			}));
-			
+		//hidden elementi			
 	    	$("#btnNoviZahtjev").click(function(){
 	        	$(".div-novi-zahtjev").show();
 	    	});
