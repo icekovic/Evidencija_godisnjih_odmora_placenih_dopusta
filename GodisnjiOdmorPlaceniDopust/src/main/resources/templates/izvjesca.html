@@ -15,14 +15,14 @@
 				</div>
 				<div class="panel-body">
 					<div class="row">
-						<div class="col-mod-4 col-lg-4 col-sm-4">
+						<div class="col-md-4 col-lg-4 col-sm-4">
 							<table class="table table-borderless table-responsive">
 								<tr>
 									<td><a href="godisnjiOdmori" class="btn btn-default">Kreiraj izvješće godišnjih odmora</a></td>
 								</tr>
 							</table>
 						</div>
-						<div class="col-mod-4 col-lg-4 col-sm-4">
+						<div class="col-md-4 col-lg-4 col-sm-4">
 							<table class="table table-borderless table-responsive">
 								<tr>
 									<td><a href="placeniDopusti" class="btn btn-default">Kreiraj izvješće plaćenih dopusta</a></td>
@@ -36,16 +36,18 @@
 								</tr>
 							</table>
 						</div>
-					</div>									
-					<div id="div-izvjesca" class="div-izvjesca">
-						<table class="table table-borderless table-responsive col-md-offset-5">
-							<th:block th:each="naziv : ${nazivi}">
+					</div>
+					
+					<div class="col-md-5 col-lg-5 col-sm-5 col-md-offset-3">
+						<table class="table table-borderless table-responsive col-md-4">
+							<th:block th:each="putanja : ${putanje}">
 								<tr>
-									<td th:text="${naziv}"></td>
+									<td>Putanja do izvješća</td>
+									<td th:text="${putanja}"></td>
 								</tr>
 							</th:block>
 						</table>
-					</div>
+					</div>													
 				</div>
 			</div>
 		</div>

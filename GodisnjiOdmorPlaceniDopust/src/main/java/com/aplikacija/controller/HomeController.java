@@ -1,20 +1,14 @@
 package com.aplikacija.controller;
-
-import org.apache.http.client.methods.HttpHead;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.jboss.logging.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -25,15 +19,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.SequenceInputStream;
 import java.net.URLConnection;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -177,17 +165,17 @@ public class HomeController
 	
 	private void prikaziIzvjesca(Model model)
 	{
-		List<String> nazivi = new ArrayList<String>();
+		List<String> putanje = new ArrayList<String>();
 		File[] izvjesca = new File("D:\\Izvjesca").listFiles();
 		
 		for(File izvjesce : izvjesca)
 		{
 			if(izvjesce.isFile())
 			{
-				nazivi.add(izvjesce.getName());
+				putanje.add(izvjesce.getAbsolutePath());
 			}
 		}
-		model.addAttribute("nazivi", nazivi);
+		model.addAttribute("putanje", putanje);
 	}
 	
 //		REGISTRACIJA SE TREBA REFAKTORIRATI 
