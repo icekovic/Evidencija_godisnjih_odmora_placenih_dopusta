@@ -8,7 +8,7 @@
 		<link rel="stylesheet" th:href="@{/css/jquery-ui.css}"/>
 	</head>
 	<body>
-		<form id="registracija" th:action="@{/profilZaposlenika}" th:object="${zaposlenik}"  method="post">
+		<form id="registracija" th:action="@{/profilZaposlenikaRegistracija}" method="post">
 			<div class="container padding-top-20">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -28,6 +28,12 @@
                                         <td>Prezime</td>
                                         <td>
                                         	<input type="text" class="form-control" id="prezime" name="prezime"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>
+                                        	<input type="text" class="form-control" id="email" name="email"/>
                                         </td>
                                     </tr>
 									<tr>
@@ -87,8 +93,8 @@
                                         <td>
                                         	<div class="divOrganizacijskeJedinice">
                                         		<select name="organizacijskaJedinica">
-                                        			<th:block th:each="organizacijskaJedinica : ${organizacijskeJedinice}">
-                                        				<option th:text="${organizacijskaJedinica.naziv}"></option>                   				
+                                        			<th:block th:each="organizacijskaJedinica : ${session.organizacijskeJedinice}">
+                                        				<option th:text="${organizacijskaJedinica.naziv}"></option> 
                                         			</th:block>                                       		
                                         		</select>
                                         	</div>                                       	

@@ -1,27 +1,27 @@
 package com.aplikacija.repository;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.aplikacija.entities.OrganizacijskaJedinica;
-import com.aplikacija.entities.PlaceniDopust;
 import com.aplikacija.entities.PodaciGodisnjiOdmor;
 import com.aplikacija.entities.PodaciPlaceniDopust;
 import com.aplikacija.entities.StatusZahtjeva;
 import com.aplikacija.entities.Zahtjev;
 import com.aplikacija.entities.Zaposlenik;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
 
 @Repository
 @Transactional
@@ -33,10 +33,19 @@ public class Repozitorij
 	@Autowired
 	private JavaMailSender mailSender;
 	
-	@Autowired
-	public Repozitorij(JavaMailSender mailSender)
+	@SuppressWarnings("unchecked")
+	public List<Zaposlenik> dohvatiZaposlenike()
 	{
-		this.mailSender = mailSender;
+		Query query = entityManager.createQuery("from Zaposlenik");
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Zaposlenik> dohvatiZaposlenika(String korisnickoIme)
+	{
+		Query query = entityManager.createQuery("from Zaposlenik where korisnicko_ime = :korisnickoIme");
+		query.setParameter("korisnickoIme", korisnickoIme);
+		return query.getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -46,26 +55,16 @@ public class Repozitorij
 		return query.getResultList();
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<Zaposlenik> dohvatiZaposlenika(String korisnicko_ime)
-	{
-		Query query = entityManager.createQuery("from Zaposlenik where korisnicko_ime = :korisnicko_ime");
-		query.setParameter("korisnicko_ime", korisnicko_ime);
-		return query.getResultList();
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<PlaceniDopust> dohvatiTipovePlacenogDopusta()
-	{
-		Query query = entityManager.createQuery("from PlaceniDopust");
-		return query.getResultList();
-	}
-	
 	public List<Zahtjev> dohvatiZahtjeve(Zaposlenik zaposlenik)
 	{
 		return zaposlenik.getZahtjevi();
 	}
-	
+
+	public void dodajNovogZaposlenika(Zaposlenik zaposlenik)
+	{
+		entityManager.persist(zaposlenik);
+	}
+
 	public void dodajZahtjev(Zahtjev zahtjev, Zaposlenik zaposlenik)
 	{
 		StatusZahtjeva statusZahtjeva = new StatusZahtjeva();
@@ -77,7 +76,7 @@ public class Repozitorij
 		entityManager.persist(zahtjev);
 	}
 
-	public void posaljiMailRukovoditelju(Zahtjev zahtjev, Zaposlenik zaposlenik) throws MailException
+	public void posaljiMailRukovoditelju(Zahtjev zahtjev, Zaposlenik zaposlenik)
 	{
 		SimpleMailMessage message = new SimpleMailMessage();
 	    message.setTo("dwetherburn@gmail.com");
@@ -87,23 +86,16 @@ public class Repozitorij
 	    zahtjev.getOd_datuma() + "\nDo datuma: " + zahtjev.getDo_datuma());
 	    mailSender.send(message);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<PodaciGodisnjiOdmor> dohvatiPodatkeZaGodisnjeOdmore()
 	{
 		Query query = entityManager.createQuery("from PodaciGodisnjiOdmor");
 		return query.getResultList();
 	}
-	
-	@SuppressWarnings("unchecked")
-	public List<PodaciPlaceniDopust> dohvatiPodatkeZaPlaceneDopuste()
-	{
-		Query query = entityManager.createQuery("from PodaciPlaceniDopust");
-		return query.getResultList();
-	}
 
 	public HSSFWorkbook kreirajIzvjesceGodisnjihOdmora(List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora)
-	{		
+	{
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet sheet = workbook.createSheet("Korištenje godišnjeg odmora");
 		
@@ -144,7 +136,14 @@ public class Repozitorij
 		
 		return workbook;
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	public List<PodaciPlaceniDopust> dohvatiPodatkeZaPlaceneDopuste()
+	{
+		Query query = entityManager.createQuery("from PodaciPlaceniDopust");
+		return query.getResultList();
+	}
+
 	public HSSFWorkbook kreirajIzvjescePlacenihDopusta(List<PodaciPlaceniDopust> podaciPlacenihDopusta)
 	{
 		HSSFWorkbook workbook = new HSSFWorkbook();

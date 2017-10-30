@@ -7,7 +7,7 @@
 		<link rel="stylesheet" th:href="@{/css/stilovi.css}"/>
 	</head>
 	<body>
-		<form id="home" th:action="@{/profilZaposlenika}" th:object="${zaposlenik}"  method="post">
+		<form id="home" th:action="@{/profilZaposlenika}" method="post">
 			<div class="container padding-top">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -20,14 +20,14 @@
 									<tr>
                                         <td>Korisničko ime</td>
                                         <td>
-                                        	<input type="text" class="form-control" id="korisnicko_ime" name="korisnicko_ime" th:field="*{korisnicko_ime}" autofocus="autofocus"/>
+                                        	<input type="text" class="form-control" id="korisnickoIme" name="korisnickoIme" autofocus="autofocus"/>
                                         </td>
                                         <td th:text="${kriviPodaci}"></td>
                                     </tr>
                                     <tr>
                                         <td>Lozinka</td>
                                         <td>
-                                        	<input type="password" class="form-control" id="lozinka" th:field="*{lozinka}"/>
+                                        	<input type="password" class="form-control" name="lozinka" id="lozinka"/>
                                         </td>
                                     </tr>
                                     <tr>

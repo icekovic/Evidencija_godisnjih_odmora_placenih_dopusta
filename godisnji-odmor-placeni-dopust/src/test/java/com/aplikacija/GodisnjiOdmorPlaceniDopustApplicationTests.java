@@ -1,4 +1,4 @@
-package ivan.godisnjiodmorplacenidopust;
+package com.aplikacija;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
