@@ -212,7 +212,6 @@ public class HomeController
 				putanje.add(izvjesce.getAbsolutePath());
 			}
 		}
-		//model.addAttribute("putanje", putanje);
 		request.getSession().setAttribute("putanje", putanje);
 	}
 	

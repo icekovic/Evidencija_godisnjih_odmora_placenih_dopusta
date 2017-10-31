@@ -16,8 +16,12 @@ $(document).ready(function(){
 	    	$("#btnKalendar").click(function(){
 	    		$("#godisnjiKalendar").zabuto_calendar({language: "en"});
 	    	});
-	    	
+	    	 	
 	    	//datepicker
+	    	$(function(){
+	    		$.datepicker.setDefaults($.datepicker.regional['hr']);
+	    	});
+	    	
 	    	$(function(){
 	    		$("#datum_zaposlenja").datepicker({dateFormat: 'yy-mm-dd'});
 	    	});
@@ -121,26 +125,32 @@ $(document).ready(function(){
 	    	});
 	    	
 	    	//broj dana
+	    	
 	    	$("#od_datuma").datepicker({
-	    	    dateFormat: 'yy-mm-dd',
-	    	    minDate: 0
-	    	});
-	    	$("#do_datuma").datepicker({
-	    	    dateFormat: 'yy-mm-dd',
-	    	    minDate: 1
-	    	});
-	    	$("#od_datuma").datepicker().bind("change", function () {
-	    	    var minValue = $(this).val();
-	    	    minValue = $.datepicker.parseDate("yy-mm-dd", minValue);
-	    	    $('.do_datuma').datepicker("option", "minDate", minValue);
-	    	    calculate();
-	    	});
-	    	$("#do_datuma").datepicker().bind("change", function () {
-	    	    var maxValue = $(this).val();
-	    	    maxValue = $.datepicker.parseDate("yy-mm-dd", maxValue);
-	    	    $("#od_datuma").datepicker("option", "maxDate", maxValue);
-	    	    calculate();
-	    	});
+	            dateFormat: "yy-mm-dd",
+	            minDate: 0,
+	            onSelect: function (date) {
+	                var date2 = $('#od_datuma').datepicker('getDate');
+	                date2.setDate(date2.getDate() + 1);
+	                $('#do_datuma').datepicker('setDate', date2);
+	                //sets minDate to dt1 date + 1
+	                $('#do_datuma').datepicker('option', 'minDate', date2);
+	                calculate();
+	            }
+	        });
+	        $('#do_datuma').datepicker({
+	            dateFormat: "yy-mm-dd",
+	            onClose: function () {
+	                var dt1 = $('#od_datuma').datepicker('getDate');
+	                console.log(dt1);
+	                var dt2 = $('#do_datuma').datepicker('getDate');
+	                if (dt2 <= dt1) {
+	                    var minDate = $('#d_datuma').datepicker('option', 'minDate');
+	                    $('#do_datuma').datepicker('setDate', minDate);
+	                }
+	                calculate();
+	            }
+	        });
 
 	    	function calculate() {
 	    	    var d1 = $("#od_datuma").datepicker('getDate');

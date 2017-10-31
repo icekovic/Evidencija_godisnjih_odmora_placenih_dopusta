@@ -116,6 +116,12 @@
 		<script type="application/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" th:src="@{https://code.jquery.com/jquery-3.2.1.min.js}"></script>
 		<script type="application/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" th:src="@{http://code.jquery.com/ui/1.12.1/jquery-ui.js}"></script>
 		<script type="application/javascript" th:src="@{/js/jquery.validate.min.js}"></script>
+		<script type="application/javascript" src="js/ui.datepicker-hr.js" th:src="@{/js/ui.datepicker-hr.js}"></script>
 		<script type="application/javascript" src="js/skripte.js" th:src="@{/js/skripte.js}"></script>
+		<script type="application/javascript">
+		$(function(){
+			$.datepicker.setDefaults($.datepicker.regional['hr']);
+			});
+		</script>
 	</body>
 </html>
