@@ -26,6 +26,7 @@
 									<tr>
 										<td>Ime:</td>
 										<td th:text="${session.zaposlenik.ime}"></td>
+										<td><input type="hidden" id="korisnickoIme" name="korisnickoIme" th:value="${session.zaposlenik.korisnicko_ime}"/></td>
 									</tr>
 									<tr>
 										<td>Prezime:</td>
@@ -182,6 +183,41 @@
 						<div id="calendar" class="calendar">
 						</div>
 					</div>
+					
+					<div class="container-fluid padding-top-15">
+						<div class="div-odobravanje-zahtjeva" id="div-odobravanje-zahtjeva">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="text-center">Svi zahtjevi</h4>
+								</div>
+								<div class="panel-body">
+									<table class="table table-borderless table-responsive">
+										<tr>
+											<th>Tip zahtjeva</th>
+											<th>Od datuma</th>
+											<th>Do datuma</th>
+											<th>Broj dana</th>
+											<th>Zaposlenik</th>
+											<th>Status</th>
+										</tr>
+										<th:block th:each="zahtjev : ${session.sviZahtjevi}">
+											<tr>
+												<td th:text="${zahtjev.tip}"></td>
+												<td th:text="${zahtjev.od_datuma}"></td>
+												<td th:text="${zahtjev.do_datuma}"></td>
+												<td th:text="${zahtjev.broj_radnih_dana}"></td>
+												<td th:text="${zahtjev.zaposlenik.ime + ' ' + zahtjev.zaposlenik.prezime}"></td>
+												<td th:text="${zahtjev.status_zahtjeva.status}"></td>
+												<td><a href="#" type="button" class="btn btn-success">Odobri zahtjev</a></td>
+												<td><a href="#" type="button" class="btn btn-danger">Odbij zahtjev</a></td>
+												<td><input type="hidden" id="idZahtjev" name="idZahtjev" th:value="${zahtjev.id_zahtjev}" /></td>
+											</tr>													
+										</th:block>
+									</table>									
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -217,6 +253,15 @@
 		  	  }
 	   	 else{
 	    		$("#div-kreiraj-izvjesca").hide();
+		    }
+		});
+
+		$(document).ready(function() {
+	    	if(document.getElementById('korisnickoIme').value == 'dwetherburn'){
+		 	   $("#div-odobravanje-zahtjeva").show();
+		  	  }
+	   	 else{
+	    		$("#div-odobravanje-zahtjeva").hide();
 		    }
 		});
 

@@ -57,6 +57,11 @@ select
     border: none !important;
 }
 
+.btn-success, .btn-danger
+{
+	color: gold !important;
+}
+
 .btn-default
 {
 	background-color: gold !important;

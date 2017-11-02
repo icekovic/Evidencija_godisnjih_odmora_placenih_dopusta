@@ -55,6 +55,13 @@ public class Repozitorij
 		return query.getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Zahtjev> dohvatiSveZahtjeve()
+	{
+		Query query = entityManager.createQuery("from Zahtjev");
+		return query.getResultList();
+	}
+	
 	public List<Zahtjev> dohvatiZahtjeve(Zaposlenik zaposlenik)
 	{
 		return zaposlenik.getZahtjevi();

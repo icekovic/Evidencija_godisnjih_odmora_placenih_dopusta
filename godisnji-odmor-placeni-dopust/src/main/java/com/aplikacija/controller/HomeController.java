@@ -36,20 +36,20 @@ public class HomeController
 	{
 		List<OrganizacijskaJedinica> organizacijskejedinice = repozitorij.dohvatiOrganizacijskeJedinice();
 		request.getSession().setAttribute("organizacijskeJedinice", organizacijskejedinice);
+	
 		return "registracija";
 	}
 	
 	@GetMapping(value = "/profilZaposlenika")
 	public String profilZaposlenika(HttpServletRequest request)
 	{
-		Zaposlenik zaposlenik = (Zaposlenik) request.getSession().getAttribute("zaposlenik");
-		request.getSession().setAttribute("zahtjevi", zaposlenik.getZahtjevi());
 		return "profilZaposlenika";
 	}
 	
 	@PostMapping(value = "/profilZaposlenika")
 	public String profilZaposlenika(Model model, HttpServletRequest request)
 	{
+		List<Zahtjev> sviZahtjevi = repozitorij.dohvatiSveZahtjeve();
 		String korisnickoIme = request.getParameter("korisnickoIme");
 		String lozinka = request.getParameter("lozinka");
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
@@ -59,6 +59,7 @@ public class HomeController
 		{
 			request.getSession().setAttribute("zaposlenik", zaposlenik);
 			request.getSession().setAttribute("zahtjevi", zaposlenik.getZahtjevi());
+			request.getSession().setAttribute("sviZahtjevi", sviZahtjevi);
 			return "profilZaposlenika";
 		}
 		
