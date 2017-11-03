@@ -6,9 +6,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -144,14 +141,6 @@ public class Repozitorij
 		
 		return workbook;
 	}
-
-	@SuppressWarnings("unchecked")
-	public List<PodaciPlaceniDopust> dohvatiPodatkeZaPlaceneDopuste()
-	{
-		Query query = entityManager.createQuery("from PodaciPlaceniDopust");
-		return query.getResultList();
-	}
-
 	public HSSFWorkbook kreirajIzvjescePlacenihDopusta(List<PodaciPlaceniDopust> podaciPlacenihDopusta)
 	{
 		HSSFWorkbook workbook = new HSSFWorkbook();
@@ -179,12 +168,66 @@ public class Repozitorij
 			workbook.write(new FileOutputStream("D:/Izvjesca/PlaceniDopusti.xls"));
 			workbook.close();
 		}
+		
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 		
 		return workbook;
+	}
+	
+	public HSSFWorkbook kreirajIzvjesceIznosRegresaGodisnjegOdmora()
+	{
+		HSSFWorkbook workbook = new HSSFWorkbook();
+		HSSFSheet sheet = workbook.createSheet("Iznos regresa za godišnji odmor");
+		
+		Row redakNasloviStupaca = sheet.createRow(0);
+		redakNasloviStupaca.createCell(0).setCellValue("Organizacijska jedinica");
+		redakNasloviStupaca.createCell(1).setCellValue("Zaposlenik");
+		redakNasloviStupaca.createCell(2).setCellValue("Maticni broj zaposlenika");
+		redakNasloviStupaca.createCell(3).setCellValue("Iznos regresa za godišnji odmor");
+		int i = 1;
+		
+		List<OrganizacijskaJedinica> organizacijskeJedinice = dohvatiOrganizacijskeJedinice();
+		for(OrganizacijskaJedinica organizacijskaJedinica : organizacijskeJedinice)
+		{
+			for(Zaposlenik zaposlenik : organizacijskaJedinica.getZaposlenici())
+			{
+				for(Zahtjev zahtjev : zaposlenik.getZahtjevi())
+				{
+					System.out.println(organizacijskaJedinica.getNaziv() + ", " + zaposlenik.getIme() +" " + zaposlenik.getPrezime() + ", "
+							+ zaposlenik.getMaticni_broj() + ", " + zahtjev.getBroj_radnih_dana() * 2000);
+					Row redak = sheet.createRow(i);
+					redak.createCell(0).setCellValue(organizacijskaJedinica.getNaziv());
+					redak.createCell(1).setCellValue(zaposlenik.getIme() +" " + zaposlenik.getPrezime());
+					redak.createCell(2).setCellValue(zaposlenik.getMaticni_broj());
+					redak.createCell(3).setCellValue(zahtjev.getBroj_radnih_dana() * 3000);
+					i++;
+				}
+			}
+		}
+		
+		try
+		{
+			workbook.write(new FileOutputStream("D:/Izvjesca/IznosiRegresa.xls"));
+			workbook.close();
+		}
+		
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		
+		return workbook;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<PodaciPlaceniDopust> dohvatiPodatkeZaPlaceneDopuste()
+	{
+		Query query = entityManager.createQuery("from PodaciPlaceniDopust");
+		return query.getResultList();
 	}
 
 	public void odobriZahtjev(int idZahtjev)

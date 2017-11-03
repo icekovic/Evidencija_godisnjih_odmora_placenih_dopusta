@@ -195,6 +195,14 @@ public class HomeController
 		prikaziIzvjesca(request);
 		return "izvjesca";
 	}
+	
+	@GetMapping(value = "/iznosRegresa")
+	public String kreirajIznosRegresaGodisnjegOdmora(HttpServletRequest request)
+	{
+		repozitorij.kreirajIzvjesceIznosRegresaGodisnjegOdmora();
+		prikaziIzvjesca(request);
+		return "izvjesca";
+	}
 
 	@GetMapping(value = "/odjava")
 	public String odjava(HttpServletRequest request)
@@ -247,10 +255,4 @@ public class HomeController
 		request.getSession().setAttribute("sviZahtjevi", repozitorij.dohvatiSveZahtjeve());
 		return "profilZaposlenika";
 	}
-	
-//	@GetMapping(value = "/{idZaposlenik}")
-//	public Zaposlenik dohvatiZaposlenika(@PathVariable final int idZaposlenik)
-//	{
-//		return repozitorij.dohvatiZaposlenika(idZaposlenik).get(0);
-//	}
 }
