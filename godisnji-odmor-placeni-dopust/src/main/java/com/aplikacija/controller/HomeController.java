@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.aplikacija.entities.OrganizacijskaJedinica;
 import com.aplikacija.entities.PodaciGodisnjiOdmor;
 import com.aplikacija.entities.PodaciPlaceniDopust;
@@ -41,7 +43,7 @@ public class HomeController
 	}
 	
 	@GetMapping(value = "/profilZaposlenika")
-	public String profilZaposlenika(HttpServletRequest request)
+	public String profilZaposlenika()
 	{
 		return "profilZaposlenika";
 	}
@@ -214,6 +216,36 @@ public class HomeController
 			}
 		}
 		request.getSession().setAttribute("putanje", putanje);
+	}
+	
+	@GetMapping(value = "/odobriZahtjev")
+	public String odobriZahtjev()
+	{
+		return "profilZaposlenika";
+	}
+	
+	@PostMapping(value = "/odobriZahtjev")
+	public String odobriZahtjev(HttpServletRequest request)
+	{
+		int idZahtjev = Integer.parseInt(request.getParameter("idZahtjev"));
+		repozitorij.odobriZahtjev(idZahtjev);
+		request.getSession().setAttribute("sviZahtjevi", repozitorij.dohvatiSveZahtjeve());
+		return "profilZaposlenika";
+	}
+	
+	@GetMapping(value = "/odbijZahtjev")
+	public String odbijZahtjev()
+	{
+		return "profilZaposlenika";
+	}
+	
+	@PostMapping(value = "/odbijZahtjev")
+	public String odbijZahtjevPost(HttpServletRequest request)
+	{
+		int idZahtjev = Integer.parseInt(request.getParameter("idZahtjev"));
+		repozitorij.odbijZahtjev(idZahtjev);
+		request.getSession().setAttribute("sviZahtjevi", repozitorij.dohvatiSveZahtjeve());
+		return "profilZaposlenika";
 	}
 	
 //	@GetMapping(value = "/{idZaposlenik}")

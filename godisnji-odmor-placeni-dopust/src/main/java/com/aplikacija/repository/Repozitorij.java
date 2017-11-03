@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -15,7 +17,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.aplikacija.entities.OrganizacijskaJedinica;
 import com.aplikacija.entities.PodaciGodisnjiOdmor;
 import com.aplikacija.entities.PodaciPlaceniDopust;
@@ -184,5 +185,19 @@ public class Repozitorij
 		}
 		
 		return workbook;
+	}
+
+	public void odobriZahtjev(int idZahtjev)
+	{
+		Zahtjev zahtjev = entityManager.find(Zahtjev.class, idZahtjev);
+		zahtjev.setStatus_zahtjeva(entityManager.getReference(StatusZahtjeva.class, 2));
+		entityManager.merge(zahtjev);
+	}
+
+	public void odbijZahtjev(int idZahtjev)
+	{
+		Zahtjev zahtjev = entityManager.find(Zahtjev.class, idZahtjev);
+		zahtjev.setStatus_zahtjeva(entityManager.getReference(StatusZahtjeva.class, 3));
+		entityManager.merge(zahtjev);
 	}
 }

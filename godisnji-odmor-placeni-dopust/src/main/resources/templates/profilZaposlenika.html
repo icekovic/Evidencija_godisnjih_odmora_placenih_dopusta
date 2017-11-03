@@ -208,9 +208,19 @@
 												<td th:text="${zahtjev.broj_radnih_dana}"></td>
 												<td th:text="${zahtjev.zaposlenik.ime + ' ' + zahtjev.zaposlenik.prezime}"></td>
 												<td th:text="${zahtjev.status_zahtjeva.status}"></td>
-												<td><a href="#" type="button" class="btn btn-success">Odobri zahtjev</a></td>
-												<td><a href="#" type="button" class="btn btn-danger">Odbij zahtjev</a></td>
-												<td><input type="hidden" id="idZahtjev" name="idZahtjev" th:value="${zahtjev.id_zahtjev}" /></td>
+												<td>
+													<form th:action="@{/odobriZahtjev}" method="post">
+														<input type="hidden" id="idZahtjev" name="idZahtjev" th:value="${zahtjev.id_zahtjev}" />
+														<input type="submit" class="btn btn-success" value="Odobri zahtjev"/>
+													</form>
+													
+												</td>
+												<td>
+													<form th:action="@{/odbijZahtjev}" method="post">
+														<input type="hidden" id="idZahtjev" name="idZahtjev" th:value="${zahtjev.id_zahtjev}" />
+														<input type="submit" class="btn btn-danger" value="Odbij zahtjev"/>
+													</form>
+												</td>												
 											</tr>													
 										</th:block>
 									</table>									
