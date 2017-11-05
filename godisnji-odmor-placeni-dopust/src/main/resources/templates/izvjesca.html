@@ -3,9 +3,9 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>Izvješća</title>
-		<link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
-		<link rel="stylesheet" th:href="@{/css/stilovi.css}" />
-		<link rel="stylesheet" th:href="@{/css/jquery-ui.css}" />
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+		<link rel="stylesheet" th:href="@{/css/stilovi.css}"/>
+		<link rel="stylesheet" th:href="@{/css/jquery-ui.css}"/>
 	</head>
 	<body>
 		<div class="container padding-top-20">
@@ -40,10 +40,10 @@
 					
 					<div class="col-md-5 col-lg-5 col-sm-5 col-md-offset-3">
 						<table class="table table-borderless table-responsive col-md-4">
-							<th:block th:each="putanja : ${session.putanje}">
+							<th:block th:each="izvjesce : ${session.izvjesca}">
 								<tr>
 									<td>Putanja do izvješća</td>
-									<td th:text="${putanja}"></td>
+									<td th:text="${izvjesce}"></td>
 								</tr>
 							</th:block>
 						</table>

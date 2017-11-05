@@ -23,7 +23,7 @@ import com.aplikacija.entities.Zaposlenik;
 
 @Repository
 @Transactional
-public class Repozitorij
+public class RepozitorijGlavnaAplikacija
 {
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -137,10 +137,10 @@ public class Repozitorij
 		catch (IOException e)
 		{
 			e.printStackTrace();
-		}
-		
+		}	
 		return workbook;
 	}
+	
 	public HSSFWorkbook kreirajIzvjescePlacenihDopusta(List<PodaciPlaceniDopust> podaciPlacenihDopusta)
 	{
 		HSSFWorkbook workbook = new HSSFWorkbook();
@@ -173,7 +173,6 @@ public class Repozitorij
 		{
 			e.printStackTrace();
 		}
-		
 		return workbook;
 	}
 	
@@ -196,8 +195,6 @@ public class Repozitorij
 			{
 				for(Zahtjev zahtjev : zaposlenik.getZahtjevi())
 				{
-					System.out.println(organizacijskaJedinica.getNaziv() + ", " + zaposlenik.getIme() +" " + zaposlenik.getPrezime() + ", "
-							+ zaposlenik.getMaticni_broj() + ", " + zahtjev.getBroj_radnih_dana() * 2000);
 					Row redak = sheet.createRow(i);
 					redak.createCell(0).setCellValue(organizacijskaJedinica.getNaziv());
 					redak.createCell(1).setCellValue(zaposlenik.getIme() +" " + zaposlenik.getPrezime());
@@ -218,8 +215,6 @@ public class Repozitorij
 		{
 			e.printStackTrace();
 		}
-		
-		
 		return workbook;
 	}
 

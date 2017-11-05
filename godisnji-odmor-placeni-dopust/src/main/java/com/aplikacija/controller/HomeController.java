@@ -11,24 +11,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.aplikacija.entities.OrganizacijskaJedinica;
 import com.aplikacija.entities.PodaciGodisnjiOdmor;
 import com.aplikacija.entities.PodaciPlaceniDopust;
 import com.aplikacija.entities.Rola;
 import com.aplikacija.entities.Zahtjev;
 import com.aplikacija.entities.Zaposlenik;
-import com.aplikacija.repository.Repozitorij;
+import com.aplikacija.repository.RepozitorijGlavnaAplikacija;
 
 @Controller
 public class HomeController
 {
 	@Autowired
-	private Repozitorij repozitorij;
+	private RepozitorijGlavnaAplikacija repozitorijGlavnaAplikacija;
 	
 	@GetMapping(value = "/")
-	public String home(Model model)
+	public String home()
 	{
 		return "home";
 	}
@@ -36,7 +34,7 @@ public class HomeController
 	@GetMapping(value = "/registracija")
 	public String registracija(HttpServletRequest request)
 	{
-		List<OrganizacijskaJedinica> organizacijskejedinice = repozitorij.dohvatiOrganizacijskeJedinice();
+		List<OrganizacijskaJedinica> organizacijskejedinice = repozitorijGlavnaAplikacija.dohvatiOrganizacijskeJedinice();
 		request.getSession().setAttribute("organizacijskeJedinice", organizacijskejedinice);
 	
 		return "registracija";
@@ -51,11 +49,11 @@ public class HomeController
 	@PostMapping(value = "/profilZaposlenika")
 	public String profilZaposlenika(Model model, HttpServletRequest request)
 	{
-		List<Zahtjev> sviZahtjevi = repozitorij.dohvatiSveZahtjeve();
+		List<Zahtjev> sviZahtjevi = repozitorijGlavnaAplikacija.dohvatiSveZahtjeve();
 		String korisnickoIme = request.getParameter("korisnickoIme");
 		String lozinka = request.getParameter("lozinka");
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
-		Zaposlenik zaposlenik = repozitorij.dohvatiZaposlenika(korisnickoIme).get(0);
+		Zaposlenik zaposlenik = repozitorijGlavnaAplikacija.dohvatiZaposlenika(korisnickoIme).get(0);
 		
 		if(zaposlenik.getKorisnicko_ime().equals(korisnickoIme) && encoder.matches(lozinka, zaposlenik.getLozinka()))
 		{
@@ -98,7 +96,7 @@ public class HomeController
 		rola.setNaziv("Obični zaposlenik");
 		
 		OrganizacijskaJedinica organizacijskaJedinica = new OrganizacijskaJedinica();
-		List<OrganizacijskaJedinica> organizacijskeJedinice = repozitorij.dohvatiOrganizacijskeJedinice();
+		List<OrganizacijskaJedinica> organizacijskeJedinice = repozitorijGlavnaAplikacija.dohvatiOrganizacijskeJedinice();
 		
 		Zaposlenik zaposlenik = new Zaposlenik();
 		zaposlenik.setIme(ime);
@@ -123,16 +121,14 @@ public class HomeController
 		}
 		
 		zaposlenik.setOrganizacijska_jedinica(organizacijskaJedinica);
-		repozitorij.dodajNovogZaposlenika(zaposlenik);
+		repozitorijGlavnaAplikacija.dodajNovogZaposlenika(zaposlenik);
 		request.getSession().setAttribute("zaposlenik", zaposlenik);		
 		return "profilZaposlenika";
 	}
 	
 	@GetMapping(value = "/noviZahtjev")
-	public String noviZahtjev(HttpServletRequest request)
-	{
-		Zaposlenik zaposlenik = (Zaposlenik) request.getSession().getAttribute("zaposlenik");	
-		request.getSession().setAttribute("zahtjevi", zaposlenik.getZahtjevi());	
+	public String noviZahtjev()
+	{	
 		return "profilZaposlenika";
 	}
 	
@@ -156,11 +152,11 @@ public class HomeController
 		zahtjev.setNapomena(napomena);
 		
 		Zaposlenik zaposlenik = (Zaposlenik) request.getSession().getAttribute("zaposlenik");		
-		repozitorij.dodajZahtjev(zahtjev, zaposlenik);
+		repozitorijGlavnaAplikacija.dodajZahtjev(zahtjev, zaposlenik);
 		
 		try
 		{
-			repozitorij.posaljiMailRukovoditelju(zahtjev, zaposlenik);
+			repozitorijGlavnaAplikacija.posaljiMailRukovoditelju(zahtjev, zaposlenik);
 		}
 		catch (MailException ex)
 		{
@@ -181,17 +177,18 @@ public class HomeController
 	@GetMapping(value = "/godisnjiOdmori")
 	public String kreirajIzvjesceGodisnjihOdmora(HttpServletRequest request)
 	{
-		List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora = repozitorij.dohvatiPodatkeZaGodisnjeOdmore();
-		repozitorij.kreirajIzvjesceGodisnjihOdmora(podaciGodisnjihOdmora);
-		prikaziIzvjesca(request);
+		List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora = repozitorijGlavnaAplikacija.dohvatiPodatkeZaGodisnjeOdmore();
+		repozitorijGlavnaAplikacija.kreirajIzvjesceGodisnjihOdmora(podaciGodisnjihOdmora);
+		prikaziIzvjesca(request);		
 		return "izvjesca";
 	}
 	
 	@GetMapping(value = "/placeniDopusti")
 	public String kreirajIzvjescePlacenihDopusta(HttpServletRequest request)
 	{
-		List<PodaciPlaceniDopust> podaciPlacenihDopusta = repozitorij.dohvatiPodatkeZaPlaceneDopuste();
-		repozitorij.kreirajIzvjescePlacenihDopusta(podaciPlacenihDopusta);
+		List<PodaciPlaceniDopust> podaciPlacenihDopusta = repozitorijGlavnaAplikacija.dohvatiPodatkeZaPlaceneDopuste();
+		//promijeniti za pohranu na dropbox - sa mavena preuzeti oauth
+		repozitorijGlavnaAplikacija.kreirajIzvjescePlacenihDopusta(podaciPlacenihDopusta);
 		prikaziIzvjesca(request);
 		return "izvjesca";
 	}
@@ -199,11 +196,11 @@ public class HomeController
 	@GetMapping(value = "/iznosRegresa")
 	public String kreirajIznosRegresaGodisnjegOdmora(HttpServletRequest request)
 	{
-		repozitorij.kreirajIzvjesceIznosRegresaGodisnjegOdmora();
+		repozitorijGlavnaAplikacija.kreirajIzvjesceIznosRegresaGodisnjegOdmora();
 		prikaziIzvjesca(request);
 		return "izvjesca";
 	}
-
+	
 	@GetMapping(value = "/odjava")
 	public String odjava(HttpServletRequest request)
 	{
@@ -223,7 +220,7 @@ public class HomeController
 				putanje.add(izvjesce.getAbsolutePath());
 			}
 		}
-		request.getSession().setAttribute("putanje", putanje);
+		request.getSession().setAttribute("izvjesca", izvjesca);
 	}
 	
 	@GetMapping(value = "/odobriZahtjev")
@@ -236,8 +233,8 @@ public class HomeController
 	public String odobriZahtjev(HttpServletRequest request)
 	{
 		int idZahtjev = Integer.parseInt(request.getParameter("idZahtjev"));
-		repozitorij.odobriZahtjev(idZahtjev);
-		request.getSession().setAttribute("sviZahtjevi", repozitorij.dohvatiSveZahtjeve());
+		repozitorijGlavnaAplikacija.odobriZahtjev(idZahtjev);
+		request.getSession().setAttribute("sviZahtjevi", repozitorijGlavnaAplikacija.dohvatiSveZahtjeve());
 		return "profilZaposlenika";
 	}
 	
@@ -251,8 +248,8 @@ public class HomeController
 	public String odbijZahtjevPost(HttpServletRequest request)
 	{
 		int idZahtjev = Integer.parseInt(request.getParameter("idZahtjev"));
-		repozitorij.odbijZahtjev(idZahtjev);
-		request.getSession().setAttribute("sviZahtjevi", repozitorij.dohvatiSveZahtjeve());
+		repozitorijGlavnaAplikacija.odbijZahtjev(idZahtjev);
+		request.getSession().setAttribute("sviZahtjevi", repozitorijGlavnaAplikacija.dohvatiSveZahtjeve());
 		return "profilZaposlenika";
 	}
 }

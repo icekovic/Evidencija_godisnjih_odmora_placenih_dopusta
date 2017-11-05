@@ -36,6 +36,32 @@ select
 	display: none;
 }
 
+.active
+{
+	background-color: orange !important;
+	color: darkblue !important;
+}
+
+.nav>li>a:hover,
+.nav>li>a:focus,
+.nav>li>a:active
+{
+    background-color: orange;
+}
+
+.popis-gradova
+{
+	background-color: gold;
+	border-radius: 3px;
+}
+
+.nav-pills a, .naziv-grada
+{
+	color: darkblue;
+	font-size: 16px;
+	
+}
+
 .panel-default
 {
 	border-color: gold !important;
@@ -57,16 +83,16 @@ select
     border: none !important;
 }
 
-.btn-success, .btn-danger
-{
-	color: gold !important;
-}
-
 .btn-default
 {
 	background-color: gold !important;
 	color: darkblue !important;
 	border-color: darkblue;
+}
+
+.btn-odbij-zahtjev
+{
+	background-color: orange !important;
 }
 
 .label

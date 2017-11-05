@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Rezervacija sobe</title>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+		<link rel="stylesheet" th:href="@{/css/stilovi.css}"/>
+	</head>
+	<body>
+		<div class="container-fluid padding-top-20">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="text-center">Rezervacija sobe</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-3 col-lg-3 col-sm-3">
+							<div class="div-gradovi">
+								<ul class="nav nav-pills nav-stacked">
+									<th:block th:each="grad : ${gradovi}">
+  										<li role="presentation" class="text-center popis-gradova">
+  											<a href="#" th:text="${grad.naziv}"></a>
+  											<input type="hidden" id="idGrad" name="idGrad" th:value="${grad.id_grad}"/>
+  										</li>
+									</th:block>							
+								</ul>
+							</div>
+						</div>
+						
+						<div class="col-md-9 col-lg-9 col-sm-9">
+							<div class="div-hoteli">
+								<div class="panel panel-default">
+									<div class="panel-heading text-center naziv-grada">
+										Naziv odabranog grada
+									</div>
+									<div class="panel-body">
+										<table class="table table-responsive table-borderless">
+											<th:block th:each="hotel : ${hoteli}">
+												<tr>
+													<td th:text="${hotel.naziv}"></td>
+													<td th:text="${hotel.broj_zvjezdica}"></td>
+													<td th:text="${hotel.detalji}"></td>
+													<td><a href="#" class="btn btn-default">Rezerviraj sobu</a></td>
+												</tr>
+											</th:block>				
+										</table>
+									</div>								
+								</div>
+							</div>
+						</div>
+					</div>										
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

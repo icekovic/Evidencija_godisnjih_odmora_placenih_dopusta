@@ -3,9 +3,9 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>Profil zaposlenika</title>
-		<link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
-		<link rel="stylesheet" th:href="@{/css/stilovi.css}" />
-		<link rel="stylesheet" th:href="@{/css/jquery-ui.css}" />
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+		<link rel="stylesheet" th:href="@{/css/stilovi.css}"/>
+		<link rel="stylesheet" th:href="@{/css/jquery-ui.css}"/>
 		<link rel="stylesheet" th:href="@{/css/bootstrap-year-calendar.css}"/>
 	</head>
 	<body>
@@ -55,17 +55,13 @@
 										<td>Organizacijska jedinica</td>
 										<td th:text="${session.zaposlenik.organizacijska_jedinica.naziv}"></td>
 									</tr>
-									<tr>
-										<td>Organizacijska jedinica ID</td>
-										<td th:text="${session.zaposlenik.organizacijska_jedinica.id_organizacijska_jedinica}"></td>
-									</tr>
 								</table>
 							</div>
 							<div class="col-md-5 col-sm-5 col-lg-5">
 								<h4 th:text="'Prijavljeni ste kao: ' + ${session.zaposlenik.ime} + ' ' + ${session.zaposlenik.prezime}" class="col-md-offset-6"></h4>
 								<a href="odjava" class="col-md-offset-8 btn btn-default">Odjavite se</a>
 								<div class="padding-top-15">
-									<a href="#" class="col-md-offset-8 btn btn-default">Rezerviraj sobu</a>
+									<a th:href="homeRezervacija" class="col-md-offset-8 btn btn-default">Rezerviraj sobu</a>
 								</div>
 							</div>
 						</div>
@@ -211,14 +207,14 @@
 												<td>
 													<form th:action="@{/odobriZahtjev}" method="post">
 														<input type="hidden" id="idZahtjev" name="idZahtjev" th:value="${zahtjev.id_zahtjev}" />
-														<input type="submit" class="btn btn-success" value="Odobri zahtjev"/>
+														<input type="submit" class="btn btn-default" value="Odobri zahtjev"/>
 													</form>
 													
 												</td>
 												<td>
 													<form th:action="@{/odbijZahtjev}" method="post">
-														<input type="hidden" id="idZahtjev" name="idZahtjev" th:value="${zahtjev.id_zahtjev}" />
-														<input type="submit" class="btn btn-danger" value="Odbij zahtjev"/>
+														<input type="hidden" class="btn btn-default" id="idZahtjev" name="idZahtjev" th:value="${zahtjev.id_zahtjev}" />
+														<input type="submit" class="btn btn-default btn-odbij-zahtjev" value="Odbij zahtjev"/>
 													</form>
 												</td>												
 											</tr>													
