@@ -1,7 +1,6 @@
 package com.aplikacija.repository;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -24,11 +23,19 @@ public class RepozitorijRezervacija
 		return query.getResultList();
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<Hotel> dohvatiHotele()
+	public List<Hotel> dohvatiHotele(String odabraniGrad)
 	{
-		Query query = entityManager.createQuery("from Hotel");
-//		query.setParameter("gradId", gradId);
-		return query.getResultList();
+		Query query = entityManager.createQuery("from Grad where naziv = :odabraniGrad");
+		query.setParameter("odabraniGrad", odabraniGrad);
+		Grad grad = (Grad) query.getResultList().get(0);	
+		return grad.getHoteli();
+	}
+
+	public Hotel dohvatiHotel(String nazivHotela)
+	{
+		Query query = entityManager.createQuery("from Hotel where naziv = :nazivHotela");
+		query.setParameter("nazivHotela", nazivHotela);
+		Hotel hotel = (Hotel) query.getResultList().get(0);
+		return hotel;
 	}
 }

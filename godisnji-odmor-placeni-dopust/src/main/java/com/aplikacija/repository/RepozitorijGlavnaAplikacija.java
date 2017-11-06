@@ -15,6 +15,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.aplikacija.entities.OrganizacijskaJedinica;
+import com.aplikacija.entities.PlaceniDopust;
 import com.aplikacija.entities.PodaciGodisnjiOdmor;
 import com.aplikacija.entities.PodaciPlaceniDopust;
 import com.aplikacija.entities.StatusZahtjeva;
@@ -37,6 +38,14 @@ public class RepozitorijGlavnaAplikacija
 		Query query = entityManager.createQuery("from Zaposlenik");
 		return query.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PlaceniDopust> dohvatiTipovePlacenihDopusta()
+	{
+		Query query = entityManager.createQuery("from PlaceniDopust");
+		return query.getResultList();
+	}
+
 
 	@SuppressWarnings("unchecked")
 	public List<Zaposlenik> dohvatiZaposlenika(String korisnickoIme)

@@ -36,30 +36,9 @@ select
 	display: none;
 }
 
-.active
+.btnGradovi
 {
-	background-color: orange !important;
-	color: darkblue !important;
-}
-
-.nav>li>a:hover,
-.nav>li>a:focus,
-.nav>li>a:active
-{
-    background-color: orange;
-}
-
-.popis-gradova
-{
-	background-color: gold;
-	border-radius: 3px;
-}
-
-.nav-pills a, .naziv-grada
-{
-	color: darkblue;
-	font-size: 16px;
-	
+	width: 340px;
 }
 
 .panel-default
@@ -139,25 +118,4 @@ select
 	text-align: center;
 	background-color: gold !important;
 	color: darkblue !important;
-}
-
-div.zabuto_calendar .table
-{
-	border: 1px solid gold !important;
-	border-radius: 3px !important;
-}
-
-div.zabuto_calendar .table tr:last-child
-{
-    border-bottom: 1px solid gold !important;
-}
-
-div.zabuto_calendar .table tr.calendar-month-header th
-{
-    background-color: gold !important;
-}
-
-div.zabuto_calendar .table tr.calendar-dow-header th
-{
-    background-color: gold !important;
 }

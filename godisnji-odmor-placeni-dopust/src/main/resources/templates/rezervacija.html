@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Rezervacija sobe</title>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+		<link rel="stylesheet" th:href="@{/css/stilovi.css}"/>
+	</head>
+	<body>
+		<div class="container-fluid padding-top-20">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="text-center">Rezervacija sobe</h3>
+				</div>
+				<div class="panel-body">
+					<div class="col-md-4 col-sm-4 col-lg-4">
+						<div class="padding-top-15">
+							<div class="div-podaci">
+								<div class="panel panel-default">
+									<div class="panel-heading heading-novi-zahtjev">
+										<h4 class="text-center">Podaci rezervacije</h4>
+									</div>
+									<div class="panel-body">
+										<table class="table table-borderless table-responsive">
+											<tr>
+												<td>Zaposlenik:</td>
+												<td th:text="${session.zaposlenik.ime + ' ' + session.zaposlenik.prezime}"></td>
+											</tr>
+											<tr>
+												<td>Odabrani grad:</td>
+												<td th:text="${session.odabraniHotel.grad.naziv}"></td>
+											</tr>
+											<tr>
+												<td>Odabrani hotel:</td>
+												<td th:text="${session.odabraniHotel.naziv}"></td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-6 col-sm-6 col-lg-6">
+						<div class="padding-top-15">
+							<form id="formaNoviZahtjev" th:action="@{/rezerviraj}" method="post">
+								<div class="div-podaci">
+									<div class="panel panel-default">
+										<div class="panel-heading heading-novi-zahtjev">
+											<h4 class="text-center">Podaci rezervacije</h4>
+										</div>
+										<div class="panel-body">
+											<table class="table table-borderless table-responsive">
+												<tr>
+													<td>Datum prijave</td>
+													<td><input type="text" id="datum_prijave" name="datum_prijave" class="form-control" autofocus="autofocus" /></td>
+												</tr>
+												<tr>
+													<td>Datum odjave</td>
+													<td><input type="text" id="datum_odjave" name="datum_odjave" class="form-control"/></td>
+												</tr>
+												<tr>
+													<td>
+														<input type="submit" name="btnRezerviraj" id="btnRezerviraj" class="btn btn-default" value="Rezerviraj sobu"/>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>			
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

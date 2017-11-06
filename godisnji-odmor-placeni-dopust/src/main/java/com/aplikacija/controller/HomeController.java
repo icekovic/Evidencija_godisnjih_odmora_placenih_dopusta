@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.aplikacija.entities.OrganizacijskaJedinica;
+import com.aplikacija.entities.PlaceniDopust;
 import com.aplikacija.entities.PodaciGodisnjiOdmor;
 import com.aplikacija.entities.PodaciPlaceniDopust;
 import com.aplikacija.entities.Rola;
@@ -50,6 +51,7 @@ public class HomeController
 	public String profilZaposlenika(Model model, HttpServletRequest request)
 	{
 		List<Zahtjev> sviZahtjevi = repozitorijGlavnaAplikacija.dohvatiSveZahtjeve();
+		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorijGlavnaAplikacija.dohvatiTipovePlacenihDopusta();
 		String korisnickoIme = request.getParameter("korisnickoIme");
 		String lozinka = request.getParameter("lozinka");
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
@@ -60,6 +62,7 @@ public class HomeController
 			request.getSession().setAttribute("zaposlenik", zaposlenik);
 			request.getSession().setAttribute("zahtjevi", zaposlenik.getZahtjevi());
 			request.getSession().setAttribute("sviZahtjevi", sviZahtjevi);
+			request.getSession().setAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
 			return "profilZaposlenika";
 		}
 		
@@ -187,7 +190,6 @@ public class HomeController
 	public String kreirajIzvjescePlacenihDopusta(HttpServletRequest request)
 	{
 		List<PodaciPlaceniDopust> podaciPlacenihDopusta = repozitorijGlavnaAplikacija.dohvatiPodatkeZaPlaceneDopuste();
-		//promijeniti za pohranu na dropbox - sa mavena preuzeti oauth
 		repozitorijGlavnaAplikacija.kreirajIzvjescePlacenihDopusta(podaciPlacenihDopusta);
 		prikaziIzvjesca(request);
 		return "izvjesca";
