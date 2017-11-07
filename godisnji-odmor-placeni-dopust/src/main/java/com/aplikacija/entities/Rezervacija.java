@@ -13,8 +13,8 @@ public class Rezervacija
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_rezervacija;
-	private String od_datuma;
-	private String do_datuma;
+	private String datum_prijave;
+	private String datum_odjave;
 	
 	@ManyToOne
 	@JoinColumn(name="hotel_id")
@@ -39,24 +39,24 @@ public class Rezervacija
 		this.id_rezervacija = id_rezervacija;
 	}
 
-	public String getOd_datuma()
+	public String getDatum_prijave()
 	{
-		return od_datuma;
+		return datum_prijave;
 	}
 
-	public void setOd_datuma(String od_datuma)
+	public void setDatum_prijave(String datum_prijave)
 	{
-		this.od_datuma = od_datuma;
+		this.datum_prijave = datum_prijave;
 	}
 
-	public String getDo_datuma()
+	public String getDatum_odjave()
 	{
-		return do_datuma;
+		return datum_odjave;
 	}
 
-	public void setDo_datuma(String do_datuma)
+	public void setDatum_odjave(String datum_odjave)
 	{
-		this.do_datuma = do_datuma;
+		this.datum_odjave = datum_odjave;
 	}
 
 	public Hotel getHotel()

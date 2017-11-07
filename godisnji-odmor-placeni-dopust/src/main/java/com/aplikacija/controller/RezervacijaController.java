@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import com.aplikacija.entities.Grad;
 import com.aplikacija.entities.Hotel;
+import com.aplikacija.entities.Rezervacija;
+import com.aplikacija.entities.Zaposlenik;
 import com.aplikacija.repository.RepozitorijRezervacija;
 
 @Controller
@@ -45,17 +46,45 @@ public class RezervacijaController
 	}
 	
 	@GetMapping(value = "/rezervacija")
-	public String rezervacija()
+	public String rezervacija(HttpServletRequest request)
 	{
+		Zaposlenik zaposlenik = (Zaposlenik) request.getSession().getAttribute("zaposlenik");
+		prikaziRezervacije(request, zaposlenik);
 		return "rezervacija";
 	}
-	
+
 	@PostMapping(value = "/rezervacija")
-	public String rezervacija(HttpServletRequest request)
+	public String rezervacijaPost(HttpServletRequest request)
 	{
 		String nazivHotela =  request.getParameter("nazivHotela");
 		Hotel odabraniHotel = repozitorijRezervacija.dohvatiHotel(nazivHotela);
 		request.getSession().setAttribute("odabraniHotel", odabraniHotel);
 		return "rezervacija";
+	}
+	
+	@GetMapping(value = "/rezerviraj")
+	public String rezerviraj(HttpServletRequest request)
+	{
+		String datumPrijave = request.getParameter("datum_prijave");
+		String datumOdjave = request.getParameter("datum_odjave");
+		Zaposlenik zaposlenik = (Zaposlenik) request.getSession().getAttribute("zaposlenik");
+		Hotel hotel = (Hotel) request.getSession().getAttribute("odabraniHotel");
+		
+		Rezervacija rezervacija = new Rezervacija();
+		rezervacija.setDatum_prijave(datumPrijave);
+		rezervacija.setDatum_odjave(datumOdjave);
+		rezervacija.setZaposlenik(zaposlenik);
+		rezervacija.setHotel(hotel);
+		
+		repozitorijRezervacija.rezervirajSobu(rezervacija);	
+		prikaziRezervacije(request, zaposlenik);
+		
+		return "rezervacija";
+	}
+	
+	private void prikaziRezervacije(HttpServletRequest request, Zaposlenik zaposlenik)
+	{
+		List<Rezervacija> rezervacije = repozitorijRezervacija.dohvatiRezervacije(zaposlenik);
+		request.getSession().setAttribute("rezervacije", rezervacije);
 	}
 }

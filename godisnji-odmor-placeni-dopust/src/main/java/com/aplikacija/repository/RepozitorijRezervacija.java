@@ -8,6 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import com.aplikacija.entities.Grad;
 import com.aplikacija.entities.Hotel;
+import com.aplikacija.entities.Rezervacija;
+import com.aplikacija.entities.Zaposlenik;
 
 @Repository
 @Transactional
@@ -37,5 +39,15 @@ public class RepozitorijRezervacija
 		query.setParameter("nazivHotela", nazivHotela);
 		Hotel hotel = (Hotel) query.getResultList().get(0);
 		return hotel;
+	}
+
+	public void rezervirajSobu(Rezervacija rezervacija)
+	{
+		entityManager.persist(rezervacija);
+	}
+
+	public List<Rezervacija> dohvatiRezervacije(Zaposlenik zaposlenik)
+	{
+		return zaposlenik.getRezervacije();
 	}
 }

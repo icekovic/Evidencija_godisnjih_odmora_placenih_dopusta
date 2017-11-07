@@ -43,6 +43,9 @@ public class Zaposlenik
 	@OneToMany(mappedBy = "zaposlenik")
 	private List<Zahtjev> zahtjevi;
 	
+	@OneToMany(mappedBy="zaposlenik")
+	private List<Rezervacija> rezervacije;
+	
 	public Zaposlenik()	
 	{
 		
@@ -199,6 +202,14 @@ public class Zaposlenik
 	{
 		this.zahtjevi = zahtjevi;
 	}
-	
-	
+
+	public List<Rezervacija> getRezervacije()
+	{
+		return rezervacije;
+	}
+
+	public void setRezervacije(List<Rezervacija> rezervacije)
+	{
+		this.rezervacije = rezervacije;
+	}
 }
