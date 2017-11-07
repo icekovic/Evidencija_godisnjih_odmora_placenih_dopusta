@@ -2,6 +2,7 @@ package com.aplikacija.entities;
 
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,7 +44,7 @@ public class Zaposlenik
 	@OneToMany(mappedBy = "zaposlenik")
 	private List<Zahtjev> zahtjevi;
 	
-	@OneToMany(mappedBy="zaposlenik")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="zaposlenik")
 	private List<Rezervacija> rezervacije;
 	
 	public Zaposlenik()	

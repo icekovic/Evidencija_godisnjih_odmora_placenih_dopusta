@@ -63,6 +63,12 @@ public class RezervacijaController
 	}
 	
 	@GetMapping(value = "/rezerviraj")
+	public String rezerviraj()
+	{
+		return "rezervacija";
+	}
+	
+	@PostMapping(value = "/rezerviraj")
 	public String rezerviraj(HttpServletRequest request)
 	{
 		String datumPrijave = request.getParameter("datum_prijave");
@@ -76,8 +82,8 @@ public class RezervacijaController
 		rezervacija.setZaposlenik(zaposlenik);
 		rezervacija.setHotel(hotel);
 		
-		repozitorijRezervacija.rezervirajSobu(rezervacija);	
-		prikaziRezervacije(request, zaposlenik);
+		repozitorijRezervacija.rezervirajSobu(rezervacija);
+		prikaziRezervacije(request, zaposlenik);				
 		
 		return "rezervacija";
 	}
