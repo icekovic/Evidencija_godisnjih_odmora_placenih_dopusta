@@ -46,15 +46,13 @@ public class RezervacijaController
 	}
 	
 	@GetMapping(value = "/rezervacija")
-	public String rezervacija(HttpServletRequest request)
+	public String rezervacija()
 	{
-		Zaposlenik zaposlenik = (Zaposlenik) request.getSession().getAttribute("zaposlenik");
-		prikaziRezervacije(request, zaposlenik);
 		return "rezervacija";
 	}
-
+	
 	@PostMapping(value = "/rezervacija")
-	public String rezervacijaPost(HttpServletRequest request)
+	public String rezervacija(HttpServletRequest request)
 	{
 		String nazivHotela =  request.getParameter("nazivHotela");
 		Hotel odabraniHotel = repozitorijRezervacija.dohvatiHotel(nazivHotela);
@@ -63,13 +61,15 @@ public class RezervacijaController
 	}
 	
 	@GetMapping(value = "/rezerviraj")
-	public String rezerviraj()
+	public String rezerviraj(HttpServletRequest request)
 	{
+		Zaposlenik zaposlenik = (Zaposlenik) request.getSession().getAttribute("zaposlenik");
+		prikaziRezervacije(request, zaposlenik);
 		return "rezervacija";
 	}
 	
 	@PostMapping(value = "/rezerviraj")
-	public String rezerviraj(HttpServletRequest request)
+	public String rezervirajPost(HttpServletRequest request)
 	{
 		String datumPrijave = request.getParameter("datum_prijave");
 		String datumOdjave = request.getParameter("datum_odjave");
@@ -81,9 +81,8 @@ public class RezervacijaController
 		rezervacija.setDatum_odjave(datumOdjave);
 		rezervacija.setZaposlenik(zaposlenik);
 		rezervacija.setHotel(hotel);
-		
 		repozitorijRezervacija.rezervirajSobu(rezervacija);
-		prikaziRezervacije(request, zaposlenik);				
+		prikaziRezervacije(request, zaposlenik);
 		
 		return "rezervacija";
 	}
