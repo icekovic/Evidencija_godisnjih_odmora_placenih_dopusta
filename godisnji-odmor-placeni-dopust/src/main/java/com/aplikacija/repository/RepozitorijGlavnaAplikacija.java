@@ -21,10 +21,11 @@ import com.aplikacija.entities.PodaciPlaceniDopust;
 import com.aplikacija.entities.StatusZahtjeva;
 import com.aplikacija.entities.Zahtjev;
 import com.aplikacija.entities.Zaposlenik;
+import com.aplikacija.service.IRepozitorijGlavnaAplikacija;
 
 @Repository
 @Transactional
-public class RepozitorijGlavnaAplikacija
+public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 {
 	@PersistenceContext
 	private EntityManager entityManager;

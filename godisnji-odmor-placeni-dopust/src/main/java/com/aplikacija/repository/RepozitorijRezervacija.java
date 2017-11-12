@@ -10,13 +10,19 @@ import com.aplikacija.entities.Grad;
 import com.aplikacija.entities.Hotel;
 import com.aplikacija.entities.Rezervacija;
 import com.aplikacija.entities.Zaposlenik;
+import com.aplikacija.service.IRepozitorijRezervacija;
 
 @Repository
 @Transactional
-public class RepozitorijRezervacija
+public class RepozitorijRezervacija implements IRepozitorijRezervacija
 {
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	public void rezervirajSobu(Rezervacija rezervacija)
+	{
+		entityManager.persist(rezervacija);
+	}
 		
 	@SuppressWarnings("unchecked")
 	public List<Grad> dohvatiGradove()
@@ -39,11 +45,6 @@ public class RepozitorijRezervacija
 		query.setParameter("nazivHotela", nazivHotela);
 		Hotel hotel = (Hotel) query.getResultList().get(0);
 		return hotel;
-	}
-
-	public void rezervirajSobu(Rezervacija rezervacija)
-	{
-		entityManager.persist(rezervacija);
 	}
 
 	public List<Rezervacija> dohvatiRezervacije(Zaposlenik zaposlenik)

@@ -10,13 +10,13 @@ import com.aplikacija.entities.Grad;
 import com.aplikacija.entities.Hotel;
 import com.aplikacija.entities.Rezervacija;
 import com.aplikacija.entities.Zaposlenik;
-import com.aplikacija.repository.RepozitorijRezervacija;
+import com.aplikacija.service.IRepozitorijRezervacija;
 
 @Controller
 public class RezervacijaController
 {
 	@Autowired
-	private RepozitorijRezervacija repozitorijRezervacija;
+	private IRepozitorijRezervacija repozitorijRezervacija;
 	
 	@GetMapping(value = "/homeRezervacija")
 	public String homeRezervacija(HttpServletRequest request)

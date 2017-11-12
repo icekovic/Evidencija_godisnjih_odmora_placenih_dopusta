@@ -18,13 +18,13 @@ import com.aplikacija.entities.PodaciPlaceniDopust;
 import com.aplikacija.entities.Rola;
 import com.aplikacija.entities.Zahtjev;
 import com.aplikacija.entities.Zaposlenik;
-import com.aplikacija.repository.RepozitorijGlavnaAplikacija;
+import com.aplikacija.service.IRepozitorijGlavnaAplikacija;
 
 @Controller
 public class HomeController
 {
 	@Autowired
-	private RepozitorijGlavnaAplikacija repozitorijGlavnaAplikacija;
+	private IRepozitorijGlavnaAplikacija repozitorijGlavnaAplikacija;
 	
 	@GetMapping(value = "/")
 	public String home()
