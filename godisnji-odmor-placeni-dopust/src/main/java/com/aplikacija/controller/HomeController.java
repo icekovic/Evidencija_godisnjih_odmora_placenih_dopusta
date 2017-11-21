@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.aplikacija.entities.OrganizacijskaJedinica;
 import com.aplikacija.entities.PlaceniDopust;
-import com.aplikacija.entities.PodaciGodisnjiOdmor;
-import com.aplikacija.entities.PodaciPlaceniDopust;
 import com.aplikacija.entities.Rola;
 import com.aplikacija.entities.Zahtjev;
 import com.aplikacija.entities.Zaposlenik;
@@ -180,8 +178,7 @@ public class HomeController
 	@GetMapping(value = "/godisnjiOdmori")
 	public String kreirajIzvjesceGodisnjihOdmora(HttpServletRequest request)
 	{
-		List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora = repozitorijGlavnaAplikacija.dohvatiPodatkeZaGodisnjeOdmore();
-		repozitorijGlavnaAplikacija.kreirajIzvjesceGodisnjihOdmora(podaciGodisnjihOdmora);
+		repozitorijGlavnaAplikacija.kreirajIzvjesceGodisnjihOdmora();
 		prikaziIzvjesca(request);		
 		return "izvjesca";
 	}
@@ -189,8 +186,7 @@ public class HomeController
 	@GetMapping(value = "/placeniDopusti")
 	public String kreirajIzvjescePlacenihDopusta(HttpServletRequest request)
 	{
-		List<PodaciPlaceniDopust> podaciPlacenihDopusta = repozitorijGlavnaAplikacija.dohvatiPodatkeZaPlaceneDopuste();
-		repozitorijGlavnaAplikacija.kreirajIzvjescePlacenihDopusta(podaciPlacenihDopusta);
+		repozitorijGlavnaAplikacija.kreirajIzvjescePlacenihDopusta();
 		prikaziIzvjesca(request);
 		return "izvjesca";
 	}

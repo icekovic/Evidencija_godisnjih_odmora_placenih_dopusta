@@ -14,10 +14,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import com.aplikacija.entities.Dijete;
 import com.aplikacija.entities.OrganizacijskaJedinica;
 import com.aplikacija.entities.PlaceniDopust;
-import com.aplikacija.entities.PodaciGodisnjiOdmor;
-import com.aplikacija.entities.PodaciPlaceniDopust;
 import com.aplikacija.entities.StatusZahtjeva;
 import com.aplikacija.entities.Zahtjev;
 import com.aplikacija.entities.Zaposlenik;
@@ -102,14 +101,7 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 	    mailSender.send(message);
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<PodaciGodisnjiOdmor> dohvatiPodatkeZaGodisnjeOdmore()
-	{
-		Query query = entityManager.createQuery("from PodaciGodisnjiOdmor");
-		return query.getResultList();
-	}
-
-	public HSSFWorkbook kreirajIzvjesceGodisnjihOdmora(List<PodaciGodisnjiOdmor> podaciGodisnjihOdmora)
+	public HSSFWorkbook kreirajIzvjesceGodisnjihOdmora()
 	{
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet sheet = workbook.createSheet("Korištenje godišnjeg odmora");
@@ -118,25 +110,45 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 		redakNasloviStupaca.createCell(0).setCellValue("Organizacijska jedinica");
 		redakNasloviStupaca.createCell(1).setCellValue("Zaposlenik");
 		redakNasloviStupaca.createCell(2).setCellValue("Maticni broj zaposlenika");
-		redakNasloviStupaca.createCell(3).setCellValue("Broj dana godišnjeg odmora");
-		redakNasloviStupaca.createCell(4).setCellValue("Godine staža");
-		redakNasloviStupaca.createCell(5).setCellValue("Rola");
-		redakNasloviStupaca.createCell(6).setCellValue("Tjelesno oštećenje/invalidnost");
-		redakNasloviStupaca.createCell(7).setCellValue("Broj djece");
-		redakNasloviStupaca.createCell(8).setCellValue("Starost djece");
+		redakNasloviStupaca.createCell(3).setCellValue("Od datuma");
+		redakNasloviStupaca.createCell(4).setCellValue("Do datuma");
+		redakNasloviStupaca.createCell(5).setCellValue("Broj dana godišnjeg odmora");
+		redakNasloviStupaca.createCell(6).setCellValue("Godine staža");
+		redakNasloviStupaca.createCell(7).setCellValue("Rola");
+		redakNasloviStupaca.createCell(8).setCellValue("Tjelesno oštećenje/invalidnost");
+		redakNasloviStupaca.createCell(9).setCellValue("Broj djece");
+		redakNasloviStupaca.createCell(10).setCellValue("Starost djece");
 		
-		for(int i = 1; i < podaciGodisnjihOdmora.size(); i++)
+		List<OrganizacijskaJedinica> organizacijskeJedinice = dohvatiOrganizacijskeJedinice();
+		int i = 1;
+		
+		for(OrganizacijskaJedinica organizacijskaJedinica : organizacijskeJedinice)
 		{
-			Row redak = sheet.createRow(i);
-			redak.createCell(0).setCellValue(podaciGodisnjihOdmora.get(i).getOrganizacijska_jedinica());
-			redak.createCell(1).setCellValue(podaciGodisnjihOdmora.get(i).getZaposlenik());
-			redak.createCell(2).setCellValue(podaciGodisnjihOdmora.get(i).getMaticni_broj_zaposlenika());
-			redak.createCell(3).setCellValue(podaciGodisnjihOdmora.get(i).getBroj_dana_godisnjeg_odmora());
-			redak.createCell(4).setCellValue(podaciGodisnjihOdmora.get(i).getGodine_staza());
-			redak.createCell(5).setCellValue(podaciGodisnjihOdmora.get(i).getRola());
-			redak.createCell(6).setCellValue(podaciGodisnjihOdmora.get(i).getTjelesno_ostecenje_invalidnost());
-			redak.createCell(7).setCellValue(podaciGodisnjihOdmora.get(i).getBroj_djece());
-			redak.createCell(8).setCellValue(podaciGodisnjihOdmora.get(i).getStarost_djece());
+			for(Zaposlenik zaposlenik : organizacijskaJedinica.getZaposlenici())
+			{
+				for(Zahtjev zahtjev : zaposlenik.getZahtjevi())
+				{
+					for(Dijete dijete : zaposlenik.getDjeca())
+					{
+						if(zahtjev.getTip().equals("Godišnji odmor"))
+						{
+							Row redak = sheet.createRow(i);
+							redak.createCell(0).setCellValue(organizacijskaJedinica.getNaziv());
+							redak.createCell(1).setCellValue(zaposlenik.getIme() + " " + zaposlenik.getPrezime());
+							redak.createCell(2).setCellValue(zaposlenik.getMaticni_broj());
+							redak.createCell(3).setCellValue(zahtjev.getOd_datuma());
+							redak.createCell(4).setCellValue(zahtjev.getDo_datuma());
+							redak.createCell(5).setCellValue(zahtjev.getBroj_radnih_dana());
+							redak.createCell(6).setCellValue(zaposlenik.getGodine_staza());
+							redak.createCell(7).setCellValue(zaposlenik.getRola().getNaziv());
+							redak.createCell(8).setCellValue(zaposlenik.getTjelesno_ostecenje_invalidnost());
+							redak.createCell(9).setCellValue(zaposlenik.getBroj_djece());
+							redak.createCell(10).setCellValue(dijete.getStarost());
+							i++;
+						}						
+					}
+				}
+			}
 		}
 	
 		try
@@ -151,7 +163,7 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 		return workbook;
 	}
 	
-	public HSSFWorkbook kreirajIzvjescePlacenihDopusta(List<PodaciPlaceniDopust> podaciPlacenihDopusta)
+	public HSSFWorkbook kreirajIzvjescePlacenihDopusta()
 	{
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet sheet = workbook.createSheet("Korištenje plaćenog dopusta");
@@ -163,14 +175,27 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 		redakNasloviStupaca.createCell(3).setCellValue("Tip plaćenog dopusta");
 		redakNasloviStupaca.createCell(4).setCellValue("Broj dana plaćenog dopusta");
 		
-		for(int i = 1; i < podaciPlacenihDopusta.size(); i++)
+		List<OrganizacijskaJedinica> organizacijskeJedinice = dohvatiOrganizacijskeJedinice();
+		int i = 1;
+		
+		for(OrganizacijskaJedinica organizacijskaJedinica : organizacijskeJedinice)
 		{
-			Row redak = sheet.createRow(i);
-			redak.createCell(0).setCellValue(podaciPlacenihDopusta.get(i).getOrganizacijska_jedinica());
-			redak.createCell(1).setCellValue(podaciPlacenihDopusta.get(i).getZaposlenik());
-			redak.createCell(2).setCellValue(podaciPlacenihDopusta.get(i).getMaticni_broj_zaposlenika());
-			redak.createCell(3).setCellValue(podaciPlacenihDopusta.get(i).getTip_placenog_dopusta());
-			redak.createCell(4).setCellValue(podaciPlacenihDopusta.get(i).getBroj_dana_placenog_dopusta());
+			for(Zaposlenik zaposlenik : organizacijskaJedinica.getZaposlenici())
+			{
+				for(Zahtjev zahtjev : zaposlenik.getZahtjevi())
+				{				
+					if(zahtjev.getTip().equals("Plaćeni dopust"))
+					{
+						Row redak = sheet.createRow(i);
+						redak.createCell(0).setCellValue(organizacijskaJedinica.getNaziv());
+						redak.createCell(1).setCellValue(zaposlenik.getIme() + " " + zaposlenik.getPrezime());
+						redak.createCell(2).setCellValue(zaposlenik.getMaticni_broj());
+						redak.createCell(3).setCellValue(zahtjev.getPlaceni_dopust().getTip());
+						redak.createCell(4).setCellValue(zahtjev.getPlaceni_dopust().getTrajanje_u_danima());
+						i++;
+					}				
+				}			
+			}			
 		}
 	
 		try
@@ -226,13 +251,6 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 			e.printStackTrace();
 		}
 		return workbook;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<PodaciPlaceniDopust> dohvatiPodatkeZaPlaceneDopuste()
-	{
-		Query query = entityManager.createQuery("from PodaciPlaceniDopust");
-		return query.getResultList();
 	}
 
 	public void odobriZahtjev(int idZahtjev)
