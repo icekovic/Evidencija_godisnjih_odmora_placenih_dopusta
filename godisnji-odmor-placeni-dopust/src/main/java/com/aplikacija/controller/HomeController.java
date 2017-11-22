@@ -31,17 +31,18 @@ public class HomeController
 	}
 	
 	@GetMapping(value = "/registracija")
-	public String registracija(HttpServletRequest request)
+	public String registracija(HttpServletRequest request, Model model)
 	{
 		List<OrganizacijskaJedinica> organizacijskejedinice = repozitorijGlavnaAplikacija.dohvatiOrganizacijskeJedinice();
-		request.getSession().setAttribute("organizacijskeJedinice", organizacijskejedinice);
-	
+		model.addAttribute("organizacijskeJedinice", organizacijskejedinice);
 		return "registracija";
 	}
 	
 	@GetMapping(value = "/profilZaposlenika")
-	public String profilZaposlenika()
+	public String profilZaposlenika(Model model)
 	{
+		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorijGlavnaAplikacija.dohvatiTipovePlacenihDopusta();
+		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
 		return "profilZaposlenika";
 	}
 	
@@ -58,9 +59,10 @@ public class HomeController
 		if(zaposlenik.getKorisnicko_ime().equals(korisnickoIme) && encoder.matches(lozinka, zaposlenik.getLozinka()))
 		{
 			request.getSession().setAttribute("zaposlenik", zaposlenik);
-			request.getSession().setAttribute("zahtjevi", zaposlenik.getZahtjevi());
-			request.getSession().setAttribute("sviZahtjevi", sviZahtjevi);
-			request.getSession().setAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
+			model.addAttribute("zahtjevi", zaposlenik.getZahtjevi());
+			model.addAttribute("sviZahtjevi", sviZahtjevi);
+			model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
+			//request.getSession().setAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
 			return "profilZaposlenika";
 		}
 		
@@ -128,13 +130,13 @@ public class HomeController
 	}
 	
 	@GetMapping(value = "/noviZahtjev")
-	public String noviZahtjev(HttpServletRequest request)
-	{
+	public String noviZahtjev(HttpServletRequest request, Model model)
+	{		
 		return "profilZaposlenika";
 	}
 	
 	@PostMapping(value = "/noviZahtjev")
-	public String noviZahtjevPost(HttpServletRequest request)
+	public String noviZahtjevPost(HttpServletRequest request, Model model)
 	{
 		String odDatuma = request.getParameter("od_datuma");
 		String doDatuma = request.getParameter("do_datuma");
@@ -165,7 +167,11 @@ public class HomeController
 		}
 		
 		List<Zahtjev> zahtjevi = repozitorijGlavnaAplikacija.dohvatiZahtjeve(zaposlenik);
-		request.getSession().setAttribute("zahtjevi", zahtjevi);	
+		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorijGlavnaAplikacija.dohvatiTipovePlacenihDopusta();
+		
+		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
+		model.addAttribute("zahtjevi", zahtjevi);
+		
 		return "profilZaposlenika";
 	}
 	

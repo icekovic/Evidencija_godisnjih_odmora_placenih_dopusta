@@ -104,7 +104,7 @@
 														<td>Tip plaćenog dopusta</td>
 														<td>
 															<select id="tipPlacenogDopusta" name="tip_placenog_dopusta">
-																<th:block th:each="tipPlacenogDopusta : ${session.tipoviPlacenogDopusta}">
+																<th:block th:each="tipPlacenogDopusta : ${tipoviPlacenogDopusta}">
 																	<option th:text="${tipPlacenogDopusta.tip + ' - ' +  tipPlacenogDopusta.trajanje_u_danima + ' ' + 'dana'}"></option>
 																</th:block>
 															</select>
@@ -152,7 +152,7 @@
 													<th>Broj dana</th>
 													<th>Status</th>
 												</tr>
-												<th:block th:each="zahtjev : ${session.zahtjevi}">
+												<th:block th:each="zahtjev : ${zahtjevi}">
 													<tr>
 														<td th:text="${zahtjev.tip}"></td>
 														<td th:text="${zahtjev.od_datuma}"></td>
@@ -198,7 +198,7 @@
 											<th>Zaposlenik</th>
 											<th>Status</th>
 										</tr>
-										<th:block th:each="zahtjev : ${session.sviZahtjevi}">
+										<th:block th:each="zahtjev : ${sviZahtjevi}">
 											<tr>
 												<td th:text="${zahtjev.tip}"></td>
 												<td th:text="${zahtjev.od_datuma}"></td>
