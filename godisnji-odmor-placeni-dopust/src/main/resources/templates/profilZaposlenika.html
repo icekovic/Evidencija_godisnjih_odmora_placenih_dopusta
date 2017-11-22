@@ -159,6 +159,8 @@
 														<td th:text="${zahtjev.do_datuma}"></td>
 														<td th:text="${zahtjev.broj_radnih_dana}"></td>
 														<td th:text="${zahtjev.status_zahtjeva.status}"></td>
+														<td><input type="hidden" id="odDatuma" name="odDatuma" th:value="${zahtjev.od_datuma}"/></td>
+														<td><input type="hidden" id="doDatuma" name="doDatuma" th:value="${zahtjev.do_datuma}"/></td>
 													</tr>													
 												</th:block>
 											</table>									
@@ -233,9 +235,10 @@
 		<script type="application/javascript" src="js/bootstrap-year-calendar.js" th:src="@{/js/bootstrap-year-calendar.js}"></script>
 		<script type="application/javascript" src="js/bootstrap-year-calendar.hr.js" th:src="@{/js/bootstrap-year-calendar.hr.js}"></script>
 		<script type="application/javascript" src="js/ui.datepicker-hr.js" th:src="@{/js/ui.datepicker-hr.js}"></script>
+		<script type="application/javascript" src="js/jquery.validate.min.js" th:src="@{/js/jquery.validate.min.js}"></script>
 		<script type="application/javascript" src="js/skripte.js" th:src="@{/js/skripte.js}"></script>
 		<script type="application/javascript">
-	
+
 		$(function() {   
 
 			$("#tipZahtjeva").change(function(){

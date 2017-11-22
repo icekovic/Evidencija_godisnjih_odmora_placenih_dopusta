@@ -2,6 +2,7 @@ package com.aplikacija.repository;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -71,7 +72,17 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 	
 	public List<Zahtjev> dohvatiZahtjeve(Zaposlenik zaposlenik)
 	{
-		return zaposlenik.getZahtjevi();
+		List<Zahtjev> zahtjevi = new ArrayList<>();
+		
+		for(Zahtjev zahtjev : dohvatiSveZahtjeve())
+		{
+			if(zahtjev.getZaposlenik().getId_zaposlenik() == zaposlenik.getId_zaposlenik())
+			{
+				zahtjevi.add(zahtjev);
+			}
+		}
+		
+		return zahtjevi;
 	}
 
 	public void dodajNovogZaposlenika(Zaposlenik zaposlenik)

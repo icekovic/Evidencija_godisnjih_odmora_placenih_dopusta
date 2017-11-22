@@ -128,8 +128,8 @@ public class HomeController
 	}
 	
 	@GetMapping(value = "/noviZahtjev")
-	public String noviZahtjev()
-	{	
+	public String noviZahtjev(HttpServletRequest request)
+	{
 		return "profilZaposlenika";
 	}
 	
@@ -164,7 +164,8 @@ public class HomeController
 			ex.printStackTrace();
 		}
 		
-		request.getSession().setAttribute("zahtjevi", zaposlenik.getZahtjevi());	
+		List<Zahtjev> zahtjevi = repozitorijGlavnaAplikacija.dohvatiZahtjeve(zaposlenik);
+		request.getSession().setAttribute("zahtjevi", zahtjevi);	
 		return "profilZaposlenika";
 	}
 	

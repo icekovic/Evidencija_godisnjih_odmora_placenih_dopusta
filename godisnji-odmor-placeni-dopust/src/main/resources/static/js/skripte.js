@@ -181,110 +181,110 @@ function easterForYear (year) {
 	  return date; 
 	}
 
-
 //godišnji kalendar
 $(function() {
-    var currentYear = new Date().getFullYear();
-    var svetiStjepan = new Date(currentYear, 11, 26).getTime();
-    var bozic = new Date(currentYear, 11, 25).getTime();
-    var sviSveti = new Date(currentYear, 11, 0).getTime();
-    var danNeovisnosti = new Date(currentYear, 9, 8).getTime();
-    var velikaGospa = new Date(currentYear, 7, 15).getTime();
-    var danDomovinskeZahvalnosti = new Date(currentYear, 7, 5).getTime();
-    var danDrzavnosti = new Date(currentYear, 5, 25).getTime();
-    var danAntifasistickeBorbe = new Date(currentYear, 5, 22).getTime();
-    var tijelovo = new Date(currentYear, 5, 15).getTime();
-    var praznikRada = new Date(currentYear, 4, 1).getTime();
-    var uskrs = easterForYear(currentYear).getTime();
-    var uskrsnjiPonedjeljak = new Date(currentYear, 3, 17).getTime();
-    var svetaTriKralja = new Date(currentYear, 0, 6).getTime();
-    var novaGodina = new Date(currentYear, 0, 1).getTime();
-    
-    $('#calendar').calendar({
-        customDayRenderer: function(element, date) {
-            if(date.getTime() == svetiStjepan) {
-                $(element).css('background-color', 'red');
-                $(element).css('color', 'gold');
-                $(element).css('border-radius', '0px');
-            }
-            
-            else if(date.getTime() == bozic) {
-                $(element).css('background-color', 'red');
-                $(element).css('color', 'gold');
-                $(element).css('border-radius', '0px');
-            }
-            
-            else if(date.getTime() == sviSveti) {
-                $(element).css('background-color', 'red');
-                $(element).css('color', 'gold');
-                $(element).css('border-radius', '0px');
-            }
-            
-            else if(date.getTime() == danNeovisnosti) {
-                $(element).css('background-color', 'red');
-                $(element).css('color', 'gold');
-                $(element).css('border-radius', '0px');
-            }
-            
-            else if(date.getTime() == velikaGospa) {
-                $(element).css('background-color', 'red');
-                $(element).css('color', 'gold');
-                $(element).css('border-radius', '0px');
-            }
-            
-            else if(date.getTime() == danDomovinskeZahvalnosti) {
-                $(element).css('background-color', 'red');
-                $(element).css('color', 'gold');
-                $(element).css('border-radius', '0px');
-            }
-            
-            else if(date.getTime() == danDrzavnosti) {
-                $(element).css('background-color', 'red');
-                $(element).css('color', 'gold');
-                $(element).css('border-radius', '0px');
-            }
-            
-            else if(date.getTime() == danAntifasistickeBorbe) {
-                $(element).css('background-color', 'red');
-                $(element).css('color', 'gold');
-                $(element).css('border-radius', '0px');
-            }
-            
-            else if(date.getTime() == tijelovo) {
-                $(element).css('background-color', 'red');
-                $(element).css('color', 'gold');
-                $(element).css('border-radius', '0px');
-            }
-            
-            else if(date.getTime() == praznikRada) {
-                $(element).css('background-color', 'red');
-                $(element).css('color', 'gold');
-                $(element).css('border-radius', '0px');
-            }
-            
-            else if(date.getTime() == uskrs) {
-                $(element).css('background-color', 'red');
-                $(element).css('color', 'gold');
-                $(element).css('border-radius', '0px');
-            }
-            
-            else if(date.getTime() == uskrsnjiPonedjeljak) {
-                $(element).css('background-color', 'red');
-                $(element).css('color', 'gold');
-                $(element).css('border-radius', '0px');
-            }
-            
-            else if(date.getTime() == svetaTriKralja) {
-                $(element).css('background-color', 'red');
-                $(element).css('color', 'gold');
-                $(element).css('border-radius', '0px');
-            }
-            
-            else if(date.getTime() == novaGodina) {
-                $(element).css('background-color', 'red');
-                $(element).css('color', 'gold');
-                $(element).css('border-radius', '0px');
-            }
-        }
-    });
+  var currentYear = new Date().getFullYear();
+  var svetiStjepan = new Date(currentYear, 11, 26).getTime();
+  var bozic = new Date(currentYear, 11, 25).getTime();
+  var sviSveti = new Date(currentYear, 11, 0).getTime();
+  var danNeovisnosti = new Date(currentYear, 9, 8).getTime();
+  var velikaGospa = new Date(currentYear, 7, 15).getTime();
+  var danDomovinskeZahvalnosti = new Date(currentYear, 7, 5).getTime();
+  var danDrzavnosti = new Date(currentYear, 5, 25).getTime();
+  var danAntifasistickeBorbe = new Date(currentYear, 5, 22).getTime();
+  var tijelovo = new Date(currentYear, 5, 15).getTime();
+  var praznikRada = new Date(currentYear, 4, 1).getTime();
+  var uskrs = easterForYear(currentYear).getTime();
+  var uskrsnjiPonedjeljak = new Date(currentYear, 3, 17).getTime();
+  var svetaTriKralja = new Date(currentYear, 0, 6).getTime();
+  var novaGodina = new Date(currentYear, 0, 1).getTime();
+  
+  $('#calendar').calendar({
+	  
+      customDayRenderer: function(element, date) {
+          if(date.getTime() == svetiStjepan) {
+              $(element).css('background-color', 'red');
+              $(element).css('color', 'gold');
+              $(element).css('border-radius', '0px');
+          }
+          
+          else if(date.getTime() == bozic) {
+              $(element).css('background-color', 'red');
+              $(element).css('color', 'gold');
+              $(element).css('border-radius', '0px');
+          }
+          
+          else if(date.getTime() == sviSveti) {
+              $(element).css('background-color', 'red');
+              $(element).css('color', 'gold');
+              $(element).css('border-radius', '0px');
+          }
+          
+          else if(date.getTime() == danNeovisnosti) {
+			  $(element).css('background-color', 'red');
+              $(element).css('color', 'gold');
+              $(element).css('border-radius', '0px');
+          }
+          
+          else if(date.getTime() == velikaGospa) {
+              $(element).css('background-color', 'red');
+              $(element).css('color', 'gold');
+              $(element).css('border-radius', '0px');
+          }
+          
+          else if(date.getTime() == danDomovinskeZahvalnosti) {
+              $(element).css('background-color', 'red');
+              $(element).css('color', 'gold');
+              $(element).css('border-radius', '0px');
+          }
+          
+          else if(date.getTime() == danDrzavnosti) {
+              $(element).css('background-color', 'red');
+              $(element).css('color', 'gold');
+              $(element).css('border-radius', '0px');
+          }
+          
+          else if(date.getTime() == danAntifasistickeBorbe) {
+              $(element).css('background-color', 'red');
+              $(element).css('color', 'gold');
+              $(element).css('border-radius', '0px');
+          }
+          
+          else if(date.getTime() == tijelovo) {
+              $(element).css('background-color', 'red');
+              $(element).css('color', 'gold');
+              $(element).css('border-radius', '0px');
+          }
+          
+          else if(date.getTime() == praznikRada) {
+              $(element).css('background-color', 'red');
+              $(element).css('color', 'gold');
+              $(element).css('border-radius', '0px');
+          }
+          
+          else if(date.getTime() == uskrs) {
+              $(element).css('background-color', 'red');
+              $(element).css('color', 'gold');
+              $(element).css('border-radius', '0px');
+          }
+          
+          else if(date.getTime() == uskrsnjiPonedjeljak) {
+              $(element).css('background-color', 'red');
+              $(element).css('color', 'gold');
+              $(element).css('border-radius', '0px');
+          }
+          
+          else if(date.getTime() == svetaTriKralja) {
+              $(element).css('background-color', 'red');
+              $(element).css('color', 'gold');
+              $(element).css('border-radius', '0px');
+          }
+          
+          else if(date.getTime() == novaGodina) {
+              $(element).css('background-color', 'red');
+              $(element).css('color', 'gold');
+              $(element).css('border-radius', '0px');
+          }
+      }
+  });
 });
