@@ -31,7 +31,7 @@ select
 	border-radius: 3px;
 }
 
-.div-novi-zahtjev, .div-pregled-zahtjeva, .tip-placenog-dopusta
+.div-novi-zahtjev-godisnji-odmor, .div-novi-zahtjev-placeni-dopust, .div-pregled-zahtjeva
 {
 	display: none;
 }

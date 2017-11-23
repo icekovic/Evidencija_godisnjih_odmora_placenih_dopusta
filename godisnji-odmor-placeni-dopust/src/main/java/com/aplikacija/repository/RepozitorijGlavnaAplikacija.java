@@ -194,7 +194,7 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 			for(Zaposlenik zaposlenik : organizacijskaJedinica.getZaposlenici())
 			{
 				for(Zahtjev zahtjev : zaposlenik.getZahtjevi())
-				{				
+				{
 					if(zahtjev.getTip().equals("Plaćeni dopust"))
 					{
 						Row redak = sheet.createRow(i);

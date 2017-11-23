@@ -38,7 +38,7 @@ public class HomeController
 		return "registracija";
 	}
 	
-	@GetMapping(value = "/profilZaposlenika")
+	@GetMapping(value = "/profil-zaposlenika")
 	public String profilZaposlenika(Model model)
 	{
 		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorijGlavnaAplikacija.dohvatiTipovePlacenihDopusta();
@@ -46,7 +46,7 @@ public class HomeController
 		return "profilZaposlenika";
 	}
 	
-	@PostMapping(value = "/profilZaposlenika")
+	@PostMapping(value = "/profil-zaposlenika")
 	public String profilZaposlenika(Model model, HttpServletRequest request)
 	{
 		List<Zahtjev> sviZahtjevi = repozitorijGlavnaAplikacija.dohvatiSveZahtjeve();
@@ -62,7 +62,6 @@ public class HomeController
 			model.addAttribute("zahtjevi", zaposlenik.getZahtjevi());
 			model.addAttribute("sviZahtjevi", sviZahtjevi);
 			model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
-			//request.getSession().setAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
 			return "profilZaposlenika";
 		}
 		
@@ -129,22 +128,22 @@ public class HomeController
 		return "profilZaposlenika";
 	}
 	
-	@GetMapping(value = "/noviZahtjev")
-	public String noviZahtjev(HttpServletRequest request, Model model)
+	@GetMapping(value = "/novi-zahtjev-godisnji-odmor")
+	public String noviZahtjevGodisnjiOdmor()
 	{		
 		return "profilZaposlenika";
 	}
 	
-	@PostMapping(value = "/noviZahtjev")
-	public String noviZahtjevPost(HttpServletRequest request, Model model)
+	@PostMapping(value = "/novi-zahtjev-godisnji-odmor")
+	public String noviZahtjevGodisnjiOdmor(HttpServletRequest request, Model model)
 	{
-		String odDatuma = request.getParameter("od_datuma");
-		String doDatuma = request.getParameter("do_datuma");
+		String odDatuma = request.getParameter("od_datuma_godisnji_odmor");
+		String doDatuma = request.getParameter("do_datuma_godisnji_odmor");
 		int brojRadnihDana = Integer.parseInt(request.getParameter("broj_radnih_dana"));
 		String tipZahtjeva = request.getParameter("tip_zahtjeva");
-		String tipPlacenogDopusta= request.getParameter("tip_placenog_dopusta");
+		//String tipPlacenogDopusta= request.getParameter("tip_placenog_dopusta");
 		String odobrenjeOd = request.getParameter("odobrenje_od");
-		String napomena = request.getParameter("napomena");
+		String napomena = request.getParameter("napomena_godisnji_odmor");
 		
 		Zahtjev zahtjev = new Zahtjev();
 		zahtjev.setOd_datuma(odDatuma);
@@ -172,6 +171,18 @@ public class HomeController
 		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
 		model.addAttribute("zahtjevi", zahtjevi);
 		
+		return "profilZaposlenika";
+	}
+	
+	@GetMapping(value = "/novi-zahtjev-placeni-dopust")
+	public String noviZahtjevPlaceniDopust()
+	{
+		return "profilZaposlenika";
+	}
+	
+	@PostMapping(value = "/novi-zahtjev-placeni-dopust")
+	public String noviZahtjevPlaceniDopust(HttpServletRequest request, Model model)
+	{
 		return "profilZaposlenika";
 	}
 	

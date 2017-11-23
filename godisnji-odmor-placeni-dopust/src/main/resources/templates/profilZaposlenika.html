@@ -69,36 +69,71 @@
 					
 					<div class="container-fluid padding-top-15">
 						<div class="col-md-6 col-lg-6 col-sm-6">
-							<a class="btn btn-default col-md-offset-5" id="btnNoviZahtjev">Novi zahtjev</a>
+							<a class="btn btn-default col-md-offset-5" id="btnNoviZahtjevGodisnjiOdmor">Novi zahtjev za godišnji odmor</a>
 							<div class="padding-top-15">
-								<form id="formaNoviZahtjev" th:action="@{/noviZahtjev}" method="post">
-									<div class="div-novi-zahtjev">
+								<form id="formaNoviZahtjev" th:action="@{/novi-zahtjev-godisnji-odmor}" method="post">
+									<div class="div-novi-zahtjev-godisnji-odmor">
 										<div class="panel panel-default">
 											<div class="panel-heading heading-novi-zahtjev">
-												<h4 class="text-center">Novi zahtjev</h4>
+												<h4 class="text-center">Godišnji odmor</h4>
 											</div>
 											<div class="panel-body">
 												<table class="table table-borderless table-responsive">
 													<tr>
 														<td>Od datuma</td>
-														<td><input type="text" id="od_datuma" name="od_datuma" class="form-control" autofocus="autofocus" /></td>
+														<td><input type="text" id="od_datuma_godisnji_odmor" name="od_datuma_godisnji_odmor" class="form-control" autofocus="autofocus" /></td>
 													</tr>
 													<tr>
 														<td>Do datuma</td>
-														<td><input type="text" id="do_datuma" name="do_datuma" class="form-control" /></td>
+														<td><input type="text" id="do_datuma_godisnji_odmor" name="do_datuma_godisnji_odmor" class="form-control" /></td>
 													</tr>
 													<tr>
 														<td>Broj radnih dana</td>
 														<td><input type="text" class="form-control" id="broj_radnih_dana" name="broj_radnih_dana" readonly="readonly"/></td>
 													</tr>
 													<tr>
-														<td>Tip zahtjeva</td>
-														<td>
-															<select id="tipZahtjeva" name="tip_zahtjeva">
-																<option>Godišnji odmor</option>
-																<option>Plaćeni dopust</option>
-															</select>
+														<td>Odobrenje od</td>
+														<td><input id="odobrenjeOd" th:value="'Dory' + ' ' + 'Wetherburn'" name="odobrenje_od" readonly="readonly" class="form-control"/></td>
+													</tr>
+													<tr>
+														<td>Napomena</td>
+														<td><textarea id="napomena_godisnji_odmor" name="napomena_godisnji_odmor" rows="5" cols="55"></textarea>
 														</td>
+													</tr>
+													<tr>
+														<td>
+															<input type="submit" name="btnKreirajZahtjevGodisnjiOdmor" id="btnKreirajZahtjevGodisnjiOdmor" class="btn btn-default" value="Kreiraj zahtjev"/>
+														</td>
+														<td>
+															<a id="btnOdustaniGodisnjiOdmor" class="btn btn-default">Odustani</a>
+														</td>
+													</tr>
+												</table>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+						
+						<div class="col-md-6 col-lg-6 col-sm-6">
+							<a class="btn btn-default col-md-offset-5" id="btnNoviZahtjevPlaceniDopust">Novi zahtjev za plaćeni dopust</a>
+							<div class="padding-top-15">
+								<form id="formaNoviZahtjev" th:action="@{/novi-zahtjev-placeni-dopust}" method="post">
+									<div class="div-novi-zahtjev-placeni-dopust">
+										<div class="panel panel-default">
+											<div class="panel-heading heading-novi-zahtjev">
+												<h4 class="text-center">Plaćeni dopust</h4>
+											</div>
+											<div class="panel-body">
+												<table class="table table-borderless table-responsive">
+													<tr>
+														<td>Od datuma</td>
+														<td><input type="text" id="od_datuma_placeni_dopust" name="od_datuma_placeni_dopust" class="form-control" autofocus="autofocus" /></td>
+													</tr>
+													<tr>
+														<td>Do datuma</td>
+														<td><input type="text" id="do_datuma_placeni_dopust" name="do_datuma_placeni_dopust" class="form-control" /></td>
 													</tr>
 													<tr id="tipPlacenogDopusta" class="tip-placenog-dopusta">
 														<td>Tip plaćenog dopusta</td>
@@ -116,15 +151,15 @@
 													</tr>
 													<tr>
 														<td>Napomena</td>
-														<td><textarea id="napomena" name="napomena" rows="5" cols="55"></textarea>
+														<td><textarea id="napomena_placeni_dopust" name="napomena_placeni_dopust" rows="5" cols="55"></textarea>
 														</td>
 													</tr>
 													<tr>
 														<td>
-															<input type="submit" name="btnKreirajZahtjev" id="btnKreirajZahtjev" class="btn btn-default" value="Kreiraj zahtjev"/>
+															<input type="submit" name="btnKreirajZahtjevPlaceniDopust" id="btnKreirajZahtjevPlaceniDopust" class="btn btn-default" value="Kreiraj zahtjev"/>
 														</td>
 														<td>
-															<a id="btnOdustani" class="btn btn-default">Odustani</a>
+															<a id="btnOdustaniPlaceniDopust" class="btn btn-default">Odustani</a>
 														</td>
 													</tr>
 												</table>
@@ -135,7 +170,7 @@
 							</div>
 						</div>
 						
-						<div class="col-md-5 col-lg-5 col-sm-5">
+						<!-- <div class="col-md-5 col-lg-5 col-sm-5">
 							<a class="btn btn-default col-md-offset-4 col-lg-offset-4 col-sm-offset-4" id="btnPregledZahtjeva">Pregledaj zahtjeve</a>
 							<div class="padding-top-15">
 								<div class="div-pregled-zahtjeva">
@@ -159,8 +194,6 @@
 														<td th:text="${zahtjev.do_datuma}"></td>
 														<td th:text="${zahtjev.broj_radnih_dana}"></td>
 														<td th:text="${zahtjev.status_zahtjeva.status}"></td>
-														<td><input type="hidden" id="odDatuma" name="odDatuma" th:value="${zahtjev.od_datuma}"/></td>
-														<td><input type="hidden" id="doDatuma" name="doDatuma" th:value="${zahtjev.do_datuma}"/></td>
 													</tr>													
 												</th:block>
 											</table>									
@@ -168,13 +201,13 @@
 									</div>
 								</div>
 							</div>																
-						</div>
+						</div> -->
 						
-						<div class="col-md-1 col-lg-1 col-sm-1">
+						<!-- <div class="col-md-1 col-lg-1 col-sm-1">
 							<div id="div-kreiraj-izvjesca" class="div-kreiraj-izvjesca">
 								<a href="izvjesca" class="btn btn-default" id="btnKreirajIzvjesca">Kreiraj izvješća</a>
 							</div>			
-						</div>
+						</div> -->
 					</div>
 					
 					<div class="container-fluid padding-top-15">
@@ -278,15 +311,32 @@
 			language: 'hr'
 			});
 	
-		$("#btnKreirajZahtjev").click(function(){
-			if ($('#od_datuma').val() == '') {
+		$("#btnKreirajZahtjevGodisnjiOdmor").click(function(){
+			if ($('#od_datuma_godisnji_odmor').val() == '') {
 			      alert("Polje 'Od datuma' je obavezno!");   
 		 	     return false; 
 			    }
 		  	  else {
 		   	   $(this).submit();
 		  	  };
-		  	  if ($('#do_datuma').val() == '') {
+		  	  if ($('#do_datuma_godisnji_odmor').val() == '') {
+				      alert("Polje 'Do datuma' je obavezno!");   
+			 	     return false; 
+			 }
+			 else {
+			 	$(this).submit();
+			 };
+		});
+
+		$("#btnKreirajZahtjevPlaceniDopust").click(function(){
+			if ($('#od_datuma_placeni_dopust').val() == '') {
+			      alert("Polje 'Od datuma' je obavezno!");   
+		 	     return false; 
+			    }
+		  	  else {
+		   	   $(this).submit();
+		  	  };
+		  	  if ($('#do_datuma_placeni_dopust').val() == '') {
 				      alert("Polje 'Do datuma' je obavezno!");   
 			 	     return false; 
 			 }
