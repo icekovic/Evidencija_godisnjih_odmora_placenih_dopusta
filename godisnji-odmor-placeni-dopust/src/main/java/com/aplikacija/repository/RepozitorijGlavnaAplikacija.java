@@ -90,7 +90,7 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 		entityManager.persist(zaposlenik);
 	}
 
-	public void dodajZahtjev(Zahtjev zahtjev, Zaposlenik zaposlenik)
+	public void dodajZahtjevGodisnjiOdmor(Zahtjev zahtjev, Zaposlenik zaposlenik)
 	{
 		StatusZahtjeva statusZahtjeva = new StatusZahtjeva();
 		statusZahtjeva.setId_status_zahtjeva(1);
@@ -99,6 +99,32 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 		zahtjev.setZaposlenik(zaposlenik);
 		zahtjev.setStatus_zahtjeva(statusZahtjeva);
 		entityManager.persist(zahtjev);
+	}
+	
+	public void dodajZahtjevPlaceniDopust(Zahtjev zahtjev, Zaposlenik zaposlenik, String tipPlacenogDopusta)
+	{
+		StatusZahtjeva statusZahtjeva = new StatusZahtjeva();
+		statusZahtjeva.setId_status_zahtjeva(1);
+		statusZahtjeva.setStatus("Zaprimljen");
+		
+//		List<PlaceniDopust> placeniDopusti = dohvatiTipovePlacenihDopusta();
+//		
+//		PlaceniDopust placeniDopust = new PlaceniDopust();
+//		for(PlaceniDopust pd : placeniDopusti)
+//		{
+//			if(pd.getTip().equals(tipPlacenogDopusta))
+//			{
+//				placeniDopust.setId_placeni_dopust(pd.getId_placeni_dopust());
+//				placeniDopust.setTip(pd.getTip());
+//				placeniDopust.setTrajanje_u_danima(pd.getTrajanje_u_danima());
+//			}
+//		}
+		
+		zahtjev.setZaposlenik(zaposlenik);
+		zahtjev.setStatus_zahtjeva(statusZahtjeva);
+		//zahtjev.setPlaceni_dopust(placeniDopust);
+		entityManager.persist(zahtjev);
+		
 	}
 
 	public void posaljiMailRukovoditelju(Zahtjev zahtjev, Zaposlenik zaposlenik)

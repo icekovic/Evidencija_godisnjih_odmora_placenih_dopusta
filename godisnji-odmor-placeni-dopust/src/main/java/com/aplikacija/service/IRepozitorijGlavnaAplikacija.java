@@ -16,12 +16,12 @@ public interface IRepozitorijGlavnaAplikacija
 	public List<Zahtjev> dohvatiSveZahtjeve();
 	public List<Zahtjev> dohvatiZahtjeve(Zaposlenik zaposlenik);
 	public void dodajNovogZaposlenika(Zaposlenik zaposlenik);
-	public void dodajZahtjev(Zahtjev zahtjev, Zaposlenik zaposlenik);
+	public void dodajZahtjevGodisnjiOdmor(Zahtjev zahtjev, Zaposlenik zaposlenik);
+	public void dodajZahtjevPlaceniDopust(Zahtjev zahtjev, Zaposlenik zaposlenik, String tipPlacenogDopusta);
 	public void posaljiMailRukovoditelju(Zahtjev zahtjev, Zaposlenik zaposlenik);
 	public HSSFWorkbook kreirajIzvjesceGodisnjihOdmora();
 	public HSSFWorkbook kreirajIzvjescePlacenihDopusta();
 	public HSSFWorkbook kreirajIzvjesceIznosRegresaGodisnjegOdmora();
 	public void odobriZahtjev(int idZahtjev);
-	public void odbijZahtjev(int idZahtjev);
-	
+	public void odbijZahtjev(int idZahtjev);	
 }

@@ -140,8 +140,6 @@ public class HomeController
 		String odDatuma = request.getParameter("od_datuma_godisnji_odmor");
 		String doDatuma = request.getParameter("do_datuma_godisnji_odmor");
 		int brojRadnihDana = Integer.parseInt(request.getParameter("broj_radnih_dana"));
-		String tipZahtjeva = request.getParameter("tip_zahtjeva");
-		//String tipPlacenogDopusta= request.getParameter("tip_placenog_dopusta");
 		String odobrenjeOd = request.getParameter("odobrenje_od");
 		String napomena = request.getParameter("napomena_godisnji_odmor");
 		
@@ -149,12 +147,12 @@ public class HomeController
 		zahtjev.setOd_datuma(odDatuma);
 		zahtjev.setDo_datuma(doDatuma);
 		zahtjev.setBroj_radnih_dana(brojRadnihDana);
-		zahtjev.setTip(tipZahtjeva);
+		zahtjev.setTip("Godišnji odmor");
 		zahtjev.setOdobrenje_od(odobrenjeOd);
 		zahtjev.setNapomena(napomena);
 		
 		Zaposlenik zaposlenik = (Zaposlenik) request.getSession().getAttribute("zaposlenik");		
-		repozitorijGlavnaAplikacija.dodajZahtjev(zahtjev, zaposlenik);
+		repozitorijGlavnaAplikacija.dodajZahtjevGodisnjiOdmor(zahtjev, zaposlenik);
 		
 		try
 		{
@@ -166,9 +164,6 @@ public class HomeController
 		}
 		
 		List<Zahtjev> zahtjevi = repozitorijGlavnaAplikacija.dohvatiZahtjeve(zaposlenik);
-		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorijGlavnaAplikacija.dohvatiTipovePlacenihDopusta();
-		
-		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
 		model.addAttribute("zahtjevi", zahtjevi);
 		
 		return "profilZaposlenika";
@@ -183,6 +178,33 @@ public class HomeController
 	@PostMapping(value = "/novi-zahtjev-placeni-dopust")
 	public String noviZahtjevPlaceniDopust(HttpServletRequest request, Model model)
 	{
+		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorijGlavnaAplikacija.dohvatiTipovePlacenihDopusta();
+		Zaposlenik zaposlenik = (Zaposlenik) request.getSession().getAttribute("zaposlenik");
+		
+		String odDatuma = request.getParameter("od_datuma_placeni_dopust");
+		String doDatuma = request.getParameter("do_datuma_placeni_dopust");
+		String tipPlacenogDopusta= request.getParameter("tip_placenog_dopusta");
+		String odobrenjeOd = request.getParameter("odobrenje_od");
+		String napomena = request.getParameter("napomena_placeni_dopust");
+		
+		Zahtjev zahtjev = new Zahtjev();
+		zahtjev.setOd_datuma(odDatuma);
+		zahtjev.setDo_datuma(doDatuma);
+		zahtjev.setTip("Plaćeni dopust");
+		zahtjev.setOdobrenje_od(odobrenjeOd);
+		zahtjev.setNapomena(napomena);
+		
+//		for(PlaceniDopust placeniDopust : tipoviPlacenogDopusta)
+//		{
+//			if(placeniDopust.getTip().equals(tipPlacenogDopusta))
+//			{
+//				zahtjev.setPlaceni_dopust(placeniDopust);
+//			}
+//		}
+		
+		repozitorijGlavnaAplikacija.dodajZahtjevPlaceniDopust(zahtjev, zaposlenik, tipPlacenogDopusta);			
+		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
+		
 		return "profilZaposlenika";
 	}
 	

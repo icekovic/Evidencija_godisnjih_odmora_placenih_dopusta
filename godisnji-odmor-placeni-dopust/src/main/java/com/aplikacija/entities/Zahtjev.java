@@ -25,7 +25,7 @@ public class Zahtjev
 	@JoinColumn(name = "zaposlenik_id")
 	private Zaposlenik zaposlenik;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "placeni_dopust_id")
 	private PlaceniDopust placeni_dopust;
 	
