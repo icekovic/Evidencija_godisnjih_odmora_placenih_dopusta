@@ -127,6 +127,17 @@
 											</div>
 											<div class="panel-body">
 												<table class="table table-borderless table-responsive">
+													<tr id="tipPlacenogDopusta" class="tip-placenog-dopusta">
+														<td>Tip plaćenog dopusta</td>
+														<td>
+															<select id="tipPlacenogDopusta" name="tip_placenog_dopusta">
+																<th:block th:each="tipPlacenogDopusta : ${tipoviPlacenogDopusta}">
+																	<!-- <option th:text="${tipPlacenogDopusta.tip + ' - ' +  tipPlacenogDopusta.trajanje_u_danima + ' ' + 'dana'}"></option> -->
+																	<option th:text="${tipPlacenogDopusta.tip}"></option>															
+																</th:block>
+															</select>
+														</td>
+													</tr>
 													<tr>
 														<td>Od datuma</td>
 														<td><input type="text" id="od_datuma_placeni_dopust" name="od_datuma_placeni_dopust" class="form-control" autofocus="autofocus" /></td>
@@ -134,16 +145,6 @@
 													<tr>
 														<td>Do datuma</td>
 														<td><input type="text" id="do_datuma_placeni_dopust" name="do_datuma_placeni_dopust" class="form-control" /></td>
-													</tr>
-													<tr id="tipPlacenogDopusta" class="tip-placenog-dopusta">
-														<td>Tip plaćenog dopusta</td>
-														<td>
-															<select id="tipPlacenogDopusta" name="tip_placenog_dopusta">
-																<th:block th:each="tipPlacenogDopusta : ${tipoviPlacenogDopusta}">
-																	<option th:text="${tipPlacenogDopusta.tip + ' - ' +  tipPlacenogDopusta.trajanje_u_danima + ' ' + 'dana'}"></option>
-																</th:block>
-															</select>
-														</td>
 													</tr>
 													<tr>
 														<td>Odobrenje od</td>

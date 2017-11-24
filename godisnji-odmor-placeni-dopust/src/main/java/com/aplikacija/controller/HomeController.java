@@ -152,7 +152,7 @@ public class HomeController
 		zahtjev.setNapomena(napomena);
 		
 		Zaposlenik zaposlenik = (Zaposlenik) request.getSession().getAttribute("zaposlenik");		
-		repozitorijGlavnaAplikacija.dodajZahtjevGodisnjiOdmor(zahtjev, zaposlenik);
+		repozitorijGlavnaAplikacija.dodajZahtjev(zahtjev, zaposlenik);
 		
 		try
 		{
@@ -164,7 +164,9 @@ public class HomeController
 		}
 		
 		List<Zahtjev> zahtjevi = repozitorijGlavnaAplikacija.dohvatiZahtjeve(zaposlenik);
+		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorijGlavnaAplikacija.dohvatiTipovePlacenihDopusta();
 		model.addAttribute("zahtjevi", zahtjevi);
+		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
 		
 		return "profilZaposlenika";
 	}
@@ -187,22 +189,17 @@ public class HomeController
 		String odobrenjeOd = request.getParameter("odobrenje_od");
 		String napomena = request.getParameter("napomena_placeni_dopust");
 		
+		PlaceniDopust placeniDopust = repozitorijGlavnaAplikacija.dohvatiTipPlacenogDopusta(tipPlacenogDopusta).get(0);
+		
 		Zahtjev zahtjev = new Zahtjev();
 		zahtjev.setOd_datuma(odDatuma);
 		zahtjev.setDo_datuma(doDatuma);
 		zahtjev.setTip("Plaćeni dopust");
 		zahtjev.setOdobrenje_od(odobrenjeOd);
 		zahtjev.setNapomena(napomena);
+		zahtjev.setPlaceni_dopust(placeniDopust);
 		
-//		for(PlaceniDopust placeniDopust : tipoviPlacenogDopusta)
-//		{
-//			if(placeniDopust.getTip().equals(tipPlacenogDopusta))
-//			{
-//				zahtjev.setPlaceni_dopust(placeniDopust);
-//			}
-//		}
-		
-		repozitorijGlavnaAplikacija.dodajZahtjevPlaceniDopust(zahtjev, zaposlenik, tipPlacenogDopusta);			
+		repozitorijGlavnaAplikacija.dodajZahtjev(zahtjev, zaposlenik);			
 		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
 		
 		return "profilZaposlenika";
