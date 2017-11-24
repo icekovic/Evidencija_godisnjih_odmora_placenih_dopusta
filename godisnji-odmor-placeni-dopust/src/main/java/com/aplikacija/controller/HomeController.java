@@ -202,6 +202,9 @@ public class HomeController
 		repozitorijGlavnaAplikacija.dodajZahtjev(zahtjev, zaposlenik);			
 		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
 		
+		List<Zahtjev> zahtjevi = repozitorijGlavnaAplikacija.dohvatiZahtjeve(zaposlenik);
+		model.addAttribute("zahtjevi", zahtjevi);
+		
 		return "profilZaposlenika";
 	}
 	

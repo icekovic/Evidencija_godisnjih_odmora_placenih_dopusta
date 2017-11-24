@@ -127,16 +127,19 @@
 											</div>
 											<div class="panel-body">
 												<table class="table table-borderless table-responsive">
-													<tr id="tipPlacenogDopusta" class="tip-placenog-dopusta">
+													<tr>
 														<td>Tip plaćenog dopusta</td>
 														<td>
-															<select id="tipPlacenogDopusta" name="tip_placenog_dopusta">
+															<select id="tip_placenog_dopusta" name="tip_placenog_dopusta">
 																<th:block th:each="tipPlacenogDopusta : ${tipoviPlacenogDopusta}">
-																	<!-- <option th:text="${tipPlacenogDopusta.tip + ' - ' +  tipPlacenogDopusta.trajanje_u_danima + ' ' + 'dana'}"></option> -->
 																	<option th:text="${tipPlacenogDopusta.tip}"></option>															
 																</th:block>
 															</select>
 														</td>
+													</tr>
+													<tr>
+														<td>Trajanje (u danima)</td>
+														<td><input type="text" class="form-control" id="trajanje" name="trajanje" readonly="readonly"/></td>
 													</tr>
 													<tr>
 														<td>Od datuma</td>
@@ -169,10 +172,12 @@
 									</div>
 								</form>
 							</div>
-						</div>
-						
-						<!-- <div class="col-md-5 col-lg-5 col-sm-5">
-							<a class="btn btn-default col-md-offset-4 col-lg-offset-4 col-sm-offset-4" id="btnPregledZahtjeva">Pregledaj zahtjeve</a>
+						</div>					
+					</div>
+					
+					<div class="container-fluid padding-top-15">
+						<div class="col-md-6 col-lg-6 col-sm-6">
+							<a class="btn btn-default col-md-offset-5" id="btnPregledZahtjeva">Pregledaj zahtjeve</a>
 							<div class="padding-top-15">
 								<div class="div-pregled-zahtjeva">
 									<div class="panel panel-default">
@@ -202,13 +207,13 @@
 									</div>
 								</div>
 							</div>																
-						</div> -->
+						</div>
 						
-						<!-- <div class="col-md-1 col-lg-1 col-sm-1">
+						<div class="col-md-6 col-lg-6 col-sm-6">
 							<div id="div-kreiraj-izvjesca" class="div-kreiraj-izvjesca">
-								<a href="izvjesca" class="btn btn-default" id="btnKreirajIzvjesca">Kreiraj izvješća</a>
+								<a href="izvjesca" class="btn btn-default col-md-offset-5" id="btnKreirajIzvjesca">Kreiraj izvješća</a>
 							</div>			
-						</div> -->
+						</div>
 					</div>
 					
 					<div class="container-fluid padding-top-15">
@@ -273,19 +278,17 @@
 		<script type="application/javascript" src="js/skripte.js" th:src="@{/js/skripte.js}"></script>
 		<script type="application/javascript">
 
-		$(function() {   
-
-			$("#tipZahtjeva").change(function(){
-				if($("#tipZahtjeva").val() == 'Plaćeni dopust'){
-					$("#tipPlacenogDopusta").show();
-					}
-				else {
-					$("#tipPlacenogDopusta").hide();
-				}
+		$(document).ready(function(){
+			$('#trajanje').val('Sklapanje braka');
 			});
 
-		});
-
+		$(function(){
+			$('#tip_placenog_dopusta').change(function(){
+				var vrijednost = $(this).val();
+				$('#trajanje').val(vrijednost);
+				});
+			});
+		
 		$(function(){
 			$.datepicker.setDefaults($.datepicker.regional['hr']);
 			});
