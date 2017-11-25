@@ -185,6 +185,7 @@ public class HomeController
 		
 		String odDatuma = request.getParameter("od_datuma_placeni_dopust");
 		String doDatuma = request.getParameter("do_datuma_placeni_dopust");
+		int trajanje = Integer.parseInt(request.getParameter("trajanje"));
 		String tipPlacenogDopusta= request.getParameter("tip_placenog_dopusta");
 		String odobrenjeOd = request.getParameter("odobrenje_od");
 		String napomena = request.getParameter("napomena_placeni_dopust");
@@ -194,6 +195,7 @@ public class HomeController
 		Zahtjev zahtjev = new Zahtjev();
 		zahtjev.setOd_datuma(odDatuma);
 		zahtjev.setDo_datuma(doDatuma);
+		zahtjev.setBroj_radnih_dana(trajanje);
 		zahtjev.setTip("Plaćeni dopust");
 		zahtjev.setOdobrenje_od(odobrenjeOd);
 		zahtjev.setNapomena(napomena);

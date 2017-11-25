@@ -22,9 +22,9 @@ $(document).ready(function(){
 	    	});
 	    	 	
 	    	//datepicker
-	    	$(function(){
-	    		$.datepicker.setDefaults($.datepicker.regional['hr']);
-	    	});
+//	    	$(function(){
+//	    		$.datepicker.setDefaults($.datepicker.regional['hr']);
+//	    	});
 	    	
 	    	$(function(){
 	    		$("#datum_zaposlenja").datepicker({dateFormat: 'yy-mm-dd'});
@@ -33,13 +33,13 @@ $(document).ready(function(){
 	    		$("#od_datuma_godisnji_odmor").datepicker({dateFormat: 'yy-mm-dd', minDate: 0});
 	    	});
 	    	$(function(){
-	    		$("#do_datuma_godisnji_odmor").datepicker({dateFormat: 'yy-mm-dd', minDate: 1});
+	    		$("#do_datuma_godisnji_odmor").datepicker({dateFormat: 'yy-mm-dd', minDate: 0});
 	    	});
 	    	$(function(){
 	    		$("#od_datuma_placeni_dopust").datepicker({dateFormat: 'yy-mm-dd', minDate: 0});
 	    	});
 	    	$(function(){
-	    		$("#do_datuma_placeni_dopust").datepicker({dateFormat: 'yy-mm-dd', minDate: 1});
+	    		$("#do_datuma_placeni_dopust").datepicker({dateFormat: 'yy-mm-dd', minDate: 0});
 	    	});
 	    
 	    //validacije
@@ -137,41 +137,28 @@ $(document).ready(function(){
 	    	//broj dana
 	    	
 	    	$("#od_datuma_godisnji_odmor").datepicker({
-	            dateFormat: "yy-mm-dd",
-	            minDate: 0,
-	            onSelect: function (date) {
-	                var date2 = $('#od_datuma_godisnji_odmor').datepicker('getDate');
-	                date2.setDate(date2.getDate() + 1);
-	                $('#do_datuma_godisnji_odmor').datepicker('setDate', date2);
-	                //sets minDate to dt1 date + 1
-	                $('#do_datuma_godisnji_odmor').datepicker('option', 'minDate', date2);
-	                calculate();
-	            }
-	        });
-	        $('#do_datuma_godisnji_odmor').datepicker({
-	            dateFormat: "yy-mm-dd",
-	            onClose: function () {
-	                var dt1 = $('#od_datuma_godisnji_odmor').datepicker('getDate');
-	                console.log(dt1);
-	                var dt2 = $('#do_datuma_godisnji_odmor').datepicker('getDate');
-	                if (dt2 <= dt1) {
-	                    var minDate = $('#d_datuma_godisnji_odmor').datepicker('option', 'minDate');
-	                    $('#do_datuma_godisnji_odmor').datepicker('setDate', minDate);
-	                }
-	                calculate();
-	            }
-	        });
-
-	    	function calculate() {
-	    	    var d1 = $("#od_datuma_godisnji_odmor").datepicker('getDate');
-	    	    var d2 = $("#do_datuma_godisnji_odmor").datepicker('getDate');
-	    	    var diff = 1;
-	    	    if (d1 && d2) {
-	    	        diff = diff + Math.floor((d2.getTime() - d1.getTime()) / 86400000); // ms per day
+	    		dateFormat: "yy-mm-dd",
+	    	    minDate: 0,
+	    	    maxDate: '+1Y+6M',
+	    	    onSelect: function (dateStr) {
+	    	        var min = $(this).datepicker('getDate'); // Get selected date
+	    	        $("#do_datuma_godisnji_odmor").datepicker('option', 'minDate', min || '0'); // Set other min, default to today
 	    	    }
-	    	    $("#broj_radnih_dana").val(diff);
-	    	}
-	    	
+	    	});
+
+	    	$("#do_datuma_godisnji_odmor").datepicker({
+	    		dateFormat: "yy-mm-dd",
+	    	    minDate: '0',
+	    	    maxDate: '+1Y+6M',
+	    	    onSelect: function (dateStr) {
+	    	        var max = $(this).datepicker('getDate'); // Get selected date
+	    	        $('#datepicker').datepicker('option', 'maxDate', max || '+1Y+6M'); // Set other max, default to +18 months
+	    	        var start = $("#od_datuma_godisnji_odmor").datepicker("getDate");
+	    	        var end = $("#do_datuma_godisnji_odmor").datepicker("getDate");
+	    	        var days = (end - start) / (1000 * 60 * 60 * 24);
+	    	        $("#broj_radnih_dana").val(days);
+	    	    }
+	    	});	    	
 		});
 
 //uskrs

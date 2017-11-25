@@ -132,7 +132,7 @@
 														<td>
 															<select id="tip_placenog_dopusta" name="tip_placenog_dopusta">
 																<th:block th:each="tipPlacenogDopusta : ${tipoviPlacenogDopusta}">
-																	<option th:text="${tipPlacenogDopusta.tip}"></option>															
+																	<option th:text="${tipPlacenogDopusta.tip}"></option>												
 																</th:block>
 															</select>
 														</td>
@@ -279,19 +279,65 @@
 		<script type="application/javascript">
 
 		$(document).ready(function(){
-			$('#trajanje').val('Sklapanje braka');
+			$('#trajanje').val(3);
 			});
 
 		$(function(){
 			$('#tip_placenog_dopusta').change(function(){
-				var vrijednost = $(this).val();
-				$('#trajanje').val(vrijednost);
+				var trajanje = $(this).val();
+				switch(trajanje){
+
+					case 'Sklapanje braka':
+						trajanje = 3;
+						break;
+
+					case 'Porod supruge':
+						trajanje = 2;
+						break;
+
+					case 'Smrt člana uže obitelji':
+						trajanje = 4;
+						break;
+
+					case 'Smrt roditelja supružnika':
+						trajanje = 2;
+						break;
+
+					case 'Selidba u drugo mjesto':
+						trajanje = 3;
+						break;
+
+					case 'Selidba u istom mjestu':
+						trajanje = 2;
+						break;
+
+					case 'Elementarna nepogoda u domaćinstvu radnika':
+						trajanje = 3;
+						break;
+
+					case 'Teža bolest člana uže obitelji izvan mjesta stanovanja':
+						trajanje = 2;
+						break;
+
+					case 'Dobrovoljno davanje krvi':
+						trajanje = 1;
+						break;
+
+					case 'Za stipendiste za pripremu doktorske disertacije':
+						trajanje = 7;
+						break;
+
+					default:
+						trajanje = 3;
+						break;
+					}
+				$('#trajanje').val(trajanje);
 				});
 			});
 		
-		$(function(){
+		/* $(function(){
 			$.datepicker.setDefaults($.datepicker.regional['hr']);
-			});
+			}); */
 
 		$(document).ready(function() {
 	    	if(document.getElementById('rola').value == 'Rukovoditelj'){
