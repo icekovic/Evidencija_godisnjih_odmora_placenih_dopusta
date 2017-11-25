@@ -159,6 +159,9 @@
 														</td>
 													</tr>
 													<tr>
+														<td><input type="hidden" name="razlika_dana" id="razlika_dana"/></td>
+													</tr>
+													<tr>
 														<td>
 															<input type="submit" name="btnKreirajZahtjevPlaceniDopust" id="btnKreirajZahtjevPlaceniDopust" class="btn btn-default" value="Kreiraj zahtjev"/>
 														</td>
@@ -334,10 +337,6 @@
 				$('#trajanje').val(trajanje);
 				});
 			});
-		
-		/* $(function(){
-			$.datepicker.setDefaults($.datepicker.regional['hr']);
-			}); */
 
 		$(document).ready(function() {
 	    	if(document.getElementById('rola').value == 'Rukovoditelj'){
@@ -393,6 +392,16 @@
 			 else {
 			 	$(this).submit();
 			 };
+		});
+
+		//provjera broja dana plaćenog dopusta
+		$("#btnKreirajZahtjevPlaceniDopust").click(function(){
+			if($("#razlika_dana").val() > $("#trajanje").val()){
+				alert('Odabrani raspon datuma sadrži previše dana. Odaberite druge datume.');
+			}
+			if($("#trajanje").val() > $("#razlika_dana").val()){
+				alert('Odabrani raspon datuma sadrži premalo dana. Odaberite druge datume.');
+				}
 		});
 	</script>
 	</body>

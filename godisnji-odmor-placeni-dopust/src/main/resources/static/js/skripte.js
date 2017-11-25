@@ -20,11 +20,6 @@ $(document).ready(function(){
 	    	$("#btnPregledZahtjeva").click(function(){
 	        	$(".div-pregled-zahtjeva").toggle();
 	    	});
-	    	 	
-	    	//datepicker
-//	    	$(function(){
-//	    		$.datepicker.setDefaults($.datepicker.regional['hr']);
-//	    	});
 	    	
 	    	$(function(){
 	    		$("#datum_zaposlenja").datepicker({dateFormat: 'yy-mm-dd'});
@@ -134,8 +129,7 @@ $(document).ready(function(){
 	    		
 	    	});
 	    	
-	    	//broj dana
-	    	
+	    	//broj dana godišnjih odmora    	
 	    	$("#od_datuma_godisnji_odmor").datepicker({
 	    		dateFormat: "yy-mm-dd",
 	    	    minDate: 0,
@@ -156,9 +150,35 @@ $(document).ready(function(){
 	    	        var start = $("#od_datuma_godisnji_odmor").datepicker("getDate");
 	    	        var end = $("#do_datuma_godisnji_odmor").datepicker("getDate");
 	    	        var days = (end - start) / (1000 * 60 * 60 * 24);
-	    	        $("#broj_radnih_dana").val(days);
+	    	        $("#broj_radnih_dana").val(days);	    	        
 	    	    }
-	    	});	    	
+	    	});
+	    	
+	    	
+	    	//razlika dana plaćenih dopusta
+	    	$("#od_datuma_placeni_dopust").datepicker({
+	    		dateFormat: "yy-mm-dd",
+	    	    minDate: 0,
+	    	    maxDate: '+1Y+6M',
+	    	    onSelect: function (dateStr) {
+	    	        var min = $(this).datepicker('getDate'); // Get selected date
+	    	        $("#do_datuma_placeni_dopust").datepicker('option', 'minDate', min || '0'); // Set other min, default to today
+	    	    }
+	    	});
+
+	    	$("#do_datuma_placeni_dopust").datepicker({
+	    		dateFormat: "yy-mm-dd",
+	    	    minDate: '0',
+	    	    maxDate: '+1Y+6M',
+	    	    onSelect: function (dateStr) {
+	    	        var max = $(this).datepicker('getDate'); // Get selected date
+	    	        $('#datepicker').datepicker('option', 'maxDate', max || '+1Y+6M'); // Set other max, default to +18 months
+	    	        var start = $("#od_datuma_placeni_dopust").datepicker("getDate");
+	    	        var end = $("#do_datuma_placeni_dopust").datepicker("getDate");
+	    	        var days = (end - start) / (1000 * 60 * 60 * 24);
+	    	        $("#razlika_dana").val(days);	    	        
+	    	    }
+	    	});
 		});
 
 //uskrs
