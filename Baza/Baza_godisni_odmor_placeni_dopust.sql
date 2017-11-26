@@ -67,8 +67,8 @@ create table zahtjev
 	odobrenje_od nvarchar(50) not null,
 	napomena nvarchar(200),
 	zaposlenik_id int not null foreign key references zaposlenik(id_zaposlenik),
-	placeni_dopust_id int foreign key references placeni_dopust(id_placeni_dopust), 
-	status_zahtjeva_id int not null foreign key references status_zahtjeva(id_status_zahtjeva)
+	placeni_dopust_id int foreign key references placeni_dopust(id_placeni_dopust),
+	status_zahtjeva_id int foreign key references status_zahtjeva(id_status_zahtjeva)
 )
 
 insert into placeni_dopust values('Sklapanje braka', 3)
@@ -88,22 +88,49 @@ create table dijete
 	starost tinyint not null, 
 	zaposlenik_id int  not null foreign key references zaposlenik(id_zaposlenik)
 )
+												------------rezervacija sobe--------------------------
 
---broj dana godisnjeg odmora
+create table grad
+(
+	id_grad int primary key identity not null,
+	naziv nvarchar(20) not null
+)
+
+insert into grad values('Crikvenica')
+insert into grad values('Dubrovnik')
+insert into grad values('Makarska')
+insert into grad values('Split')
+insert into grad values('Zadar')
+
+create table hotel
+(
+	id_hotel int primary key identity not null,
+	naziv nvarchar(30) not null,
+	broj_zvjezdica tinyint not null,
+	detalji nvarchar(max) not null,
+	grad_id int not null foreign key references grad(id_grad)
+)
+
+create table rezervacija
+(
+	id_rezervacija int primary key identity not null,
+	datum_prijave date not null,
+	datum_odjave date not null,
+	zaposlenik_id int not null foreign key references zaposlenik(id_zaposlenik),
+	hotel_id int not null foreign key references hotel(id_hotel)
+)
+
+
+--odobravanje zahtjeva
 select
-	organizacijska_jedinica.naziv as organizacijska_jedinica,
-	zaposlenik.ime + ' ' + zaposlenik.prezime as zaposlenik,
-	zaposlenik.maticni_broj,
-	sum(zahtjev.zaposlenik_id) as broj_dana_godisnjeg_odmora,
-	zaposlenik.godine_staza,
-	rola.naziv as rola,
-	zaposlenik.tjelesno_ostecenje_invalidnost,
-	zaposlenik.broj_djece,
-	dijete.starost as starost_djece
+	zahtjev.id_zahtjev,
+	zahtjev.tip,
+	zahtjev.od_datuma,
+	zahtjev.do_datuma,
+	zahtjev.broj_radnih_dana,
+	zaposlenik.ime +  ' ' + zaposlenik.prezime as zaposlenik,
+	status_zahtjeva.status
 from zahtjev
 inner join zaposlenik on zahtjev.zaposlenik_id = zaposlenik.id_zaposlenik
-inner join organizacijska_jedinica on organizacijska_jedinica.id_organizacijska_jedinica = zaposlenik.organizacijska_jedinica_id
-inner join rola on rola.id_rola=zaposlenik.rola_id
-inner join dijete on dijete.zaposlenik_id = zaposlenik.id_zaposlenik
-group by organizacijska_jedinica.naziv, zaposlenik.ime, zaposlenik.prezime, zaposlenik.maticni_broj, zahtjev.zaposlenik_id, zaposlenik.godine_staza,
-rola.naziv, zaposlenik.tjelesno_ostecenje_invalidnost, zaposlenik.broj_djece, dijete.starost
+inner join status_zahtjeva on zahtjev.status_zahtjeva_id = status_zahtjeva.id_status_zahtjeva
+
