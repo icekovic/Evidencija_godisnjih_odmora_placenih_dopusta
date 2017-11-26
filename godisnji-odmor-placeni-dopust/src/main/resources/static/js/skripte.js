@@ -158,8 +158,7 @@ $(document).ready(function(){
 	    	//razlika dana plaćenih dopusta
 	    	$("#od_datuma_placeni_dopust").datepicker({
 	    		dateFormat: "yy-mm-dd",
-	    	    minDate: 0,
-	    	    maxDate: '+1Y+6M',
+	    	    minDate: 0
 	    	    onSelect: function (dateStr) {
 	    	        var min = $(this).datepicker('getDate'); // Get selected date
 	    	        $("#do_datuma_placeni_dopust").datepicker('option', 'minDate', min || '0'); // Set other min, default to today
@@ -168,8 +167,7 @@ $(document).ready(function(){
 
 	    	$("#do_datuma_placeni_dopust").datepicker({
 	    		dateFormat: "yy-mm-dd",
-	    	    minDate: '0',
-	    	    maxDate: '+1Y+6M',
+	    	    minDate: '0'
 	    	    onSelect: function (dateStr) {
 	    	        var max = $(this).datepicker('getDate'); // Get selected date
 	    	        $('#datepicker').datepicker('option', 'maxDate', max || '+1Y+6M'); // Set other max, default to +18 months

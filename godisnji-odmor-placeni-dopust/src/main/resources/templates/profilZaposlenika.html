@@ -362,7 +362,7 @@
 	
 		$("#btnKreirajZahtjevGodisnjiOdmor").click(function(){
 			if ($('#od_datuma_godisnji_odmor').val() == '') {
-			      alert("Polje 'Od datuma' je obavezno!");   
+			     alert("Polje 'Od datuma' je obavezno!");   
 		 	     return false; 
 			    }
 		  	  else {
@@ -379,17 +379,17 @@
 
 		$("#btnKreirajZahtjevPlaceniDopust").click(function(){
 			if ($('#od_datuma_placeni_dopust').val() == '') {
-			      alert("Polje 'Od datuma' je obavezno!");   
+			     alert("Polje 'Od datuma' je obavezno!");   
 		 	     return false; 
 			    }
 		  	  else {
 		   	   $(this).submit();
 		  	  };
 		  	  if ($('#do_datuma_placeni_dopust').val() == '') {
-				      alert("Polje 'Do datuma' je obavezno!");   
-			 	     return false; 
-			 }
-			 else {
+				alert("Polje 'Do datuma' je obavezno!");   
+			 	return false; 
+			 	}
+			else {
 			 	$(this).submit();
 			 };
 		});
