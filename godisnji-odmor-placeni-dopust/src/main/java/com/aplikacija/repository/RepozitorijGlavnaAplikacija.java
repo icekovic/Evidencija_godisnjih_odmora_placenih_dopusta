@@ -137,6 +137,10 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 		redakNasloviStupaca.createCell(8).setCellValue("Tjelesno oštećenje/invalidnost");
 		redakNasloviStupaca.createCell(9).setCellValue("Broj djece");
 		redakNasloviStupaca.createCell(10).setCellValue("Starost djece");
+		redakNasloviStupaca.createCell(11).setCellValue("Dodatni dani za godine staža");
+		redakNasloviStupaca.createCell(12).setCellValue("Dodatni dani za rukovoditelje");
+		redakNasloviStupaca.createCell(13).setCellValue("Dodatni dani za invalidnost/tjelesna oštećenja");
+		redakNasloviStupaca.createCell(14).setCellValue("Dodatni dani za broj djece");
 		
 		List<OrganizacijskaJedinica> organizacijskeJedinice = dohvatiOrganizacijskeJedinice();
 		int i = 1;
@@ -151,7 +155,7 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 					{
 						if(zahtjev.getTip().equals("Godišnji odmor"))
 						{
-							Row redak = sheet.createRow(i);
+							Row redak = sheet.createRow(i);						
 							redak.createCell(0).setCellValue(organizacijskaJedinica.getNaziv());
 							redak.createCell(1).setCellValue(zaposlenik.getIme() + " " + zaposlenik.getPrezime());
 							redak.createCell(2).setCellValue(zaposlenik.getMaticni_broj());
@@ -163,6 +167,11 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 							redak.createCell(8).setCellValue(zaposlenik.getTjelesno_ostecenje_invalidnost());
 							redak.createCell(9).setCellValue(zaposlenik.getBroj_djece());
 							redak.createCell(10).setCellValue(dijete.getStarost());
+							
+							dodatniDaniGodineStaza(zaposlenik, redak);
+							dodatniDaniRukovoditelj(zaposlenik, redak);
+							dodatniDaniInvalidnostTjelesnoOstecenje(zaposlenik, redak);
+							dodatniDaniBrojDjece(zaposlenik, redak);
 							i++;
 						}						
 					}
@@ -181,7 +190,7 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 		}	
 		return workbook;
 	}
-	
+
 	public HSSFWorkbook kreirajIzvjescePlacenihDopusta()
 	{
 		HSSFWorkbook workbook = new HSSFWorkbook();
@@ -284,5 +293,89 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 		Zahtjev zahtjev = entityManager.find(Zahtjev.class, idZahtjev);
 		zahtjev.setStatus_zahtjeva(entityManager.getReference(StatusZahtjeva.class, 3));
 		entityManager.merge(zahtjev);
+	}
+	
+	private void dodatniDaniBrojDjece(Zaposlenik zaposlenik, Row redak)
+	{
+		for(Dijete dijete : zaposlenik.getDjeca())
+		{
+			if(zaposlenik.getBroj_djece() > 1 && dijete.getStarost() <= 1)
+			{
+				redak.createCell(14).setCellValue(6);
+			}
+			
+			//jedno dijete do 1 godine ili dvoje ili više djece do 7 godina
+			else if((zaposlenik.getBroj_djece() == 1 && dijete.getStarost() <= 1) || (zaposlenik.getBroj_djece() >= 2 && dijete.getStarost() <= 7))
+			{
+				redak.createCell(14).setCellValue(4);
+			}
+			
+			//jedno dijete do 7 godine ili dvoje ili više djece od 7 do 12 godina
+			else if((zaposlenik.getBroj_djece() == 1 && dijete.getStarost() <= 7) 
+					|| (zaposlenik.getBroj_djece() >= 2 && (dijete.getStarost() >= 7 && dijete.getStarost() <= 12)))
+			{
+				redak.createCell(14).setCellValue(2);
+			}
+			
+			else
+			{
+				redak.createCell(14).setCellValue(0);
+			}
+		}
+	}
+
+	private void dodatniDaniInvalidnostTjelesnoOstecenje(Zaposlenik zaposlenik, Row redak)
+	{
+		if(zaposlenik.getTjelesno_ostecenje_invalidnost() == "Tjelesno oštećenje")
+		{
+			redak.createCell(13).setCellValue(3);
+		}
+		else if(zaposlenik.getTjelesno_ostecenje_invalidnost() == "Invalidnost")
+		{
+			redak.createCell(13).setCellValue(5);
+		}
+		else
+		{
+			redak.createCell(13).setCellValue(0);
+		}
+	}
+
+	private void dodatniDaniRukovoditelj(Zaposlenik zaposlenik, Row redak)
+	{
+		if(zaposlenik.getRola().getNaziv() == "Rukovoditelj")
+		{
+			redak.createCell(12).setCellValue(2);
+		}
+		else
+		{
+			redak.createCell(12).setCellValue(0);
+		}
+	}
+
+	private void dodatniDaniGodineStaza(Zaposlenik zaposlenik, Row redak)
+	{
+		if(zaposlenik.getGodine_staza() > 5 && zaposlenik.getGodine_staza() <= 10)
+		{
+			redak.createCell(11).setCellValue(2);
+		}
+		
+		else if(zaposlenik.getGodine_staza() > 10 && zaposlenik.getGodine_staza() <= 15)
+		{
+			redak.createCell(11).setCellValue(4);
+		}
+		
+		else if(zaposlenik.getGodine_staza() > 15 && zaposlenik.getGodine_staza() <= 20)
+		{
+			redak.createCell(11).setCellValue(6);
+		}
+		
+		else if(zaposlenik.getGodine_staza() > 20)
+		{
+			redak.createCell(11).setCellValue(7);
+		}
+		else
+		{
+			redak.createCell(11).setCellValue(0);
+		}
 	}
 }

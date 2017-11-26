@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8"/>
-		<title>Profil zaposlenika</title>
+		<title>Rezervacija</title>
 		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
 		<link rel="stylesheet" th:href="@{/css/stilovi.css}"/>
 		<link rel="stylesheet" th:href="@{/css/jquery-ui.css}"/>
@@ -64,7 +64,7 @@
 														</tr>
 														<tr>
 															<td>
-																<input type="submit" class="btn btn-default" value="Rezerviraj"/>
+																<input type="submit" id="btnRezerviraj" name="btnRezerviraj" class="btn btn-default" value="Rezerviraj"/>
 															</td>
 														</tr>
 													</table>
@@ -92,7 +92,7 @@
 												<th>Datum prijave</th>
 												<th>Datum odjave</th>
 											</tr>
-											<th:block th:each="rezervacija : ${session.rezervacije}">
+											<th:block th:each="rezervacija : ${rezervacije}">
 												<tr>
 													<td th:text="${rezervacija.hotel.grad.naziv}"></td>
 													<td th:text="${rezervacija.hotel.naziv}"></td>
@@ -122,5 +122,23 @@
 		$(function(){
 			$("#datum_odjave").datepicker({dateFormat: 'yy-mm-dd', minDate: 1});
 		});
+
+		$("#btnRezerviraj").click(function(){
+			if($('#datum_prijave').val() == ''){
+				alert("Polje datum prijave je obavezno!");
+				return false;
+				}
+			else{
+				$(this).submit();
+				}
+
+			if($('#datum_odjave').val() == ''){
+				alert("Polje datum odjave je obavezno!");
+				return false;
+				}
+			else{
+				$(this).submit();
+				}
+			});
 	</script>
 </html>

@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.aplikacija.entities.Grad;
@@ -18,29 +19,33 @@ public class RezervacijaController
 	@Autowired
 	private IRepozitorijRezervacija repozitorijRezervacija;
 	
-	@GetMapping(value = "/homeRezervacija")
-	public String homeRezervacija(HttpServletRequest request)
+	@GetMapping(value = "/home-rezervacija")
+	public String homeRezervacija(Model model)
 	{
 		List<Grad> gradovi = repozitorijRezervacija.dohvatiGradove();
-		request.getSession().setAttribute("gradovi", gradovi);
+		List<Hotel> hoteli = repozitorijRezervacija.dohvatiHotele("Crikvenica");
+		model.addAttribute("gradovi", gradovi);
+		model.addAttribute("hoteli", hoteli);
+		
 		return "homeRezervacija";
 	}
 
-	@GetMapping(value = "/dohvatiHotele")
-	public String dohvatiHotele()
+	@GetMapping(value = "/dohvati-hotele")
+	public String dohvatiHotele(Model model)
 	{
+		model.addAttribute("odabraniGrad", "Crikvenica");
 		return "homeRezervacija";
 	}
 	
 	@PostMapping(value = "/dohvatiHotele")
-	public String dohvatiHotele(HttpServletRequest request)
+	public String dohvatiHotele(Model model, HttpServletRequest request)
 	{
 		String odabraniGrad = request.getParameter("odabraniGrad");	
 		List<Grad> gradovi = repozitorijRezervacija.dohvatiGradove();
 		List<Hotel> hoteli = repozitorijRezervacija.dohvatiHotele(odabraniGrad);
-		request.getSession().setAttribute("odabraniGrad", odabraniGrad);
-		request.getSession().setAttribute("gradovi", gradovi);
-		request.getSession().setAttribute("hoteli", hoteli);
+		model.addAttribute("odabraniGrad", odabraniGrad);
+		model.addAttribute("gradovi", gradovi);
+		model.addAttribute("hoteli", hoteli);
 		
 		return "homeRezervacija";
 	}
@@ -52,24 +57,25 @@ public class RezervacijaController
 	}
 	
 	@PostMapping(value = "/rezervacija")
-	public String rezervacija(HttpServletRequest request)
+	public String rezervacija(HttpServletRequest request, Model model)
 	{
+		Zaposlenik zaposlenik = (Zaposlenik) request.getSession().getAttribute("zaposlenik");
 		String nazivHotela =  request.getParameter("nazivHotela");
 		Hotel odabraniHotel = repozitorijRezervacija.dohvatiHotel(nazivHotela);
 		request.getSession().setAttribute("odabraniHotel", odabraniHotel);
+		model.addAttribute("rezervacije", zaposlenik.getRezervacije());
 		return "rezervacija";
 	}
 	
 	@GetMapping(value = "/rezerviraj")
 	public String rezerviraj(HttpServletRequest request)
 	{
-		Zaposlenik zaposlenik = (Zaposlenik) request.getSession().getAttribute("zaposlenik");
-		prikaziRezervacije(request, zaposlenik);
+		//prikaziRezervacije(request, zaposlenik);
 		return "rezervacija";
 	}
 	
 	@PostMapping(value = "/rezerviraj")
-	public String rezervirajPost(HttpServletRequest request)
+	public String rezervirajPost(HttpServletRequest request, Model model)
 	{
 		String datumPrijave = request.getParameter("datum_prijave");
 		String datumOdjave = request.getParameter("datum_odjave");
@@ -82,14 +88,9 @@ public class RezervacijaController
 		rezervacija.setZaposlenik(zaposlenik);
 		rezervacija.setHotel(hotel);
 		repozitorijRezervacija.rezervirajSobu(rezervacija);
-		prikaziRezervacije(request, zaposlenik);
+		model.addAttribute("rezervacije", zaposlenik.getRezervacije());
+		//prikaziRezervacije(m, zaposlenik);
 		
 		return "rezervacija";
-	}
-	
-	private void prikaziRezervacije(HttpServletRequest request, Zaposlenik zaposlenik)
-	{
-		List<Rezervacija> rezervacije = repozitorijRezervacija.dohvatiRezervacije(zaposlenik);
-		request.getSession().setAttribute("rezervacije", rezervacije);
 	}
 }
