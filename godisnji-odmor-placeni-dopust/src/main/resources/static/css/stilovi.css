@@ -84,6 +84,15 @@ select
 	border-color: darkblue;
 }
 
+.error
+{
+    color: red;
+}
+.valid
+{
+    color: darkblue;
+}
+
 /* datepicker */
 
 .ui-datepicker, .ui-datepicker-header

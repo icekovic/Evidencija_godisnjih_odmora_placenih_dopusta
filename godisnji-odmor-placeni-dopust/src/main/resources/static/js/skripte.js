@@ -67,7 +67,6 @@ $(document).ready(function(){
 	    		
 	    		//registracija
 	    		$("#registracija").validate({
-	    			errorClass: 'errors',
 	    			rules: {
 	    				ime: {
 	    					required: true
