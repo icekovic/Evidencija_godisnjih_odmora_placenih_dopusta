@@ -26,21 +26,21 @@ public class RezervacijaController
 		List<Hotel> hoteli = repozitorijRezervacija.dohvatiHotele("Crikvenica");
 		model.addAttribute("gradovi", gradovi);
 		model.addAttribute("hoteli", hoteli);
-		
-		return "homeRezervacija";
-	}
-
-	@GetMapping(value = "/dohvati-hotele")
-	public String dohvatiHotele(Model model)
-	{
 		model.addAttribute("odabraniGrad", "Crikvenica");
+		
+		return "homeRezervacija";		
+	}
+	
+	@GetMapping(value = "/hoteli")
+	public String hoteli()
+	{
 		return "homeRezervacija";
 	}
 	
-	@PostMapping(value = "/dohvatiHotele")
-	public String dohvatiHotele(Model model, HttpServletRequest request)
+	@PostMapping(value = "/hoteli")
+	public String hoteli(Model model, HttpServletRequest request)
 	{
-		String odabraniGrad = request.getParameter("odabraniGrad");	
+		String odabraniGrad = request.getParameter("odabraniGrad");
 		List<Grad> gradovi = repozitorijRezervacija.dohvatiGradove();
 		List<Hotel> hoteli = repozitorijRezervacija.dohvatiHotele(odabraniGrad);
 		model.addAttribute("odabraniGrad", odabraniGrad);
@@ -57,30 +57,33 @@ public class RezervacijaController
 	}
 	
 	@PostMapping(value = "/rezervacija")
-	public String rezervacija(HttpServletRequest request, Model model)
+	public String rezervacija(Model model, HttpServletRequest request)
 	{
 		Zaposlenik zaposlenik = (Zaposlenik) request.getSession().getAttribute("zaposlenik");
-		String nazivHotela =  request.getParameter("nazivHotela");
+		String nazivHotela = request.getParameter("nazivHotela");
 		Hotel odabraniHotel = repozitorijRezervacija.dohvatiHotel(nazivHotela);
+		List<Rezervacija> rezervacije = repozitorijRezervacija.dohvatiRezervacije(zaposlenik);
+		
+		model.addAttribute("rezervacije", rezervacije);
+		model.addAttribute("odabraniHotel", odabraniHotel);
 		request.getSession().setAttribute("odabraniHotel", odabraniHotel);
-		model.addAttribute("rezervacije", zaposlenik.getRezervacije());
+		
 		return "rezervacija";
 	}
 	
 	@GetMapping(value = "/rezerviraj")
-	public String rezerviraj(HttpServletRequest request)
+	public String rezerviraj()
 	{
-		//prikaziRezervacije(request, zaposlenik);
 		return "rezervacija";
 	}
 	
 	@PostMapping(value = "/rezerviraj")
-	public String rezervirajPost(HttpServletRequest request, Model model)
+	public String rezerviraj(Model model, HttpServletRequest request)
 	{
-		String datumPrijave = request.getParameter("datum_prijave");
-		String datumOdjave = request.getParameter("datum_odjave");
 		Zaposlenik zaposlenik = (Zaposlenik) request.getSession().getAttribute("zaposlenik");
 		Hotel hotel = (Hotel) request.getSession().getAttribute("odabraniHotel");
+		String datumPrijave = request.getParameter("datum_prijave");
+		String datumOdjave = request.getParameter("datum_odjave");
 		
 		Rezervacija rezervacija = new Rezervacija();
 		rezervacija.setDatum_prijave(datumPrijave);
@@ -88,8 +91,9 @@ public class RezervacijaController
 		rezervacija.setZaposlenik(zaposlenik);
 		rezervacija.setHotel(hotel);
 		repozitorijRezervacija.rezervirajSobu(rezervacija);
-		model.addAttribute("rezervacije", zaposlenik.getRezervacije());
-		//prikaziRezervacije(m, zaposlenik);
+		
+		List<Rezervacija> rezervacije = repozitorijRezervacija.dohvatiRezervacije(zaposlenik);
+		model.addAttribute("rezervacije", rezervacije);
 		
 		return "rezervacija";
 	}

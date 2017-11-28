@@ -1,5 +1,6 @@
 package com.aplikacija.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,6 +23,13 @@ public class RepozitorijRezervacija implements IRepozitorijRezervacija
 	public void rezervirajSobu(Rezervacija rezervacija)
 	{
 		entityManager.persist(rezervacija);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Rezervacija> dohvatiSveRezervacije()
+	{
+		Query query = entityManager.createQuery("from Rezervacija");
+		return query.getResultList();
 	}
 		
 	@SuppressWarnings("unchecked")
@@ -49,6 +57,15 @@ public class RepozitorijRezervacija implements IRepozitorijRezervacija
 
 	public List<Rezervacija> dohvatiRezervacije(Zaposlenik zaposlenik)
 	{
-		return zaposlenik.getRezervacije();
+		List<Rezervacija> rezervacije = new ArrayList<>();
+		for(Rezervacija rezervacija : dohvatiSveRezervacije())
+		{
+			if(rezervacija.getZaposlenik().getId_zaposlenik() == zaposlenik.getId_zaposlenik())
+			{
+				rezervacije.add(rezervacija);
+			}
+		}
+		
+		return rezervacije;
 	}
 }

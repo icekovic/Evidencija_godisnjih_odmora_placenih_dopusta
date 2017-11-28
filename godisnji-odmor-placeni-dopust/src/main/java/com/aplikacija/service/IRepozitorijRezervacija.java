@@ -13,4 +13,5 @@ public interface IRepozitorijRezervacija
 	public Hotel dohvatiHotel(String nazivHotela);
 	public void rezervirajSobu(Rezervacija rezervacija);
 	public List<Rezervacija> dohvatiRezervacije(Zaposlenik zaposlenik);
+	public List<Rezervacija> dohvatiSveRezervacije();
 }

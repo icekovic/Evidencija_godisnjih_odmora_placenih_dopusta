@@ -36,6 +36,10 @@ $(document).ready(function(){
 	    	$(function(){
 	    		$("#do_datuma_placeni_dopust").datepicker({dateFormat: 'yy-mm-dd', minDate: 0});
 	    	});
+	    	
+	    	$(function(){
+	    		$("#datum_odjave").datepicker({dateFormat: 'yy-mm-dd', minDate: 0});
+	    	});
 //	    
 //	    //validacije
 //	    	
@@ -63,6 +67,7 @@ $(document).ready(function(){
 	    		
 	    		//registracija
 	    		$("#registracija").validate({
+	    			errorClass: 'errors',
 	    			rules: {
 	    				ime: {
 	    					required: true

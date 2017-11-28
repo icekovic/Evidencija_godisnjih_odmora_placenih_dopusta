@@ -69,13 +69,13 @@ public class HomeController
 		return "home";
 	}
 	
-	@GetMapping(value = "/profilZaposlenikaRegistracija")
+	@GetMapping(value = "/profil-zaposlenika-registracija")
 	public String profilZaposlenikaRegistracija()
 	{
 		return "profilZaposlenika";
 	}
 	
-	@PostMapping(value = "/profilZaposlenikaRegistracija")
+	@PostMapping(value = "/profil-zaposlenika-registracija")
 	public String profilZaposlenikaRegistracija(HttpServletRequest request)
 	{	
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);

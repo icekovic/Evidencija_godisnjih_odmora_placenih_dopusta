@@ -19,7 +19,7 @@
 								<th:block th:each="grad : ${gradovi}">
 									<tr>
 										<td>
-											<form th:action="@{/dohvati-hotele}" method="post">
+											<form th:action="@{/hoteli}" method="post">
 												<input type="hidden" id="odabraniGrad" name="odabraniGrad" th:value="${grad.naziv}" />
 												<input type="submit" class="btn btn-default btnGradovi" th:value="${grad.naziv}"/>
 											</form>											
