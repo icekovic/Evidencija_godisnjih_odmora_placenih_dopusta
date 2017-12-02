@@ -249,14 +249,14 @@
 												<td th:text="${zahtjev.zaposlenik.ime + ' ' + zahtjev.zaposlenik.prezime}"></td>
 												<td th:text="${zahtjev.status_zahtjeva.status}"></td>
 												<td>
-													<form th:action="@{/odobriZahtjev}" method="post">
+													<form th:action="@{/odobri-zahtjev}" method="post">
 														<input type="hidden" id="idZahtjev" name="idZahtjev" th:value="${zahtjev.id_zahtjev}" />
 														<input type="submit" class="btn btn-default" value="Odobri zahtjev"/>
 													</form>
 													
 												</td>
 												<td>
-													<form th:action="@{/odbijZahtjev}" method="post">
+													<form th:action="@{/odbij-zahtjev}" method="post">
 														<input type="hidden" class="btn btn-default" id="idZahtjev" name="idZahtjev" th:value="${zahtjev.id_zahtjev}" />
 														<input type="submit" class="btn btn-default btn-odbij-zahtjev" value="Odbij zahtjev"/>
 													</form>
@@ -396,14 +396,14 @@
 		});
 
 		//provjera broja dana plaćenog dopusta
-		$("#btnKreirajZahtjevPlaceniDopust").click(function(){
+		/* $("#btnKreirajZahtjevPlaceniDopust").click(function(){
 			if($("#razlika_dana").val() > $("#trajanje").val()){
 				alert('Odabrani raspon datuma sadrži previše dana. Odaberite druge datume.');
 			}
 			if($("#trajanje").val() > $("#razlika_dana").val()){
 				alert('Odabrani raspon datuma sadrži premalo dana. Odaberite druge datume.');
 				}
-		});
+		}); */
 	</script>
 	</body>
 </html>

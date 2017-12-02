@@ -18,42 +18,71 @@
 						<div class="col-md-4 col-lg-4 col-sm-4">
 							<table class="table table-borderless table-responsive">
 								<tr>
-									<td><a href="godisnjiOdmori" class="btn btn-default">Kreiraj izvješće godišnjih odmora</a></td>
+									<td><a href="godisnji-odmori" class="btn btn-default">Kreiraj izvješće godišnjih odmora</a></td>
 								</tr>
 							</table>
 						</div>
 						<div class="col-md-4 col-lg-4 col-sm-4">
 							<table class="table table-borderless table-responsive">
 								<tr>
-									<td><a href="placeniDopusti" class="btn btn-default">Kreiraj izvješće plaćenih dopusta</a></td>
+									<td><a href="placeni-dopusti" class="btn btn-default">Kreiraj izvješće plaćenih dopusta</a></td>
 								</tr>
 							</table>
 						</div>
 						<div class="col-mod-4 col-lg-4 col-sm-4">
 							<table class="table table-borderless table-responsive">
 								<tr>
-									<td><a href="iznosRegresa" class="btn btn-default">Kreiraj izvješće iznosa regresa za godišnji odmor</a></td>
+									<td><a href="iznos-regresa" class="btn btn-default">Kreiraj izvješće iznosa regresa za godišnji odmor</a></td>
 								</tr>
 							</table>
 						</div>
 					</div>
 					
-					<div class="col-md-5 col-lg-5 col-sm-5 col-md-offset-3">
+					<div class="col-md-4 col-lg-4 col-sm-4">
 						<table class="table table-borderless table-responsive col-md-4">
-							<th:block th:each="izvjesce : ${session.izvjesca}">
+							<tr>
+								<th>Izvješće godišnjeg odmora</th>
+							</tr>
+							<tr>
+								<td><a th:text="${izvjesceGodisnjiOdmori}" href="preuzmi-izvjesce-godisnjih-odmora"></a></td>
+							</tr>
+						</table>
+					</div>
+					
+					<div class="col-md-4 col-lg-4 col-sm-4">
+						<table class="table table-borderless table-responsive col-md-4">
+							<tr>
+								<th>Izvješće plaćenih dopusta</th>
+							</tr>
+							<tr>
+								<td><a th:text="${izvjescePlaceniDopusti}" href="preuzmi-izvjesce-placenih-dopusta"></a></td>
+							</tr>
+						</table>
+					</div>
+					
+					<div class="col-md-4 col-lg-4 col-sm-4">
+						<table class="table table-borderless table-responsive col-md-4">
+							<tr>
+								<th>Izvješće iznosa regresa</th>
+							</tr>
+							<tr>
+								<td><a th:text="${izvjesceIznosiRegresa}" href="preuzmi-izvjesce-iznosa-regresa"></a></td>
+							</tr>
+						</table>
+					</div>
+					
+					<!-- <div class="col-md-5 col-lg-5 col-sm-5 col-md-offset-3">
+						<table class="table table-borderless table-responsive col-md-4">
+							<th:block th:each="izvjesce : ${izvjesca}">
 								<tr>
-									<td>Putanja do izvješća</td>
-									<td th:text="${izvjesce}"></td>
-								</tr>
+									<td>Izvješće</td>
+									<td><a th:text="${izvjesce}" href="preuzmi-izvjesce" th:value="${izvjesce}" th:name="nazivIzvjesca"></a></td>
+								</tr>		
 							</th:block>
 						</table>
-					</div>													
+					</div> -->													
 				</div>
 			</div>
 		</div>
-		
-		<script type="application/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" th:src="@{https://code.jquery.com/jquery-3.2.1.min.js}"></script>
-		<script type="application/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" th:src="@{http://code.jquery.com/ui/1.12.1/jquery-ui.js}"></script>
-		<script type="application/javascript" src="js/skripte.js" th:src="@{/js/skripte.js}"></script>
 	</body>
 </html>

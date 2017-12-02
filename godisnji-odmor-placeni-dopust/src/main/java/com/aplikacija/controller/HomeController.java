@@ -1,14 +1,20 @@
 package com.aplikacija.controller;
 
+import java.io.BufferedInputStream;
 import java.io.File;
-import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.aplikacija.entities.OrganizacijskaJedinica;
@@ -201,7 +207,17 @@ public class HomeController
 		zahtjev.setNapomena(napomena);
 		zahtjev.setPlaceni_dopust(placeniDopust);
 		
-		repozitorijGlavnaAplikacija.dodajZahtjev(zahtjev, zaposlenik);			
+		repozitorijGlavnaAplikacija.dodajZahtjev(zahtjev, zaposlenik);
+		
+		try
+		{
+			repozitorijGlavnaAplikacija.posaljiMailRukovoditelju(zahtjev, zaposlenik);
+		}
+		catch (MailException ex)
+		{
+			ex.printStackTrace();
+		}
+		
 		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
 		
 		List<Zahtjev> zahtjevi = repozitorijGlavnaAplikacija.dohvatiZahtjeve(zaposlenik);
@@ -211,36 +227,44 @@ public class HomeController
 	}
 	
 	@GetMapping(value = "/izvjesca")
-	public String izvjesca(HttpServletRequest request)
+	public String izvjesca(Model model)
 	{
-		prikaziIzvjesca(request);
+		prikaziIzvjesceGodisnjihOdmora(model);
+		prikaziIzvjescePlacenihDopusta(model);
+		prikaziIzvjesceIznosiRegresa(model);
 		return "izvjesca";
 	}
 	
-	@GetMapping(value = "/godisnjiOdmori")
-	public String kreirajIzvjesceGodisnjihOdmora(HttpServletRequest request)
+	@GetMapping(value = "/godisnji-odmori")
+	public String kreirajIzvjesceGodisnjihOdmora(Model model)
 	{
 		repozitorijGlavnaAplikacija.kreirajIzvjesceGodisnjihOdmora();
-		prikaziIzvjesca(request);		
+		prikaziIzvjesceGodisnjihOdmora(model);
+		prikaziIzvjescePlacenihDopusta(model);
+		prikaziIzvjesceIznosiRegresa(model);
 		return "izvjesca";
 	}
 	
-	@GetMapping(value = "/placeniDopusti")
-	public String kreirajIzvjescePlacenihDopusta(HttpServletRequest request)
+	@GetMapping(value = "/placeni-dopusti")
+	public String kreirajIzvjescePlacenihDopusta(Model model)
 	{
 		repozitorijGlavnaAplikacija.kreirajIzvjescePlacenihDopusta();
-		prikaziIzvjesca(request);
+		prikaziIzvjesceGodisnjihOdmora(model);
+		prikaziIzvjescePlacenihDopusta(model);
+		prikaziIzvjesceIznosiRegresa(model);
 		return "izvjesca";
 	}
-	
-	@GetMapping(value = "/iznosRegresa")
-	public String kreirajIznosRegresaGodisnjegOdmora(HttpServletRequest request)
+
+	@GetMapping(value = "/iznos-regresa")
+	public String kreirajIznosRegresaGodisnjegOdmora(Model model)
 	{
 		repozitorijGlavnaAplikacija.kreirajIzvjesceIznosRegresaGodisnjegOdmora();
-		prikaziIzvjesca(request);
+		prikaziIzvjesceGodisnjihOdmora(model);
+		prikaziIzvjescePlacenihDopusta(model);
+		prikaziIzvjesceIznosiRegresa(model);
 		return "izvjesca";
 	}
-	
+
 	@GetMapping(value = "/odjava")
 	public String odjava(HttpServletRequest request)
 	{
@@ -248,28 +272,13 @@ public class HomeController
 		return "redirect:/";
 	}
 	
-	private void prikaziIzvjesca(HttpServletRequest request)
-	{
-		List<String> putanje = new ArrayList<String>();
-		File[] izvjesca = new File("D:\\Izvjesca").listFiles();
-		
-		for(File izvjesce : izvjesca)
-		{
-			if(izvjesce.isFile())
-			{
-				putanje.add(izvjesce.getAbsolutePath());
-			}
-		}
-		request.getSession().setAttribute("izvjesca", izvjesca);
-	}
-	
-	@GetMapping(value = "/odobriZahtjev")
+	@GetMapping(value = "/odobri-zahtjev")
 	public String odobriZahtjev()
 	{
 		return "profilZaposlenika";
 	}
 	
-	@PostMapping(value = "/odobriZahtjev")
+	@PostMapping(value = "/odobri-zahtjev")
 	public String odobriZahtjev(HttpServletRequest request)
 	{
 		int idZahtjev = Integer.parseInt(request.getParameter("idZahtjev"));
@@ -278,13 +287,13 @@ public class HomeController
 		return "profilZaposlenika";
 	}
 	
-	@GetMapping(value = "/odbijZahtjev")
+	@GetMapping(value = "/odbij-zahtjev")
 	public String odbijZahtjev()
 	{
 		return "profilZaposlenika";
 	}
 	
-	@PostMapping(value = "/odbijZahtjev")
+	@PostMapping(value = "/odbij-zahtjev")
 	public String odbijZahtjevPost(HttpServletRequest request)
 	{
 		int idZahtjev = Integer.parseInt(request.getParameter("idZahtjev"));
@@ -292,4 +301,173 @@ public class HomeController
 		request.getSession().setAttribute("sviZahtjevi", repozitorijGlavnaAplikacija.dohvatiSveZahtjeve());
 		return "profilZaposlenika";
 	}
+	
+	@GetMapping(value = "/preuzmi-izvjesce-godisnjih-odmora")
+	public void preuzmiIzvjesceGodisnjihOdmora(HttpServletRequest request, HttpServletResponse response)
+	{
+		File izvjesce =  new File("D:\\Izvjesca\\GodisnjiOdmori.xls");
+		
+		try
+		{
+			InputStream inputStream = new BufferedInputStream(new FileInputStream(izvjesce));
+			String mimeType = URLConnection.guessContentTypeFromStream(inputStream);
+			
+			if(mimeType == null)
+			{
+				mimeType = "application/octet-stream";
+			}
+			
+			response.setContentType(mimeType);
+			response.setContentLength((int) izvjesce.length());
+			response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", izvjesce.getName()));
+			FileCopyUtils.copy(inputStream, response.getOutputStream());
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	@GetMapping(value = "/preuzmi-izvjesce-placenih-dopusta")
+	public void preuzmiIzvjescePlacenihDopusta(HttpServletRequest request, HttpServletResponse response)
+	{
+		File izvjesce =  new File("D:\\Izvjesca\\PlaceniDopusti.xls");
+		
+		try
+		{
+			InputStream inputStream = new BufferedInputStream(new FileInputStream(izvjesce));
+			String mimeType = URLConnection.guessContentTypeFromStream(inputStream);
+			
+			if(mimeType == null)
+			{
+				mimeType = "application/octet-stream";
+			}
+			
+			response.setContentType(mimeType);
+			response.setContentLength((int) izvjesce.length());
+			response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", izvjesce.getName()));
+			FileCopyUtils.copy(inputStream, response.getOutputStream());
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	@GetMapping(value = "/preuzmi-izvjesce-iznosa-regresa")
+	public void preuzmiIzvjesceIznosaRegresa(HttpServletRequest request, HttpServletResponse response)
+	{
+		File izvjesce =  new File("D:\\Izvjesca\\IznosiRegresa.xls");
+		
+		try
+		{
+			InputStream inputStream = new BufferedInputStream(new FileInputStream(izvjesce));
+			String mimeType = URLConnection.guessContentTypeFromStream(inputStream);
+			
+			if(mimeType == null)
+			{
+				mimeType = "application/octet-stream";
+			}
+			
+			response.setContentType(mimeType);
+			response.setContentLength((int) izvjesce.length());
+			response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", izvjesce.getName()));
+			FileCopyUtils.copy(inputStream, response.getOutputStream());
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	private void prikaziIzvjesceGodisnjihOdmora(Model model)
+	{
+		File folder = new File("D:\\Izvjesca");
+		String[] datoteke = folder.list();
+		String izvjesceGodisnjiOdmori = null;
+		
+		for(String datoteka : datoteke)
+		{
+			if(datoteka.equals("GodisnjiOdmori.xls"))
+			{
+				izvjesceGodisnjiOdmori = datoteka;
+			}
+		}
+		
+		model.addAttribute("izvjesceGodisnjiOdmori", izvjesceGodisnjiOdmori);
+	}
+	
+	private void prikaziIzvjescePlacenihDopusta(Model model)
+	{
+		File folder = new File("D:\\Izvjesca");
+		String[] datoteke = folder.list();
+		String izvjescePlaceniDopusti = null;
+		
+		for(String datoteka : datoteke)
+		{
+			if(datoteka.equals("PlaceniDopusti.xls"))
+			{
+				izvjescePlaceniDopusti = datoteka;
+			}
+		}
+		
+		model.addAttribute("izvjescePlaceniDopusti", izvjescePlaceniDopusti);
+	}
+	
+	private void prikaziIzvjesceIznosiRegresa(Model model)
+	{
+		File folder = new File("D:\\Izvjesca");
+		String[] datoteke = folder.list();
+		String izvjesceIznosiRegresa = null;
+		
+		for(String datoteka : datoteke)
+		{
+			if(datoteka.equals("IznosiRegresa.xls"))
+			{
+				izvjesceIznosiRegresa = datoteka;
+			}
+		}
+		
+		model.addAttribute("izvjesceIznosiRegresa", izvjesceIznosiRegresa);
+	}
+	
+//	@GetMapping(value = "/preuzmi-izvjesce")
+//	public void preuzmiIzvjesce(HttpServletRequest request, HttpServletResponse response)
+//	{		
+//		File izvjesce =  new File("D:\\Izvjesca\\GodisnjiOdmori.xls");
+//		
+//		try
+//		{
+//			InputStream inputStream = new BufferedInputStream(new FileInputStream(izvjesce));
+//			String mimeType = URLConnection.guessContentTypeFromStream(inputStream);
+//			
+//			if(mimeType == null)
+//			{
+//				mimeType = "application/octet-stream";
+//			}
+//			
+//			response.setContentType(mimeType);
+//			response.setContentLength((int) izvjesce.length());
+//			response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", izvjesce.getName()));
+//			FileCopyUtils.copy(inputStream, response.getOutputStream());
+//		}
+//		catch (IOException e)
+//		{
+//			e.printStackTrace();
+//		}
+//	}
+	
+//	private void prikaziIzvjesca(Model model)
+//	{		
+//		File folder = new File("D:/Izvjesca");
+//		String[] datoteke = folder.list();
+//		List<String> izvjesca = new ArrayList<>();
+//		
+//		for(String datoteka : datoteke)
+//		{
+//			izvjesca.add(datoteka);
+//		}
+//		
+//		model.addAttribute("izvjesca", izvjesca);
+//	}
 }
