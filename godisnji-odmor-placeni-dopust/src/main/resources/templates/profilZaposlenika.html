@@ -395,15 +395,51 @@
 			 };
 		});
 
+		$(document).ready(function(){
+
+				//razlika dana plaćenih dopusta    	
+	    		$("#od_datuma_placeni_dopust").datepicker({
+	    			dateFormat: "yy-mm-dd",
+	    			minDate: 0,	    		
+	    			onSelect: function(dateStr){
+	    				var min = $(this).datepicker('getDate'); // Get selected date
+	    				$("#do_datuma_placeni_dopust").datepicker('option', 'minDate', min || '0'); // Set other min, default to today
+	    			}
+	    		});
+
+	    		$("#do_datuma_placeni_dopust").datepicker({
+	    				dateFormat: "yy-mm-dd",
+	    				minDate: 0,
+	    				onSelect: function (dateStr) {
+	    	    	        var max = $(this).datepicker('getDate'); // Get selected date
+	    	    	        $('#datepicker').datepicker('option', 'maxDate', max || '+1Y+6M'); // Set other max, default to +18 months
+	    	    	        var start = $("#od_datuma_placeni_dopust").datepicker("getDate");
+	    	    	        var end = $("#do_datuma_placeni_dopust").datepicker("getDate");
+	    	    	        var days = (end - start) / (1000 * 60 * 60 * 24);
+	    	    	        $("#razlika_dana").val(days);	    	    	           	        
+	    	    	    } 
+		    		});
+			});
+
 		//provjera broja dana plaćenog dopusta
-		/* $("#btnKreirajZahtjevPlaceniDopust").click(function(){
+		$("#btnKreirajZahtjevPlaceniDopust").click(function(){
 			if($("#razlika_dana").val() > $("#trajanje").val()){
-				alert('Odabrani raspon datuma sadrži previše dana. Odaberite druge datume.');
+				alert('Raspon nema odgovarajući broj dana. Odaberite druge datume.');
+				return false;
 			}
+			else{
+				$(this).submit();
+			}
+
+
 			if($("#trajanje").val() > $("#razlika_dana").val()){
-				alert('Odabrani raspon datuma sadrži premalo dana. Odaberite druge datume.');
-				}
-		}); */
+				alert('Raspon nema odgovarajući broj dana. Odaberite druge datume.');
+				return false;
+			}
+			else{
+				$(this).submit();
+			}
+		});
 	</script>
 	</body>
 </html>

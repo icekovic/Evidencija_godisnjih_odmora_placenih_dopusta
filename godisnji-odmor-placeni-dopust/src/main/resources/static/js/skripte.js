@@ -157,14 +157,4 @@ $(document).ready(function(){
 	    	        $("#broj_radnih_dana").val(days);	    	        
 	    	    }
 	    	});
-	    		    	
-	    	//razlika dana plaćenih dopusta    	
-	    	$("#od_datuma_placeni_dopust").datepicker({
-	    		dateFormat: "yy-mm-dd",
-	    		minDate: 0,	    		
-	    		onSelect: function(dateStr){
-	    			var min = $(this).datepicker('getDate'); // Get selected date
-	    			$("#do_datuma_placeni_dopust").datepicker('option', 'minDate', min || '0'); // Set other min, default to today
-	    		}
-	    	});
 });
