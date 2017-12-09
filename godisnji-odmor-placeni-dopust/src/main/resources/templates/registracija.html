@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Registracija novog zaposlenika</title>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+		<link rel="stylesheet" th:href="@{/css/stilovi.css}"/>
+		<link rel="stylesheet" th:href="@{/css/jquery-ui.css}"/>
+	</head>
+	<body>
+		<form id="registracija" th:action="@{/profil-zaposlenika-registracija}" method="post">
+			<div class="container padding-top-20">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="text-center">Registracija</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-10 col-md-offset-2">
+							<div class="col-md-6 col-md-offset-1">
+								<table class="table table-borderless table-responsive">
+									<tr>
+                                        <td>Ime</td>
+                                        <td>
+                                        	<input type="text" class="form-control" id="ime" name="ime" autofocus="autofocus"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Prezime</td>
+                                        <td>
+                                        	<input type="text" class="form-control" id="prezime" name="prezime"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>
+                                        	<input type="text" class="form-control" id="email" name="email"/>
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>Korisničko ime</td>
+                                        <td>
+                                        	<input type="text" class="form-control" id="korisnicko_ime" name="korisnicko_ime"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lozinka</td>
+                                        <td>
+                                        	<input type="password" class="form-control" id="lozinka" name="lozinka"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ponovite lozinku</td>
+                                        <td>
+                                        	<input type="password" class="form-control" id="ponovljena_lozinka" name="ponovljena_lozinka"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Matični broj</td>
+                                        <td>
+                                        	<input type="text" class="form-control" id="maticni_broj" name="maticni_broj"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Datum zaposlenja</td>
+                                        <td>
+                                        	<input type="text" class="form-control" id="datum_zaposlenja" name="datum_zaposlenja"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tjelesno oštećenje/invalidnost</td>
+                                        <td>
+                                        	<select name="tjelesno_ostecenje_invalidnost">
+                                        		<option>NE</option>
+                                        		<option>Tjelesno oštećenje</option>
+                                        		<option>Invalidnost</option>
+                                        	</select>                                       	
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Godine staža</td>
+                                        <td>
+                                        	<input type="number" class="form-control" min="0" name="godine_staza"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Broj djece</td>
+                                        <td>
+                                        	<input type="number" class="form-control" min="0" name="broj_djece"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Organizacijska jedinica</td>     
+                                        <td>
+                                        	<div class="divOrganizacijskeJedinice">
+                                        		<select name="organizacijskaJedinica">
+                                        			<th:block th:each="organizacijskaJedinica : ${organizacijskeJedinice}">
+                                        				<option th:text="${organizacijskaJedinica.naziv}"></option> 
+                                        			</th:block>                                       		
+                                        		</select>
+                                        	</div>                                       	
+                                        </td>                                                                                                            
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                        	<button type="submit" name="btnRegistracija" id="btnRegistracija" class="btn btn-default btnPrijava">Registrirajte se</button>
+                                        </td>
+                                    </tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>				
+			</div>
+		</form>
+		<script type="application/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" th:src="@{https://code.jquery.com/jquery-3.2.1.min.js}"></script>
+		<script type="application/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" th:src="@{http://code.jquery.com/ui/1.12.1/jquery-ui.js}"></script>
+		<script type="application/javascript" th:src="@{/js/jquery.validate.min.js}"></script>
+		<script type="application/javascript" src="js/ui.datepicker-hr.js" th:src="@{/js/ui.datepicker-hr.js}"></script>
+		<script type="application/javascript" src="js/skripte.js" th:src="@{/js/skripte.js}"></script>
+		<script type="application/javascript">
+		$(function(){
+			$.datepicker.setDefaults($.datepicker.regional['hr']);
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Izvješća</title>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+		<link rel="stylesheet" th:href="@{/css/stilovi.css}"/>
+		<link rel="stylesheet" th:href="@{/css/jquery-ui.css}"/>
+	</head>
+	<body>
+		<div class="container padding-top-20">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="text-center">Pregled i izrada izvješća</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-4 col-lg-4 col-sm-4">
+							<table class="table table-borderless table-responsive">
+								<tr>
+									<td><a href="godisnji-odmori" class="btn btn-default">Kreiraj izvješće godišnjih odmora</a></td>
+								</tr>
+							</table>
+						</div>
+						<div class="col-md-4 col-lg-4 col-sm-4">
+							<table class="table table-borderless table-responsive">
+								<tr>
+									<td><a href="placeni-dopusti" class="btn btn-default">Kreiraj izvješće plaćenih dopusta</a></td>
+								</tr>
+							</table>
+						</div>
+						<div class="col-mod-4 col-lg-4 col-sm-4">
+							<table class="table table-borderless table-responsive">
+								<tr>
+									<td><a href="iznos-regresa" class="btn btn-default">Kreiraj izvješće iznosa regresa za godišnji odmor</a></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					
+					<div class="col-md-4 col-lg-4 col-sm-4">
+						<table class="table table-borderless table-responsive col-md-4">
+							<tr>
+								<th>Izvješće godišnjeg odmora</th>
+							</tr>
+							<tr>
+								<td><a class="linkIzvjesce" th:text="${izvjesceGodisnjiOdmori}" href="preuzmi-izvjesce-godisnjih-odmora"></a></td>
+							</tr>
+						</table>
+					</div>
+					
+					<div class="col-md-4 col-lg-4 col-sm-4">
+						<table class="table table-borderless table-responsive col-md-4">
+							<tr>
+								<th>Izvješće plaćenih dopusta</th>
+							</tr>
+							<tr>
+								<td><a class="linkIzvjesce" th:text="${izvjescePlaceniDopusti}" href="preuzmi-izvjesce-placenih-dopusta"></a></td>
+							</tr>
+						</table>
+					</div>
+					
+					<div class="col-md-4 col-lg-4 col-sm-4">
+						<table class="table table-borderless table-responsive col-md-4">
+							<tr>
+								<th>Izvješće iznosa regresa</th>
+							</tr>
+							<tr>
+								<td><a class="linkIzvjesce" th:text="${izvjesceIznosiRegresa}" href="preuzmi-izvjesce-iznosa-regresa"></a></td>
+							</tr>
+						</table>
+					</div>												
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

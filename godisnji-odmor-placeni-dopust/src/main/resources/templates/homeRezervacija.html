@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Rezervacija sobe</title>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+		<link rel="stylesheet" th:href="@{/css/stilovi.css}"/>
+	</head>
+	<body>
+		<div class="container-fluid padding-top-20">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="text-center">Rezervacija</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-3 col-lg-3 col-sm-3">
+							<table class="table table-borderless table-responsive">
+								<th:block th:each="grad : ${gradovi}">
+									<tr>
+										<td>
+											<form th:action="@{/hoteli}" method="post">
+												<input type="hidden" id="odabraniGrad" name="odabraniGrad" th:value="${grad.naziv}" />
+												<input type="submit" class="btn btn-default btnGradovi" th:value="${grad.naziv}"/>
+											</form>											
+										</td>
+									</tr>
+								</th:block>
+							</table>
+						</div>
+						
+						<div class="col-md-9 col-lg-9 col-sm-9">
+							<div class="div-hoteli">
+								<div class="panel panel-default">
+									<div class="panel-heading text-center naziv-grada">
+										<h4 th:text="${odabraniGrad}"></h4>
+									</div>
+									<div class="panel-body">
+										<table class="table table-responsive table-borderless">
+											<th:block th:each="hotel : ${hoteli}">
+												<tr>
+													<td th:text="${hotel.naziv}"></td>
+													<td th:text="${hotel.broj_zvjezdica}"></td>
+													<td th:text="${hotel.detalji}"></td>
+													<td>
+														<form th:action="@{/rezervacija}" method="post">
+															<input type="hidden" id="nazivHotela" name="nazivHotela" th:value="${hotel.naziv}" />
+															<input type="submit" class="btn btn-default" value="Rezerviraj sobu"/>
+														</form>														
+													</td>
+												</tr>
+											</th:block>				
+										</table>
+									</div>								
+								</div>
+							</div>
+						</div>
+					</div>										
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Evidencija godišnjih odmora i plaćenih dopusta</title>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+		<link rel="stylesheet" th:href="@{/css/stilovi.css}"/>
+		<link rel="stylesheet" th:href="@{/css/bootstrap-year-calendar.css}"/>
+	</head>
+	<body>
+		<form id="home" th:action="@{/profil-zaposlenika}" method="post">
+			<div class="container padding-top">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="text-center">Prijava</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-10 col-md-offset-2">
+							<div class="col-md-6 col-md-offset-1">
+								<table class="table table-borderless table-responsive">
+									<tr>
+                                        <td>Korisničko ime</td>
+                                        <td>
+                                        	<input type="text" class="form-control" id="korisnickoIme" name="korisnickoIme" autofocus="autofocus"/>
+                                        </td>
+                                        <td th:text="${kriviPodaci}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lozinka</td>
+                                        <td>
+                                        	<input type="password" class="form-control" name="lozinka" id="lozinka"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                        	<input type="submit" id="btnPrijava" class="btn btn-default btnPrijava" value="Prijavite se"/>
+                                        </td>
+                                    </tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>				
+			</div>
+		</form>
+		<div class="col-md-10">
+			<div class="col-md-6 col-md-offset-6">
+				<table class="table table-borderless table-responsive">
+					<tr>
+                    	<td></td>
+                        <td class="lblNoviZaposlenik"><h4>Novi zaposlenik?</h4></td>
+                    </tr>
+                    <tr>
+                    	<td></td>
+                        <td>
+                        	<a href="registracija" class="btn btn-default btnRegistracija">Registrirajte se</a>
+                    	</td>
+                	</tr>
+				</table>
+			</div>
+		</div>
+		
+		<script type="application/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" th:src="@{https://code.jquery.com/jquery-3.2.1.min.js}"></script>
+		<script type="application/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" th:src="@{http://code.jquery.com/ui/1.12.1/jquery-ui.js}"></script>
+		<script type="application/javascript" th:src="@{/js/jquery.validate.min.js}"></script>
+		<script type="application/javascript" src="js/bootstrap-year-calendar.js" th:src="@{/js/bootstrap-year-calendar.js}"></script>
+		<script type="application/javascript" src="js/skripte.js" th:src="@{/js/skripte.js}"></script>
+	</body>
+</html>
