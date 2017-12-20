@@ -219,9 +219,19 @@
 						</div>
 					</div>
 					
-					<div class="container-fluid padding-top-15">
-						<div id="calendar" class="calendar">
-						</div>
+					<div class="container-fluid padding-top-15">					
+						<table class="table table-borderless table-responsive">
+							<tr>
+								<td>
+									<div id="calendar" class="calendar"></div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="legenda"></div>Blagdani
+								</td>
+							</tr>
+						</table>				
 					</div>
 					
 					<div class="container-fluid padding-top-15">
@@ -376,6 +386,13 @@
 			 else {
 			 	$(this).submit();
 			 };
+			 if(20 > $("#broj_radnih_dana").val()){
+				 alert("Broj dana godišnjeg odmora ne smije biti manji od 20!");
+				 return false;
+				 }
+			 else{
+				 $(this).submit();
+				 }
 		});
 
 		$("#btnKreirajZahtjevPlaceniDopust").click(function(){

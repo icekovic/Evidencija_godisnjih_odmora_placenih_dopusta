@@ -5,7 +5,7 @@
 
 	<groupId>com.aplikacija</groupId>
 	<artifactId>godisnji-odmor-placeni-dopust</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>aplikacija</version>
 	<packaging>war</packaging>
 
 	<name>godisnji-odmor-placeni-dopust</name>
@@ -45,7 +45,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>

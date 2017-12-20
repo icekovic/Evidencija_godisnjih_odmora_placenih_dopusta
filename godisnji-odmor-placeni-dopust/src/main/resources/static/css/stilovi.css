@@ -26,6 +26,13 @@ select
 	border-radius: 3px;
 }
 
+.legenda
+{
+	width: 25px;
+    height: 25px;
+    background: red;
+}
+
 .linkIzvjesce
 {
 	color: darkblue !important;

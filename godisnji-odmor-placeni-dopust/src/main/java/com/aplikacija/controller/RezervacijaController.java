@@ -85,6 +85,7 @@ public class RezervacijaController
 		String datumPrijave = request.getParameter("datum_prijave");
 		String datumOdjave = request.getParameter("datum_odjave");
 		
+		
 		Rezervacija rezervacija = new Rezervacija();
 		rezervacija.setDatum_prijave(datumPrijave);
 		rezervacija.setDatum_odjave(datumOdjave);

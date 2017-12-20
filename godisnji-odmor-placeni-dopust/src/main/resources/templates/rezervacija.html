@@ -56,7 +56,7 @@
 													<table class="table table-borderless table-responsive">
 														<tr>
 															<td>Datum prijave</td>
-															<td><input type="text" id="datum_prijave" name="datum_prijave" class="form-control" autofocus="autofocus" /></td>
+															<td><input type="text" id="datum_prijave" name="datum_prijave" class="form-control"/></td>
 														</tr>
 														<tr>
 															<td>Datum odjave</td>
@@ -115,12 +115,27 @@
 	<script type="application/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" th:src="@{http://code.jquery.com/ui/1.12.1/jquery-ui.js}"></script>
 	<script type="application/javascript" src="js/ui.datepicker-hr.js" th:src="@{/js/ui.datepicker-hr.js}"></script>
 	<script type="application/javascript">
-	
-		$(function(){
-			$("#datum_prijave").datepicker({dateFormat: 'yy-mm-dd', minDate: 0});
-		});
-		$(function(){
-			$("#datum_odjave").datepicker({dateFormat: 'yy-mm-dd', minDate: 1});
+
+		$(document).ready(function(){
+
+			//razlika dana plaćenih dopusta    	
+    		$("#datum_prijave").datepicker({
+    			dateFormat: "yy-mm-dd",
+    			minDate: 0,	    		
+    			onSelect: function(dateStr){
+    				var min = $(this).datepicker('getDate'); // Get selected date
+    				$("#datum_odjave").datepicker('option', 'minDate', min || '0'); // Set other min, default to today
+    			}
+    		});
+
+    		$("#datum_odjave").datepicker({
+    				dateFormat: "yy-mm-dd",
+    				minDate: 0,
+    				onSelect: function (dateStr) {
+    	    	        var max = $(this).datepicker('getDate'); // Get selected date
+    	    	        $('#datepicker').datepicker('option', 'maxDate', max || '+1Y+6M'); // Set other max, default to +18 months    	    	           	        
+    	    	    } 
+	    		});
 		});
 
 		$("#btnRezerviraj").click(function(){
