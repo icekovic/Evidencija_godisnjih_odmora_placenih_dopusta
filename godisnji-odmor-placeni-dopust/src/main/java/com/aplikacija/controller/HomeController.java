@@ -169,10 +169,13 @@ public class HomeController
 			ex.printStackTrace();
 		}
 		
+		List<Zahtjev> sviZahtjevi = repozitorijGlavnaAplikacija.dohvatiSveZahtjeve();
 		List<Zahtjev> zahtjevi = repozitorijGlavnaAplikacija.dohvatiZahtjeve(zaposlenik);
 		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorijGlavnaAplikacija.dohvatiTipovePlacenihDopusta();
+		
 		model.addAttribute("zahtjevi", zahtjevi);
 		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
+		model.addAttribute("sviZahtjevi", sviZahtjevi);
 		
 		return "profilZaposlenika";
 	}
@@ -186,6 +189,7 @@ public class HomeController
 	@PostMapping(value = "/novi-zahtjev-placeni-dopust")
 	public String noviZahtjevPlaceniDopust(HttpServletRequest request, Model model)
 	{
+		List<Zahtjev> sviZahtjevi = repozitorijGlavnaAplikacija.dohvatiSveZahtjeve();
 		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorijGlavnaAplikacija.dohvatiTipovePlacenihDopusta();
 		Zaposlenik zaposlenik = (Zaposlenik) request.getSession().getAttribute("zaposlenik");
 		
@@ -222,6 +226,7 @@ public class HomeController
 		
 		List<Zahtjev> zahtjevi = repozitorijGlavnaAplikacija.dohvatiZahtjeve(zaposlenik);
 		model.addAttribute("zahtjevi", zahtjevi);
+		model.addAttribute("sviZahtjevi", sviZahtjevi);
 		
 		return "profilZaposlenika";
 	}
