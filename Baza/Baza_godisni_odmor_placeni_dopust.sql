@@ -119,18 +119,3 @@ create table rezervacija
 	zaposlenik_id int not null foreign key references zaposlenik(id_zaposlenik),
 	hotel_id int not null foreign key references hotel(id_hotel)
 )
-
-
---odobravanje zahtjeva
-select
-	zahtjev.id_zahtjev,
-	zahtjev.tip,
-	zahtjev.od_datuma,
-	zahtjev.do_datuma,
-	zahtjev.broj_radnih_dana,
-	zaposlenik.ime +  ' ' + zaposlenik.prezime as zaposlenik,
-	status_zahtjeva.status
-from zahtjev
-inner join zaposlenik on zahtjev.zaposlenik_id = zaposlenik.id_zaposlenik
-inner join status_zahtjeva on zahtjev.status_zahtjeva_id = status_zahtjeva.id_status_zahtjeva
-
