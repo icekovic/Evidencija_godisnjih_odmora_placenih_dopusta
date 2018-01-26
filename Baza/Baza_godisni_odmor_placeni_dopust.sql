@@ -39,10 +39,14 @@ create table zaposlenik
 	datum_zaposlenja date not null,
 	tjelesno_ostecenje_invalidnost nvarchar(20) not null,
 	godine_staza tinyint not null,
+	
 	broj_djece tinyint not null,
 	organizacijska_jedinica_id int not null foreign key references organizacijska_jedinica(id_organizacijska_jedinica),
-	rola_id int not null foreign key references rola (id_rola)
+	rola_id int not null foreign key references rola (id_rola),
+	placa int not null
 )
+
+alter table zaposlenik add placa int
 
 create table placeni_dopust
 (
