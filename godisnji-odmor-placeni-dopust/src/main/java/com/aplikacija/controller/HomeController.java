@@ -62,7 +62,7 @@ public class HomeController
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 		Zaposlenik zaposlenik = repozitorijGlavnaAplikacija.dohvatiZaposlenika(korisnickoIme).get(0);
 		
-		if(zaposlenik.getKorisnicko_ime().equals(korisnickoIme) && encoder.matches(lozinka, zaposlenik.getLozinka()))
+		if(korisnickoIme.equals(zaposlenik.getKorisnicko_ime()) && encoder.matches(lozinka, zaposlenik.getLozinka()))
 		{
 			request.getSession().setAttribute("zaposlenik", zaposlenik);
 			model.addAttribute("zahtjevi", zaposlenik.getZahtjevi());
@@ -289,7 +289,9 @@ public class HomeController
 		int idZahtjev = Integer.parseInt(request.getParameter("idZahtjev"));
 		repozitorijGlavnaAplikacija.odobriZahtjev(idZahtjev);
 		List<Zahtjev> sviZahtjevi = repozitorijGlavnaAplikacija.dohvatiSveZahtjeve();
+		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorijGlavnaAplikacija.dohvatiTipovePlacenihDopusta();
 		model.addAttribute("sviZahtjevi", sviZahtjevi);
+		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
 		return "profilZaposlenika";
 	}
 	
@@ -305,7 +307,9 @@ public class HomeController
 		int idZahtjev = Integer.parseInt(request.getParameter("idZahtjev"));
 		repozitorijGlavnaAplikacija.odbijZahtjev(idZahtjev);
 		List<Zahtjev> sviZahtjevi = repozitorijGlavnaAplikacija.dohvatiSveZahtjeve();
+		List<PlaceniDopust> tipoviPlacenogDopusta = repozitorijGlavnaAplikacija.dohvatiTipovePlacenihDopusta();
 		model.addAttribute("sviZahtjevi", sviZahtjevi);
+		model.addAttribute("tipoviPlacenogDopusta", tipoviPlacenogDopusta);
 		return "profilZaposlenika";
 	}
 	

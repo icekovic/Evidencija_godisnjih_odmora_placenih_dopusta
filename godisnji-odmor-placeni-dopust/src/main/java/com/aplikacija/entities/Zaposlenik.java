@@ -26,6 +26,7 @@ public class Zaposlenik
 	private String datum_zaposlenja;	
 	private String tjelesno_ostecenje_invalidnost;
 	private int godine_staza;
+	private int placa;
 	private int broj_djece;
 	
 	@ManyToOne
@@ -150,6 +151,16 @@ public class Zaposlenik
 	public void setGodine_staza(int godine_staza)
 	{
 		this.godine_staza = godine_staza;
+	}
+
+	public int getPlaca()
+	{
+		return placa;
+	}
+
+	public void setPlaca(int placa)
+	{
+		this.placa = placa;
 	}
 
 	public int getBroj_djece()

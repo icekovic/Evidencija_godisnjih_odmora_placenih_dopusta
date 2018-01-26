@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aplikacija.entities.Dijete;
 import com.aplikacija.entities.OrganizacijskaJedinica;
 import com.aplikacija.entities.PlaceniDopust;
+import com.aplikacija.entities.Rola;
 import com.aplikacija.entities.StatusZahtjeva;
 import com.aplikacija.entities.Zahtjev;
 import com.aplikacija.entities.Zaposlenik;
@@ -46,8 +47,7 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 		Query query = entityManager.createQuery("from PlaceniDopust");
 		return query.getResultList();
 	}
-
-
+	
 	@SuppressWarnings("unchecked")
 	public List<Zaposlenik> dohvatiZaposlenika(String korisnickoIme)
 	{
@@ -258,15 +258,12 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 		{
 			for(Zaposlenik zaposlenik : organizacijskaJedinica.getZaposlenici())
 			{
-				for(Zahtjev zahtjev : zaposlenik.getZahtjevi())
-				{
-					Row redak = sheet.createRow(i);
-					redak.createCell(0).setCellValue(organizacijskaJedinica.getNaziv());
-					redak.createCell(1).setCellValue(zaposlenik.getIme() +" " + zaposlenik.getPrezime());
-					redak.createCell(2).setCellValue(zaposlenik.getMaticni_broj());
-					redak.createCell(3).setCellValue(zahtjev.getBroj_radnih_dana() * 3000);
-					i++;
-				}
+				Row redak = sheet.createRow(i);
+				redak.createCell(0).setCellValue(organizacijskaJedinica.getNaziv());
+				redak.createCell(1).setCellValue(zaposlenik.getIme() +" " + zaposlenik.getPrezime());
+				redak.createCell(2).setCellValue(zaposlenik.getMaticni_broj());
+				redak.createCell(3).setCellValue(zaposlenik.getPlaca() + zaposlenik.getPlaca() * 0.2);	//iznos regresa je plus 20 posto plaće
+				i++;
 			}
 		}
 		
@@ -344,15 +341,15 @@ public class RepozitorijGlavnaAplikacija implements IRepozitorijGlavnaAplikacija
 
 	private void dodatniDaniRukovoditelj(Zaposlenik zaposlenik, Row redak)
 	{
-		if(zaposlenik.getRola().getNaziv() == "Rukovoditelj")
+		if(zaposlenik.getRola().getNaziv().equals("Rukovoditelj"))
 		{
 			redak.createCell(12).setCellValue(2);
 		}
-		else
+		else if(zaposlenik.getRola().getNaziv().equals("Obični zaposlenik"))
 		{
 			redak.createCell(12).setCellValue(0);
 		}
-	}
+	}	
 
 	private void dodatniDaniGodineStaza(Zaposlenik zaposlenik, Row redak)
 	{

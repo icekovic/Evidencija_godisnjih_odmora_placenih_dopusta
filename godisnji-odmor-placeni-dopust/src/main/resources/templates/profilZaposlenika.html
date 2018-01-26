@@ -393,6 +393,13 @@
 			 else{
 				 $(this).submit();
 				 }
+			 if($("#broj_radnih_dana").val() > 30){
+				 alert("Broj dana godišnjeg odmora ne smije biti veći od 30!");
+				 return false;
+				 }
+			 else{
+				 $(this).submit();
+				 }
 		});
 
 		$("#btnKreirajZahtjevPlaceniDopust").click(function(){
