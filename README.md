@@ -7,3 +7,7 @@ U izradi aplikacije koristen je Spring programski okvir (Spring Boot) za samu ap
 Aplikacija je napravljena u Spring Tool Suite (Eclipse) alatu.
 Izvjesca su pohranjena lokalno u GitHub direktoriju, pa se URL u klasama RepozitorijGlavnaAplikacija i HomeController mora promijeniti, ovisno o racunalu na kojem se kod testira.
 Testni podaci za korisnike su kreirani preko Mockaroo stranice.
+
+asdsa
+
+
