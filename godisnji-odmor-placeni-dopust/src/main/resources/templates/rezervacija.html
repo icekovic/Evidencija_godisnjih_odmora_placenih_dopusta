@@ -63,10 +63,14 @@
 															<td><input type="text" id="datum_odjave" name="datum_odjave" class="form-control"/></td>
 														</tr>
 														<tr>
+															<td>Broj dana</td>
+															<td><input type="text" class="form-control" id="broj_dana" name="broj_dana" readonly="readonly"/></td>
+														</tr>
+														<tr>
 															<td>
 																<input type="submit" id="btnRezerviraj" name="btnRezerviraj" class="btn btn-default" value="Rezerviraj"/>
 															</td>
-														</tr>
+														</tr>													
 													</table>
 												</form>
 											</div>
@@ -133,7 +137,11 @@
     				minDate: 0,
     				onSelect: function (dateStr) {
     	    	        var max = $(this).datepicker('getDate'); // Get selected date
-    	    	        $('#datepicker').datepicker('option', 'maxDate', max || '+1Y+6M'); // Set other max, default to +18 months    	    	           	        
+    	    	        $('#datepicker').datepicker('option', 'maxDate', max || '+1Y+6M'); // Set other max, default to +18 months
+    	    	        var start = $("#datum_prijave").datepicker("getDate");
+    	    	        var end = $("#datum_odjave").datepicker("getDate");
+    	    	        var days = (end - start) / (1000 * 60 * 60 * 24);
+    	    	        $("#broj_dana").val(Math.round(days));	    	           	        
     	    	    } 
 	    		});
 		});

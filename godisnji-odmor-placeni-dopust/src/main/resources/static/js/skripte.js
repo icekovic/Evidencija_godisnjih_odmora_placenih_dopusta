@@ -154,7 +154,7 @@ $(document).ready(function(){
 	    	        var start = $("#od_datuma_godisnji_odmor").datepicker("getDate");
 	    	        var end = $("#do_datuma_godisnji_odmor").datepicker("getDate");
 	    	        var days = (end - start) / (1000 * 60 * 60 * 24);
-	    	        $("#broj_radnih_dana").val(days);	    	        
+	    	        $("#broj_radnih_dana").val(Math.round(days));	    	        
 	    	    }
 	    	});
 });
